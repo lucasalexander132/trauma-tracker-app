@@ -6,8 +6,35 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 export default function HomeScreen() {
+  const [serverData, setServerData] = useState<string>();
+
+  async function getData() {
+    try {
+      const dataToSend = JSON.stringify({
+          username: "Lucas12345",
+          password: "Password1!"
+        });
+      const response = await fetch('http://localhost:5005/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: dataToSend
+      });
+      const data = await response.json();
+      setServerData(data.user.username);
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -18,7 +45,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Welcome { serverData ?? 'uh...uhm...'}</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -39,7 +66,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.stepContainer}>
         <Link href="/modal">
           <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+            <ThemedText type="subtitle">Step 2: KILL</ThemedText>
           </Link.Trigger>
           <Link.Preview />
           <Link.Menu>
