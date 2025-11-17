@@ -1,12 +1,12 @@
-import { IRandomColors, randomColors } from '@/assets/styles/theme';
+import { themeColors, themeVars } from '@/assets/styles/theme';
+import { SymptomTag } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
-import classNames from 'classnames';
-import { Pressable, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 export interface SymptomProps {
-    symptom: ISymptom;
-    symptomClasses: string;
-    iconColor: IRandomColors;
+    symptom: SymptomTag;
 }
 
 export interface ISymptom {
@@ -15,13 +15,45 @@ export interface ISymptom {
 }
 
 export default function Symptom(props: SymptomProps) {
-    const { symptom, symptomClasses, iconColor } = props;
-    return (<View className='w-24 mr-2'>
-        <Pressable
-            className={classNames("h-24 w-24 mr-2 border-solid border-4 rounded-lg justify-center items-center", symptomClasses)}
-            onPress={() => console.log('I got pressed!')}>
-            <Entypo className='left-[2px]' name={ symptom.icon } size={40} color={randomColors[iconColor]} />
-        </Pressable>
-        <Text className='text-xs font-bold mt-1 text-center'>{ symptom.name }</Text>
-    </View>)
+    const { symptom } = props;
+    const [isActive, setIsActive] = useState(false);
+
+    const handlePressed = () => setIsActive(!isActive);
+
+    const style = StyleSheet.create({
+        symptomButton: {
+            borderColor: themeColors[`${symptom.color}-dark`],
+        },
+    });
+
+    return (
+        <View className='mr-2 h-34 py-4'>
+            <Animated.View
+                className="w-24 h-24 border-solid border-4 justify-center items-center"
+                style={[style.symptomButton, {
+                    backgroundColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
+                    borderRadius: isActive ? 100 : 6,
+                    transitionProperty: ['backgroundColor', 'borderRadius'],
+                    transitionTimingFunction: 'ease-in',
+                    transitionDuration: 200
+                }]}
+            >
+                <Pressable onPress={handlePressed}>
+                    <Entypo
+                        name={symptom.icon}
+                        size={40}
+                        color={isActive ? themeVars['--color-paper'] : themeColors[symptom.color]}
+                    />
+                </Pressable>
+            </Animated.View>
+            <Animated.Text className="text-xs font-bold mt-1 text-center" style={{
+                color: isActive ? themeColors[`${symptom.color}-dark`] : themeVars['--color-text'],
+                transitionProperty: ['color'],
+                transitionTimingFunction: 'ease-in',
+                transitionDuration: 200
+            }}>
+                {symptom.name}
+            </Animated.Text>
+        </View>
+    );
 }
