@@ -1,13 +1,11 @@
-import { IRandomColors } from '@/assets/styles/theme';
 import AppText from '@/components/text';
+import { SymptomTag } from '@/zustand/store';
 import { FlatList, View } from 'react-native';
-import Symptom, { ISymptom } from './symptom';
+import Symptom from './symptom';
 
 export interface SymptomSectionalProps {
     title: string;
-    symptoms: ISymptom[];
-    color: IRandomColors;
-    symptomClasses: string;
+    symptoms: SymptomTag[];
 }
 
 export default function SymptomSectional(props: SymptomSectionalProps) {
@@ -17,7 +15,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}
                 data={ props.symptoms }
-                renderItem={({item}) => <Symptom symptom={item} symptomClasses={props.symptomClasses} iconColor={ props.color } />}
+                renderItem={({item}) => <Symptom symptom={item} />}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 ListFooterComponent={<View className='w-8' />}/>
