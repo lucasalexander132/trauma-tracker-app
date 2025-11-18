@@ -1,21 +1,15 @@
+import Entypo from '@expo/vector-icons/Entypo';
 import { vars } from 'nativewind';
+import { colorKit } from 'reanimated-color-picker';
 
 export const themeColors = {
     '--color-Charcoal': '#233D4D',
-    '--color-Charcoal-light': '#adcde0',
-    '--color-Charcoal-dark': '#112734',
     '--color-Pumpkin': '#FE7F2D',
-    '--color-Pumpkin-light': '#fff4ed',
-    '--color-Pumpkin-dark': '#e1732a',
     '--color-Sunglow': '#f6be45',
-    '--color-Sunglow-light': '#fff6de',
-    '--color-Sunglow-dark': '#e9b830',
     '--color-Olivine': '#A1C181',
-    '--color-Olivine-light': '#eeffdf',
-    '--color-Olivine-dark': '#789a55',
     '--color-Zomp': '#619B8A',
-    '--color-Zomp-light': '#d1faee',
-    '--color-Zomp-dark': '#3b7c69'
+    '--color-Vintage-Grape': '#67506F',
+    '--color-Dark-Garnet': '#a30d0a'
 };
 
 export const themeSemanticColors = {
@@ -45,9 +39,11 @@ export const themeSemanticColors = {
 
 export const themeVars = {
     '--color-paper': '#fdfff1',
+    '--color-paper-light': '#fffefa',
     '--color-dark-card': '#146140',
     '--color-contrasting-button': '#C677B3',
     '--color-text': '#112734',
+    '--color-text-subtle': '#464b4e',
 }
 
 export const getRandomColor = (): IThemeColors => {
@@ -67,5 +63,15 @@ const theme = vars({
     ...themeSemanticColors,
     ...themeColors
 });
+
+export const swatchMap = new Map();
+export const customSwatches: string[] = [];
+Object.entries(themeColors).forEach(([key, value]) => {
+    const color = colorKit.HEX(value);
+    customSwatches.push(color);
+    swatchMap.set(color, key);
+});
+
+export const entypoGlyphArr = Object.keys(Entypo.getRawGlyphMap());
 
 export default theme;

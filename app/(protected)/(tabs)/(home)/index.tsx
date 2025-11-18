@@ -19,7 +19,7 @@ export default function Home() {
     });
     return (
       <SafeView>
-        <View className="mx-8 mt-6">
+        <View className="mx-8 pt-6">
           <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {data?.username}</Text>
           <Text className="text-2xl font-bold" style={{ fontFamily: 'Inter' }}>Font family</Text>
         </View>

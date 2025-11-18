@@ -21,19 +21,23 @@ export interface SymptomTag {
     icon: keyof typeof Entypo.glyphMap;
     color: IThemeBaseColors;
     category?: 'response';
-    isSystem?: true;
+    isSystem?: boolean;
+}
+
+export interface SymptomSection {
+    title: string;
+    description?: string;
+    tags: SymptomTag[];
 }
 
 export interface SymptomStore {
-    symptoms: {
-        title: string;
-        tags: SymptomTag[];
-    }[]
+    symptoms: Map<string, SymptomSection>;
+    addSymptomTag: (key: string, tag: SymptomTag) => void
 }
 
-const useTagState = create<SymptomStore>(() => ({
-    symptoms: [{
+const symptomSections: SymptomSection[] = [{
         title: 'Trauma Responses',
+        description: 'How are you responding?',
         tags: [
             {
                 name: 'Fight',
@@ -66,6 +70,7 @@ const useTagState = create<SymptomStore>(() => ({
         ]
     },{
         title: 'Emotions',
+        description: 'What emotions are you feeling right now?',
         tags: [
             {
                 name: 'Anxiety',
@@ -110,6 +115,7 @@ const useTagState = create<SymptomStore>(() => ({
         ]
     }, {
         title: 'Context',
+        description: 'What do you see around you?',
         tags: [
             {
                 name: 'Social',
@@ -147,6 +153,92 @@ const useTagState = create<SymptomStore>(() => ({
                 color: '--color-Sunglow',
             }
         ]
-    }]
+    }, {
+        title: 'Body',
+        description: 'What do you feel in your body?',
+        tags: [
+            {
+                name: 'Head',
+                icon: 'users',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Eyes',
+                icon: 'users',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Mouth',
+                icon: 'briefcase',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Throat',
+                icon: 'home',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Neck',
+                icon: 'user',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Shoulders',
+                icon: 'map',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Chest',
+                icon: 'moon',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Stomach',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Arms',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Hands',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Hips',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Legs',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            },
+            {
+                name: 'Feet',
+                icon: 'adjust',
+                color: '--color-Charcoal',
+            }
+        ]
+    }];
+
+const useTagState = create<SymptomStore>((set) => ({
+    symptoms: new Map(symptomSections.map((item: SymptomSection) => [item.title, item])),
+    addSymptomTag: (key: string, tag: SymptomTag) => {
+        set((state) => {
+            const section = state.symptoms.get(key);
+            section?.tags.push(tag);
+            if (section) {
+                return {
+                    symptoms: state.symptoms.set(key, section)
+                }
+            } else {
+                return { }
+            }
+        })
+    }
 }));
 export { useMessageState, useTagState };

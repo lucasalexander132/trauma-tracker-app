@@ -22,26 +22,26 @@ export default function Symptom(props: SymptomProps) {
 
     const style = StyleSheet.create({
         symptomButton: {
-            borderColor: themeColors[`${symptom.color}-dark`],
-        },
+            borderColor: themeColors[symptom.color],
+        }
     });
 
     return (
-        <View className='mr-4 h-34 py-4'>
+        <View className='h-34 py-4 items-center'>
             <Animated.View
-                className="border-solid border-2 items-center p-[2px]"
+                className="w-[65px] border-solid border-2 items-center p-[2px]"
                 style={[style.symptomButton, {
-                    borderColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
+                    borderColor: isActive ? themeColors[symptom.color] : 'transparent',
                     borderRadius: isActive ? 100 : 20,
                     transitionProperty: ['borderRadius'],
                     transitionTimingFunction: 'ease-in-out',
                     transitionDuration: 100
                 }]}>
-                <Pressable onPress={handlePressed}>
+                <Pressable className='w-full' onPress={handlePressed}>
                     <Animated.View
-                        className="w-16 h-24 border-solid border-4 items-center"
+                        className="h-24 border-solid border-4 items-center"
                         style={[style.symptomButton, {
-                            backgroundColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
+                            backgroundColor: isActive ? themeColors[symptom.color] : 'transparent',
                             borderRadius: isActive ? 100 : 16,
                             transitionProperty: ['backgroundColor', 'borderRadius'],
                             transitionTimingFunction: 'ease-in-out',
@@ -68,8 +68,8 @@ export default function Symptom(props: SymptomProps) {
                     </Animated.View>
                 </Pressable>
             </Animated.View>
-            <Animated.Text className="text-xs font-bold mt-1 text-center" style={{
-                color: isActive ? themeColors[`${symptom.color}-dark`] : themeVars['--color-text'],
+            <Animated.Text className="text-xs font-bold mt-1 text-center w-20" style={{
+                color: isActive ? themeColors[symptom.color] : themeVars['--color-text'],
                 transitionProperty: ['color'],
                 transitionTimingFunction: 'ease-in',
                 transitionDuration: 200
