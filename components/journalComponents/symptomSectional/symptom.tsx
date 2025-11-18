@@ -27,23 +27,45 @@ export default function Symptom(props: SymptomProps) {
     });
 
     return (
-        <View className='mr-2 h-34 py-4'>
+        <View className='mr-4 h-34 py-4'>
             <Animated.View
-                className="w-24 h-24 border-solid border-4 justify-center items-center"
+                className="border-solid border-2 items-center p-[2px]"
                 style={[style.symptomButton, {
-                    backgroundColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
-                    borderRadius: isActive ? 100 : 6,
-                    transitionProperty: ['backgroundColor', 'borderRadius'],
-                    transitionTimingFunction: 'ease-in',
-                    transitionDuration: 200
-                }]}
-            >
+                    borderColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
+                    borderRadius: isActive ? 100 : 20,
+                    transitionProperty: ['borderRadius'],
+                    transitionTimingFunction: 'ease-in-out',
+                    transitionDuration: 100
+                }]}>
                 <Pressable onPress={handlePressed}>
-                    <Entypo
-                        name={symptom.icon}
-                        size={40}
-                        color={isActive ? themeVars['--color-paper'] : themeColors[symptom.color]}
-                    />
+                    <Animated.View
+                        className="w-16 h-24 border-solid border-4 items-center"
+                        style={[style.symptomButton, {
+                            backgroundColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
+                            borderRadius: isActive ? 100 : 16,
+                            transitionProperty: ['backgroundColor', 'borderRadius'],
+                            transitionTimingFunction: 'ease-in-out',
+                            transitionDuration: 200
+                        }]}
+                    >
+                        <Animated.View
+                            className={'py-2'}
+                            style={{
+                                position: 'absolute',
+                                borderColor: themeVars['--color-paper'],
+                                borderRadius: isActive ? 100 : 16,
+                                bottom: isActive ? 24 : 0,
+                                transitionProperty: ['bottom', 'borderRadius'],
+                                transitionTimingFunction: 'ease-in-out',
+                                transitionDuration: 200
+                            }}>
+                            <Entypo
+                                name={symptom.icon}
+                                size={36}
+                                color={isActive ? themeVars['--color-paper'] : themeColors[symptom.color]}
+                            />
+                        </Animated.View>
+                    </Animated.View>
                 </Pressable>
             </Animated.View>
             <Animated.Text className="text-xs font-bold mt-1 text-center" style={{

@@ -1,3 +1,4 @@
+import { themeVars } from "@/assets/styles/theme";
 import SafeView from "@/components/safeView";
 import config from "@/constants/configConstants";
 import Entypo from '@expo/vector-icons/Entypo';
@@ -18,8 +19,9 @@ export default function Home() {
     });
     return (
       <SafeView>
-        <View className="mx-8">
-          <Text className="text-3xl font-bold">Hello {data?.username}</Text>
+        <View className="mx-8 mt-6">
+          <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {data?.username}</Text>
+          <Text className="text-2xl font-bold" style={{ fontFamily: 'Inter' }}>Font family</Text>
         </View>
         <View className="my-6 mx-8">
           <Text className="text-2xl font-bold">1. User can add a journal entry</Text>
@@ -29,9 +31,15 @@ export default function Home() {
           <Text className="text-2xl font-bold">2. User can view their most recent journal entries</Text>
           <Text className="text-md font-bold">- User can see a list of their last few entries</Text>
         </View>
-        <Link href={'/journalEntry'} className={`absolute right-3`} style={{ bottom: useBottomTabBarHeight() + useSafeAreaInsets().bottom + 4 }} asChild>
-          <Pressable className="h-20 w-20 rounded-full bg-[--color-contrasting-button] justify-center items-center">
-            <Entypo name="feather" size={36} color={"white"} />
+        <Link
+          href={'/journalEntry'}
+          className={'absolute right-6'}
+          style={{
+            bottom: useBottomTabBarHeight() + useSafeAreaInsets().bottom + 8
+          }}
+          asChild>
+          <Pressable className="h-20 w-20 rounded-full bg-[--color-primary-500] justify-center items-center active:bg-[--color-primary-600]">
+            <Entypo name="feather" size={36} color={themeVars['--color-paper']} />
           </Pressable>
         </Link>
       </SafeView>)
