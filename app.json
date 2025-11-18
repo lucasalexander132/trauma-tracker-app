@@ -39,6 +39,12 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        },
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Cagliostro-Regular.ttf"
+          ]
         }
       ]
     ],
