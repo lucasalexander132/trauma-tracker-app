@@ -12,9 +12,7 @@ export default function JournalEntry() {
                 {
                     Array.from(symptoms.entries()).map(([title, symptomSection], id) => <SymptomSectional
                         key={`${title}${id}`}
-                        title={title}
-                        description={symptomSection.description}
-                        symptoms={symptomSection.tags} />)
+                        section={symptomSection} />)
                 }
                 <SafeFooter />
             </ScrollView>

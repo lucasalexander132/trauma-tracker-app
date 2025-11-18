@@ -1,6 +1,6 @@
 import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import AppText from '@/components/text';
-import { SymptomTag, useTagState } from '@/zustand/store';
+import { SymptomSection, SymptomTag, useTagState } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -11,9 +11,7 @@ import ColorPicker, { Swatches } from 'reanimated-color-picker';
 import Symptom from './symptom';
 
 export interface SymptomSectionalProps {
-    title: string;
-    description?: string;
-    symptoms: SymptomTag[];
+    section: SymptomSection;
 }
 
 const baseTag: SymptomTag = {
@@ -55,7 +53,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
     const [chosenSection, setChosenSection] = useState('');
     const [showAddTagModal, setShowAddTagModal] = useState(false);
     const handleAddTag = () => {
-        setChosenSection(props.title);
+        setChosenSection(props.section.title);
         setShowAddTagModal(true);
     }
     const handleToggleModal = () => {
@@ -163,9 +161,9 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
         <View className='flex-row w-full'>
             <View className='h-8 w-6 bg-[--color-primary-500] rounded-r-2xl top-2' />
             <View className='flex-col'>
-                <AppText className='text-2xl font-bold pl-3 color-[--color-text]'>{ props.title }</AppText>
+                <AppText className='text-2xl font-bold pl-3 color-[--color-text]'>{ props.section.title }</AppText>
                 {
-                    typeof props.description !== 'undefined' ? <AppText className='text-md font-bold pl-3 color-[--color-text-subtle]'>{props.description}</AppText> : <></>
+                    typeof props.section.description !== 'undefined' ? <AppText className='text-md font-bold pl-3 color-[--color-text-subtle]'>{props.section.description}</AppText> : <></>
                 }
             </View>
             <Pressable
@@ -177,7 +175,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
         <View className='mt-2 mb-6 flex-row'>
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}
-                data={ props.symptoms }
+                data={ props.section.tags }
                 renderItem={({item}) => <View className='mr-2'><Symptom symptom={item} /></View>}
                 horizontal
                 showsHorizontalScrollIndicator={false}
