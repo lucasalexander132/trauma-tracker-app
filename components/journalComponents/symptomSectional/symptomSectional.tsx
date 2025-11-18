@@ -1,7 +1,8 @@
-import { customSwatches, entypoGlyphArr, IThemeBaseColors, swatchMap, themeColors, themeVars } from '@/assets/styles/theme';
+import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import AppText from '@/components/text';
 import { SymptomTag, useTagState } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { FlatList, Modal, Pressable, ScrollView, StyleSheet, TextInput, View, VirtualizedList } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
@@ -15,18 +16,17 @@ export interface SymptomSectionalProps {
     symptoms: SymptomTag[];
 }
 
+const baseTag: SymptomTag = {
+    name: '',
+    icon: 'map',
+    color: '--color-Charcoal',
+    category: 'response',
+    isSystem: false
+};
+
 export default function SymptomSectional(props: SymptomSectionalProps) {
     const [resultColor, setResultColor] = useState(customSwatches[0]);
-    const [tagThemeColor, setTagThemeColor] = useState<IThemeBaseColors>('--color-Zomp');
-    const [tagName, setTagName] = useState('');
-    const [icon, setIcon] = useState<keyof typeof Entypo.glyphMap>('map');
-    const [newTag, setNewTag] = useState<SymptomTag>({
-        name: tagName,
-        icon,
-        color: tagThemeColor,
-        category: 'response',
-        isSystem: false
-    });
+    const [newTag, setNewTag] = useState<SymptomTag>(baseTag);
     const addSymptomTag = useTagState((state) => state.addSymptomTag);
     const iconMapSize = () => {
         return entypoGlyphArr.length;
@@ -47,7 +47,6 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
     // runs on the js thread on color pick
     const onColorPick = (color: ColorFormatsObject) => {
         setResultColor(color.hex);
-        setTagThemeColor(swatchMap.get(color.hex));
         setNewTag({
             ...newTag,
             color: swatchMap.get(color.hex)
@@ -59,7 +58,10 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
         setChosenSection(props.title);
         setShowAddTagModal(true);
     }
-    const handleToggleModal = () => setShowAddTagModal(!showAddTagModal);
+    const handleToggleModal = () => {
+        setShowAddTagModal(!showAddTagModal);
+        setNewTag(baseTag);
+    };
     return(<View className='w-full'>
         <Modal
             animationType='fade'
@@ -71,6 +73,16 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                 className='flex justify-center absolute w-full bg-[--color-text] h-full opacity-15' />
             <View className='flex justify-center absolute h-full w-full'>
                 <View style={styles.modalView}>
+                    <Pressable
+                        className='rounded-full bg-[--color-danger] absolute h-8 w-8 right-2 top-2 active:bg-[--color-danger-dark] z-10'
+                        hitSlop={15}
+                        onPress={handleToggleModal}>
+                        <Entypo
+                            key={'close'}
+                            name={'cross'}
+                            color={themeVars['--color-paper']}
+                            size={28}/>
+                    </Pressable>
                     <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { chosenSection }</AppText>
                     <View className='flex-row mb-4'>
                         <View className='flex-col w-9/12 bg-[#ffeeee] rounded-lg p-4'>
@@ -78,7 +90,6 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                                 placeholder="Tag Name"
                                 className="bg-slate-200 rounded-md px-3 py-2 mb-4"
                                 onChangeText={(tagName) => {
-                                    setTagName(tagName);
                                     setNewTag({
                                         ...newTag,
                                         name: tagName
@@ -113,7 +124,6 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                                 initialNumToRender={8}
                                 renderItem={({item}) => <Pressable
                                     onPress={() => {
-                                        setIcon(item.item as keyof typeof Entypo.glyphMap);
                                         setNewTag({
                                             ...newTag,
                                             icon: item.item as keyof typeof Entypo.glyphMap
@@ -123,7 +133,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                                         className='mr-2'
                                         key={item.item}
                                         name={item.item as keyof typeof Entypo.glyphMap}
-                                        color={themeColors[tagThemeColor]}
+                                        color={themeColors[newTag.color]}
                                         size={28}/>
                                 </Pressable>}
                                 keyExtractor={({item, id}) => item + id}
@@ -131,20 +141,14 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                                 getItem={getIconItem}/>
                         </View>
                         <View className='w-3/12 items-center justify-center'>
-                            <Symptom symptom={{
-                                name: tagName,
-                                icon,
-                                color: tagThemeColor,
-                                category: 'response',
-                                isSystem: false
-                            }} />
+                            <Symptom symptom={newTag} />
                         </View>
                     </View>
                     <View className='w-full items-center my-2'>
                         <Pressable
-                            className='bg-[--color-primary-500] px-4 py-2 rounded-full w-32'
+                            className={classNames('px-4 py-2 rounded-full w-32', newTag.name !== '' ? 'bg-[--color-primary-500]' : 'bg-[--color-text-subtle]')}
                             style={{
-                                backgroundColor: themeColors[tagThemeColor]
+                                backgroundColor: newTag.name === '' ? themeSemanticColors['--color-primary-200'] : themeColors[newTag.color]
                             }}
                             onPress={() => {
                                 handleToggleModal();
