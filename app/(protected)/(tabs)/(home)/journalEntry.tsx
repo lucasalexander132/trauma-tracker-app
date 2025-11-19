@@ -1,10 +1,12 @@
+import Slider from '@/components/journalComponents/fidgetWidgets/slider';
 import SymptomSectional from '@/components/journalComponents/symptomSectional/symptomSectional';
+import JournalSectionHeader from '@/components/journalSectionHeader';
 import SafeFooter from '@/components/safeFooter';
 import SafeView from '@/components/safeView';
 import isUndefined from '@/utils/types/isUndefined';
 import { SymptomSection, useTagState } from '@/zustand/store';
 import { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 export default function JournalEntry() {
     const symptoms = useTagState((state) => state.symptoms);
@@ -24,6 +26,13 @@ export default function JournalEntry() {
                         key={`${title}${id}`}
                         section={symptomSection} />)
                 }
+                <JournalSectionHeader
+                    title={'Intensity'}
+                    description={'How intense are you feeling your trigger?'}
+                    />
+                <View className='my-8'>
+                    <Slider />
+                </View>
                 <SafeFooter />
             </ScrollView>
         </SafeView>)

@@ -9,7 +9,9 @@ export const themeColors = {
     '--color-Olivine': '#94bd6a',
     '--color-Zomp': '#619B8A',
     '--color-Vintage-Grape': '#67506F',
-    '--color-Dark-Garnet': '#a30d0a'
+    '--color-Dark-Garnet': '#a30d0a',
+    '--color-Cold': '#5f8aa5',
+    '--color-Hot': '#971e1e'
 } as const;
 
 export const themeSemanticColors = {
@@ -86,6 +88,32 @@ Object.entries(themeColors).forEach(([key, value]) => {
     customSwatches.push(color);
     swatchMap.set(color, key);
 });
+
+export function interpolateColor(color1: string, color2: string, factor: number): string {
+    const hexToRgb = (hex: string) => {
+        const parsed = hex.replace('#', '');
+        return [
+            parseInt(parsed.substring(0, 2), 16),
+            parseInt(parsed.substring(2, 4), 16),
+            parseInt(parsed.substring(4, 6), 16),
+        ];
+    };
+
+    const rgbToHex = (r: number, g: number, b: number) =>
+        '#' +
+        [r, g, b]
+            .map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            })
+            .join('');
+
+    const rgb1 = hexToRgb(color1);
+    const rgb2 = hexToRgb(color2);
+
+    const result = rgb1.map((c1, i) => Math.round(c1 + (rgb2[i] - c1) * factor));
+    return rgbToHex(result[0], result[1], result[2]);
+}
 
 export const entypoGlyphArr = Object.keys(Entypo.getRawGlyphMap());
 
