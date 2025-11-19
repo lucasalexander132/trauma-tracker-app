@@ -166,11 +166,14 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                     typeof props.section.description !== 'undefined' ? <AppText className='text-md font-bold pl-3 color-[--color-text-subtle]'>{props.section.description}</AppText> : <></>
                 }
             </View>
-            <Pressable
-                className="h-10 w-10 rounded-full bg-[--color-primary-500] absolute right-3 top-2 justify-center items-center active:bg-[--color-primary-600]"
-                onPress={handleAddTag}>
-                <Entypo name={'plus'} size={24} color={themeVars['--color-paper']} />
-            </Pressable>
+            {
+                props.section.cantAddTag ??
+                    <Pressable
+                        className="h-10 w-10 rounded-full bg-[--color-primary-500] absolute right-3 top-2 justify-center items-center active:bg-[--color-primary-600]"
+                        onPress={handleAddTag}>
+                        <Entypo name={'plus'} size={24} color={themeVars['--color-paper']} />
+                    </Pressable>
+            }
         </View>
         <View className='mt-2 mb-6 flex-row'>
             <FlatList

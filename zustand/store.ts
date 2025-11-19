@@ -26,6 +26,7 @@ export interface SymptomTag {
 
 export interface SymptomSection {
     title: string;
+    cantAddTag?: true;
     description?: string;
     tags: SymptomTag[];
 }
@@ -38,6 +39,7 @@ export interface SymptomStore {
 const symptomSections: SymptomSection[] = [{
         title: 'Trauma Responses',
         description: 'How are you responding?',
+        cantAddTag: true,
         tags: [
             {
                 name: 'Fight',
