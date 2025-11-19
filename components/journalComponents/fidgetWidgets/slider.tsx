@@ -19,11 +19,12 @@ const CustomSlider: React.FC = () => {
         sliderDummy: {
             top: 3,
             backgroundColor: trackColor,
+            transitionProperty: ['backgroundColor'],
             height: 32,
             width: (width / 100) * 85,
             borderRadius: 50
         }
-    }
+    };
     return (
         <View style={styles.container}>
             <View className='relative'>
