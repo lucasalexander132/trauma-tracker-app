@@ -1,0 +1,50 @@
+import { themeBackgrounds, themeVars, TThemeBaseColors } from '@/assets/styles/theme';
+import isUndefined from '@/utils/types/isUndefined';
+import Entypo from '@expo/vector-icons/Entypo';
+import classNames from 'classnames';
+import React from 'react';
+import { Pressable, View } from 'react-native';
+import AppText from './text';
+
+type Props = {
+    handleRightButton?: () => void;
+    description?: string;
+    title: string;
+    color?: TThemeBaseColors;
+    removeRightButton?: boolean;
+}
+
+const JournalSectionHeader = (props: Props) => {
+    const {
+        description,
+        title,
+        handleRightButton,
+        color,
+        removeRightButton
+    } = props;
+    return (
+        <View className='flex-row w-full'>
+            <View className={classNames('h-8 w-6 rounded-r-2xl top-2', color ? themeBackgrounds[color] : 'bg-[--color-primary-500] active:bg-[--color-primary-500]')} />
+            <View className='flex-col'>
+                <AppText className='text-2xl font-bold pl-3 color-[--color-text]'>{ title }</AppText>
+                {
+                    !isUndefined(description) ?
+                        <AppText
+                            className='text-md font-bold pl-3 color-[--color-text-subtle]'>
+                                {description}
+                            </AppText> : <></>
+                }
+            </View>
+            {
+                !isUndefined(handleRightButton) && !removeRightButton ?
+                    <Pressable
+                        className={classNames('h-10 w-10 rounded-full absolute right-3 top-2 justify-center items-center', color ? themeBackgrounds[color] : 'bg-[--color-primary-500] active:bg-[--color-primary-400]')}
+                        onPress={handleRightButton}>
+                        <Entypo name={'plus'} size={24} color={themeVars['--color-paper']} />
+                    </Pressable> : <></>
+            }
+        </View>
+    )
+}
+
+export default JournalSectionHeader

@@ -1,4 +1,5 @@
 import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
+import JournalSectionHeader from '@/components/journalSectionHeader';
 import AppText from '@/components/text';
 import { SymptomSection, SymptomTag, useTagState } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -158,23 +159,12 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                 </View>
             </View>
         </Modal>
-        <View className='flex-row w-full'>
-            <View className='h-8 w-6 bg-[--color-primary-500] rounded-r-2xl top-2' />
-            <View className='flex-col'>
-                <AppText className='text-2xl font-bold pl-3 color-[--color-text]'>{ props.section.title }</AppText>
-                {
-                    typeof props.section.description !== 'undefined' ? <AppText className='text-md font-bold pl-3 color-[--color-text-subtle]'>{props.section.description}</AppText> : <></>
-                }
-            </View>
-            {
-                props.section.cantAddTag ??
-                    <Pressable
-                        className="h-10 w-10 rounded-full bg-[--color-primary-500] absolute right-3 top-2 justify-center items-center active:bg-[--color-primary-600]"
-                        onPress={handleAddTag}>
-                        <Entypo name={'plus'} size={24} color={themeVars['--color-paper']} />
-                    </Pressable>
-            }
-        </View>
+        <JournalSectionHeader
+            title={props.section.title}
+            description={props.section.description}
+            removeRightButton={props.section.cantAddTag}
+            handleRightButton={handleAddTag}
+            color={props.section.color}/>
         <View className='mt-2 mb-6 flex-row'>
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}

@@ -1,4 +1,4 @@
-import { IThemeBaseColors } from '@/assets/styles/theme';
+import { TThemeBaseColors } from '@/assets/styles/theme';
 import Entypo from '@expo/vector-icons/Entypo';
 import { create } from 'zustand';
 
@@ -19,7 +19,7 @@ const useMessageState = create<MessageStore>((set) => ({
 export interface SymptomTag {
     name: string;
     icon: keyof typeof Entypo.glyphMap;
-    color: IThemeBaseColors;
+    color: TThemeBaseColors;
     category?: 'response';
     isSystem?: boolean;
 }
@@ -29,6 +29,7 @@ export interface SymptomSection {
     cantAddTag?: true;
     description?: string;
     tags: SymptomTag[];
+    color?: TThemeBaseColors;
 }
 
 export interface SymptomStore {
@@ -40,6 +41,7 @@ const symptomSections: SymptomSection[] = [{
         title: 'Trauma Responses',
         description: 'How are you responding?',
         cantAddTag: true,
+        color: '--color-Dark-Garnet',
         tags: [
             {
                 name: 'Fight',
@@ -73,35 +75,36 @@ const symptomSections: SymptomSection[] = [{
     },{
         title: 'Emotions',
         description: 'What emotions are you feeling right now?',
+        color: '--color-Olivine',
         tags: [
             {
                 name: 'Anxiety',
-                icon: 'link',
+                icon: 'controller-fast-forward',
                 color: '--color-Olivine',
             },
             {
                 name: 'Fear',
-                icon: 'email',
+                icon: 'flash',
                 color: '--color-Olivine',
             },
             {
                 name: 'Shame',
-                icon: 'image',
+                icon: 'hand',
                 color: '--color-Olivine',
             },
             {
                 name: 'Anger',
-                icon: 'text',
+                icon: 'new',
                 color: '--color-Olivine',
             },
             {
                 name: 'Sadness',
-                icon: 'menu',
+                icon: 'emoji-sad',
                 color: '--color-Olivine',
             },
             {
                 name: 'Overwhelm',
-                icon: 'radio',
+                icon: 'tools',
                 color: '--color-Olivine',
             },
             {
@@ -111,13 +114,14 @@ const symptomSections: SymptomSection[] = [{
             },
             {
                 name: 'Confusion',
-                icon: 'switch',
+                icon: 'retweet',
                 color: '--color-Olivine',
             }
         ]
     }, {
         title: 'Context',
         description: 'What do you see around you?',
+        color: '--color-Sunglow',
         tags: [
             {
                 name: 'Social',
@@ -158,25 +162,26 @@ const symptomSections: SymptomSection[] = [{
     }, {
         title: 'Body',
         description: 'What do you feel in your body?',
+        color: '--color-Charcoal',
         tags: [
             {
                 name: 'Head',
-                icon: 'users',
+                icon: 'mask',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Eyes',
-                icon: 'users',
+                icon: 'eye',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Mouth',
-                icon: 'briefcase',
+                icon: 'sound',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Throat',
-                icon: 'home',
+                icon: 'scissors',
                 color: '--color-Charcoal',
             },
             {
@@ -186,42 +191,42 @@ const symptomSections: SymptomSection[] = [{
             },
             {
                 name: 'Shoulders',
-                icon: 'map',
+                icon: 'remove-user',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Chest',
-                icon: 'moon',
+                icon: 'merge',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Stomach',
-                icon: 'adjust',
+                icon: 'cake',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Arms',
-                icon: 'adjust',
+                icon: 'flow-parallel',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Hands',
-                icon: 'adjust',
+                icon: 'hand',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Hips',
-                icon: 'adjust',
+                icon: 'hour-glass',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Legs',
-                icon: 'adjust',
+                icon: 'shuffle',
                 color: '--color-Charcoal',
             },
             {
                 name: 'Feet',
-                icon: 'adjust',
+                icon: 'baidu',
                 color: '--color-Charcoal',
             }
         ]

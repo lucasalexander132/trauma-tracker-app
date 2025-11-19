@@ -10,7 +10,7 @@ export const themeColors = {
     '--color-Zomp': '#619B8A',
     '--color-Vintage-Grape': '#67506F',
     '--color-Dark-Garnet': '#a30d0a'
-};
+} as const;
 
 export const themeSemanticColors = {
     '--color-primary-50': '#fdece7',
@@ -35,7 +35,7 @@ export const themeSemanticColors = {
     '--color-info': '#3B82F6',
     '--color-info-light': '#DBEAFE',
     '--color-info-dark': '#1E40AF',
-}
+} as const;
 
 export const themeVars = {
     '--color-paper': '#fdfff1',
@@ -44,19 +44,34 @@ export const themeVars = {
     '--color-contrasting-button': '#C677B3',
     '--color-text': '#112734',
     '--color-text-subtle': '#464b4e',
-}
+} as const;
 
-export const getRandomColor = (): IThemeColors => {
+export const getRandomColor = (): TThemeColors => {
     const keys = Object.keys(themeColors);
     const randomIndex = Math.floor(Math.random() * keys.length);
-    return keys[randomIndex] as IThemeColors;
+    return keys[randomIndex] as TThemeColors;
 }
 
-export type IThemeColors = keyof typeof themeColors;
-export type IThemeBaseColors = Exclude<
+export type TThemeColors = keyof typeof themeColors;
+export type TThemeBaseColors = Exclude<
     keyof typeof themeColors,
     `${string}-light` | `${string}-dark`
 >;
+
+export const themeBackgrounds: {
+    [K in Exclude<
+        keyof typeof themeColors,
+        `${string}-light` | `${string}-dark`
+    >]?: string;
+} = {
+    '--color-Charcoal': 'bg-[--color-Charcoal]',
+    '--color-Pumpkin': 'bg-[--color-Pumpkin]',
+    '--color-Sunglow': 'bg-[--color-Sunglow]',
+    '--color-Olivine': 'bg-[--color-Olivine]',
+    '--color-Zomp': 'bg-[--color-Zomp]',
+    '--color-Vintage-Grape': 'bg-[--color-Vintage-Grape]',
+    '--color-Dark-Garnet': 'bg-[--color-Dark-Garnet]'
+}
 
 const theme = vars({
     ...themeVars,
