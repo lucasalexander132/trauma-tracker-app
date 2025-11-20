@@ -1,45 +1,80 @@
-import { interpolateColor, themeColors, themeVars } from '@/assets/styles/theme';
+import { interpolateColor, themeVars } from '@/assets/styles/theme';
 import Slider from '@react-native-community/slider';
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
+import Animated, { cubicBezier } from 'react-native-reanimated';
 const { width } = Dimensions.get('window');
 
 const MIN = 0;
 const MAX = 100;
-const COLOR_START = themeColors['--color-Cold'];
-const COLOR_END = themeColors['--color-Hot'];
 
-const CustomSlider: React.FC = () => {
-    const [value, setValue] = useState<number>(50);
+export interface ICustomSliderProps {
+    onValueChange: (val: number) => void;
+    onColorChange: (color: string) => void;
+    initialValue: number;
+    startColor: string;
+    endColor: string;
+}
 
-    const percent = (value - MIN) / (MAX - MIN);
-    const trackColor = interpolateColor(COLOR_START, COLOR_END, percent);
+function CustomSlider({onValueChange, onColorChange, initialValue, startColor, endColor}: ICustomSliderProps) {
+    const [value, setValue] = useState<number>(initialValue);
+    const [trackColor, setTrackColor] = useState<string>(startColor);
+    const [barHeight, setBarHeight] = useState<number>(32);
+    const [barTop, setBarTop] = useState<number>(3);
+    const interp = (value: number) => {
+        setValue(value);
+        const percent = (value - MIN) / (MAX - MIN);
+        const color = interpolateColor(startColor, endColor, percent);
+        setTrackColor(color);
+        onColorChange(color);
+        onValueChange(value);
+    };
 
     const sliderStyle = {
         sliderDummy: {
-            top: 3,
+            top: barTop,
             backgroundColor: trackColor,
-            transitionProperty: ['backgroundColor'],
-            height: 32,
+            transitionProperty: ['height', 'top'],
+            height: barHeight,
             width: (width / 100) * 85,
-            borderRadius: 50
+            borderRadius: 50,
+            margin: 2,
+            transitionTimingFunction: cubicBezier(.4,.34,.13,.99),
+            transitionDuration: 1000
         }
     };
+
+    const decreaseBarHeight = () => {
+        setBarHeight(6);
+        setBarTop(17);
+    };
+
+    const increaseBarHeight = () => setTimeout(() =>{
+        setBarHeight(32);
+        setBarTop(3);
+    }, 400);
+
+    const onSlidingComplete = () => {
+        increaseBarHeight();
+    }
+
     return (
         <View style={styles.container}>
-            <View className='relative'>
-                <View style={sliderStyle.sliderDummy}></View>
+            <View className='relative shadow-sm bg-[--color-paper-dark] h-[42px] px-1 rounded-full'>
+                <Animated.View style={sliderStyle.sliderDummy} />
                 <Slider
                     className='absolute'
                     minimumValue={MIN}
                     maximumValue={MAX}
                     value={value}
-                    onValueChange={setValue}
+                    onValueChange={interp}
                     minimumTrackTintColor={trackColor}
                     maximumTrackTintColor={trackColor}
                     thumbTintColor={themeVars['--color-paper']}
-                    step={1}
+                    step={10}
                     style={styles.slider}
+                    onSlidingComplete={onSlidingComplete}
+                    onSlidingStart={decreaseBarHeight}
                 />
             </View>
         </View>
@@ -48,13 +83,14 @@ const CustomSlider: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '85%',
-        alignSelf: 'center',
+        alignSelf: 'center'
     },
     slider: {
-        width: '100%',
+        width: '99%',
         height: 40,
-        position: 'absolute'
+        position: 'absolute',
+        alignSelf: 'center',
+        top: 2
     }
 });
 

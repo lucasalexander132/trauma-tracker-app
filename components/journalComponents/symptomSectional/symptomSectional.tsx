@@ -169,7 +169,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}
                 data={ props.section.tags }
-                renderItem={({item}) => <View className='mr-2'><Symptom symptom={item} /></View>}
+                renderItem={({item}) => <View className='mr-4'><Symptom symptom={item} /></View>}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 ListFooterComponent={<View className='w-8' />}/>

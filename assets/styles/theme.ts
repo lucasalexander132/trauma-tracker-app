@@ -5,8 +5,8 @@ import { colorKit } from 'reanimated-color-picker';
 export const themeColors = {
     '--color-Charcoal': '#233D4D',
     '--color-Pumpkin': '#FE7F2D',
-    '--color-Sunglow': '#f1bb46',
-    '--color-Olivine': '#94bd6a',
+    '--color-Sunglow': '#e1a014',
+    '--color-Olivine': '#78a948',
     '--color-Zomp': '#619B8A',
     '--color-Vintage-Grape': '#67506F',
     '--color-Dark-Garnet': '#a30d0a',
@@ -40,8 +40,9 @@ export const themeSemanticColors = {
 } as const;
 
 export const themeVars = {
-    '--color-paper': '#fdfff1',
+    '--color-paper': '#fffaeb',
     '--color-paper-light': '#fffefa',
+    '--color-paper-dark': '#ffe7b0',
     '--color-dark-card': '#146140',
     '--color-contrasting-button': '#C677B3',
     '--color-text': '#112734',

@@ -34,7 +34,23 @@ export interface SymptomSection {
 
 export interface SymptomStore {
     symptoms: Map<string, SymptomSection>;
-    addSymptomTag: (key: string, tag: SymptomTag) => void
+    addSymptomTag: (key: string, tag: SymptomTag) => void;
+}
+
+export interface JournalEntryStore {
+    eventTags: Map<string, SymptomTag>;
+    intensity: IIntensity;
+    addEventTag: (tag: SymptomTag) => void;
+    deleteEventTag: (tag: SymptomTag) => void;
+    setIntensity: (intensity: IIntensity) => void;
+}
+
+export type TIntensityMethod = 'color_slider' | undefined;
+
+export interface IIntensity {
+    intensityMethod: TIntensityMethod;
+    intensityValue: number;
+    intensityRating: number;
 }
 
 const symptomSections: SymptomSection[] = [{
@@ -248,4 +264,34 @@ const useTagState = create<SymptomStore>((set) => ({
         })
     }
 }));
-export { useMessageState, useTagState };
+
+const useJournalState = create<JournalEntryStore>((set) => ({
+    eventTags: new Map(),
+    intensity: {
+        intensityMethod: undefined,
+        intensityValue: 0,
+        intensityRating: 0
+    },
+    addEventTag: (tag: SymptomTag) => {
+        set((state) => ({
+            eventTags: state.eventTags.set(JSON.stringify(tag), tag)
+        }));
+    },
+    deleteEventTag: (tag: SymptomTag) => {
+        set((state) => {
+            const eventTags = state.eventTags;
+            eventTags.delete(JSON.stringify(tag));
+            return {
+                eventTags
+            };
+        });
+    },
+    setIntensity: (intensity: IIntensity) => {
+        set(() => ({
+            intensity
+        }))
+    }
+}));
+
+export { useJournalState, useMessageState, useTagState };
+
