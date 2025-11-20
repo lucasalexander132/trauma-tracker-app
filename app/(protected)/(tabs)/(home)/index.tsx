@@ -1,5 +1,6 @@
 import { themeVars } from "@/assets/styles/theme";
 import SafeView from "@/components/safeView";
+import AppText from "@/components/text";
 import config from "@/constants/configConstants";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -37,9 +38,12 @@ export default function Home() {
           style={{
             bottom: useBottomTabBarHeight() + useSafeAreaInsets().bottom + 8
           }}
-          asChild>
-          <Pressable className="h-20 w-20 rounded-full bg-[--color-primary-500] justify-center items-center active:bg-[--color-primary-600]">
-            <Entypo name="feather" size={36} color={themeVars['--color-paper']} />
+          asChild
+          >
+          <Pressable
+          className="flex-row h-20 w-20 border-8 border-[--color-paper-dark] rounded-full bg-[--color-primary-500] justify-center items-center active:bg-[--color-primary-400] shadow-sm transition-colors duration-200">
+            <AppText className="font-bold color-[--color-paper-dark] text-2xl">+</AppText>
+            <Entypo name="feather" size={28} color={themeVars['--color-paper-dark']} />
           </Pressable>
         </Link>
       </SafeView>)

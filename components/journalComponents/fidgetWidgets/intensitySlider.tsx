@@ -1,7 +1,8 @@
 import { themeColors } from '@/assets/styles/theme'
+import AppText from '@/components/text'
 import { IIntensity } from '@/zustand/store'
 import React, { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import CustomSlider from './slider'
 
 type Props = {
@@ -32,20 +33,20 @@ const IntensitySlider = ({onValueChange}: Props) => {
         onValueChange({
             intensityMethod: 'color_slider',
             intensityValue: value,
-            intensityRating: value
+            intensityRating: valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText]
         })
     }
     return (
         <View>
+            <AppText className='font-bold text-lg text-center mb-5' style={{
+                color
+            }}>{valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText]}</AppText>
             <CustomSlider
                 onValueChange={handleChangeValue}
                 onColorChange={setColor}
                 initialValue={50}
                 startColor={COLOR_START}
                 endColor={COLOR_END} />
-            <Text className='font-bold text-center mt-5' style={{
-                color
-            }}>{valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText]}</Text>
         </View>
     )
 }

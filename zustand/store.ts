@@ -1,5 +1,6 @@
 import { TThemeBaseColors } from '@/assets/styles/theme';
 import Entypo from '@expo/vector-icons/Entypo';
+import moment from 'moment';
 import { create } from 'zustand';
 
 export interface MessageStore {
@@ -35,14 +36,21 @@ export interface SymptomSection {
 export interface SymptomStore {
     symptoms: Map<string, SymptomSection>;
     addSymptomTag: (key: string, tag: SymptomTag) => void;
+    getSymptomsAsArr: () => [string, SymptomSection][];
 }
 
+export interface IJournalEntry {
+    timestamp: string;
+    intensity: IIntensity,
+    eventTags: SymptomTag[]
+}
 export interface JournalEntryStore {
     eventTags: Map<string, SymptomTag>;
     intensity: IIntensity;
     addEventTag: (tag: SymptomTag) => void;
     deleteEventTag: (tag: SymptomTag) => void;
     setIntensity: (intensity: IIntensity) => void;
+    getJournalEntry: () => IJournalEntry;
 }
 
 export type TIntensityMethod = 'color_slider' | undefined;
@@ -50,7 +58,7 @@ export type TIntensityMethod = 'color_slider' | undefined;
 export interface IIntensity {
     intensityMethod: TIntensityMethod;
     intensityValue: number;
-    intensityRating: number;
+    intensityRating: string;
 }
 
 const symptomSections: SymptomSection[] = [{
@@ -248,8 +256,9 @@ const symptomSections: SymptomSection[] = [{
         ]
     }];
 
-const useTagState = create<SymptomStore>((set) => ({
+const useTagState = create<SymptomStore>((set, get) => ({
     symptoms: new Map(symptomSections.map((item: SymptomSection) => [item.title, item])),
+    getSymptomsAsArr: () => Array.from(get().symptoms.entries()),
     addSymptomTag: (key: string, tag: SymptomTag) => {
         set((state) => {
             const section = state.symptoms.get(key);
@@ -265,12 +274,21 @@ const useTagState = create<SymptomStore>((set) => ({
     }
 }));
 
-const useJournalState = create<JournalEntryStore>((set) => ({
+const useJournalState = create<JournalEntryStore>((set, get) => ({
     eventTags: new Map(),
     intensity: {
         intensityMethod: undefined,
         intensityValue: 0,
-        intensityRating: 0
+        intensityRating: ''
+    },
+    getJournalEntry: () => {
+        const entry: IJournalEntry = {
+            timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            eventTags: Array.from(get().eventTags.entries()).map(([key, value]) => value),
+            intensity: get().intensity
+        };
+        console.log(entry);
+        return entry;
     },
     addEventTag: (tag: SymptomTag) => {
         set((state) => ({

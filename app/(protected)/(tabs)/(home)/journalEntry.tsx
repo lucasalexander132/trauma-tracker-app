@@ -12,22 +12,19 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function JournalEntry() {
-    const symptoms = useTagState((state) => state.symptoms);
-    const setIntensity = useJournalState((state) => state.setIntensity);
-    const [symptomEntries, setSymptomEntries] = useState<[string, SymptomSection][]>([]);
     const bottomHeight = useSafeAreaInsets().bottom + useBottomTabBarHeight() + 5;
-    const eventTags = useJournalState((state) => state.eventTags);
-    const printEventTags = () => {
-        for (let [key, value] of eventTags.entries()) {
-            console.log(value.name);
-        }
-    }
+
+    const getSymptomsAsArr = useTagState((state) => state.getSymptomsAsArr);
+    const setIntensity = useJournalState((state) => state.setIntensity);
+    const getJournalEntry = useJournalState((state) => state.getJournalEntry);
+
+    const [symptomEntries, setSymptomEntries] = useState<[string, SymptomSection][]>([]);
 
     useEffect(() => {
-        if (!isUndefined(symptoms)) {
-            setSymptomEntries(Array.from(symptoms.entries()));
+        if (!isUndefined(getSymptomsAsArr)) {
+            setSymptomEntries(getSymptomsAsArr());
         }
-    }, [symptoms]);
+    }, [getSymptomsAsArr]);
 
     return (
         <SafeView>
@@ -43,7 +40,7 @@ export default function JournalEntry() {
                     title={'Intensity'}
                     description={'How intense is this moment?'}
                     />
-                <View className='mt-8 mb-20 h-20'>
+                <View className='mt-8 mb-32 h-20'>
                     <IntensitySlider onValueChange={setIntensity} />
                 </View>
                 <SafeFooter />
@@ -55,7 +52,7 @@ export default function JournalEntry() {
                     buttonClassName='absolute rounded-[22px] pb-20 w-full shadow-lg'
                     style={{ bottom: bottomHeight - 69 }}
                     title={'Add Entry'}
-                    onPress={printEventTags}/>
+                    onPress={getJournalEntry}/>
             </View>
         </SafeView>)
 }
