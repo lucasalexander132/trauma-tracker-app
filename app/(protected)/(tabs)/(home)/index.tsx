@@ -10,7 +10,7 @@ import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
-    const { data } = useQuery({
+    const { data: user } = useQuery({
         queryKey: ['currentUser'],
         queryFn: async () => {
             const response = await fetch(config.api.host + '/auth/me');
@@ -21,7 +21,7 @@ export default function Home() {
     return (
       <SafeView>
         <View className="mx-8 pt-6">
-          <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {data?.username}</Text>
+          <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
           <Text className="text-2xl font-bold" style={{ fontFamily: 'Inter' }}>Font family</Text>
         </View>
         <View className="my-6 mx-8">

@@ -1,5 +1,7 @@
 import { interpolateColor, themeVars } from '@/assets/styles/theme';
+import useSettingsStore from '@/zustand/settingsStore';
 import Slider from '@react-native-community/slider';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Animated, { cubicBezier } from 'react-native-reanimated';
@@ -29,6 +31,7 @@ function CustomSlider({onValueChange, onColorChange, initialValue, startColor, e
         onColorChange(color);
         onValueChange(value);
     };
+    const settings = useSettingsStore((state) => state.settings);
 
     const sliderStyle = {
         sliderDummy: {
@@ -41,6 +44,14 @@ function CustomSlider({onValueChange, onColorChange, initialValue, startColor, e
             margin: 2,
             transitionTimingFunction: cubicBezier(.4,.34,.13,.99),
             transitionDuration: 1000
+        },
+        paperSlider: {
+            backgroundColor: themeVars['--color-paper-dark'],
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.25,
+            shadowRadius: 1.5,
+            elevation: 5
         }
     };
 
@@ -60,7 +71,9 @@ function CustomSlider({onValueChange, onColorChange, initialValue, startColor, e
 
     return (
         <View style={styles.container}>
-            <View className='relative shadow-sm bg-[--color-paper-dark] h-[42px] px-1 rounded-full'>
+            <Animated.View
+                className={classNames('h-[42px] px-1 rounded-full')}
+                style={settings['stickerMode'].value && sliderStyle.paperSlider}>
                 <Animated.View style={sliderStyle.sliderDummy} />
                 <Slider
                     className='absolute'
@@ -76,7 +89,7 @@ function CustomSlider({onValueChange, onColorChange, initialValue, startColor, e
                     onSlidingComplete={onSlidingComplete}
                     onSlidingStart={decreaseBarHeight}
                 />
-            </View>
+            </Animated.View>
         </View>
     );
 };

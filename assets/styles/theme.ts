@@ -56,10 +56,6 @@ export const getRandomColor = (): TThemeColors => {
 }
 
 export type TThemeColors = keyof typeof themeColors;
-export type TThemeBaseColors = Exclude<
-    keyof typeof themeColors,
-    `${string}-light` | `${string}-dark`
->;
 
 export const themeBackgrounds: {
     [K in Exclude<

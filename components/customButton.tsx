@@ -40,7 +40,7 @@ const CustomButton = ({
     return (
         <Pressable
             className={classNames(
-                'rounded-full p-2 self-center',
+                ' p-2 self-center',
                 variantClassNames[variant],
                 buttonClassName
             )}

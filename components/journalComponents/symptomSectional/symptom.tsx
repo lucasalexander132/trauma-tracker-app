@@ -1,6 +1,8 @@
 import { themeColors, themeVars } from '@/assets/styles/theme';
+import useSettingsStore from '@/zustand/settingsStore';
 import { SymptomTag, useJournalState } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
+import classNames from 'classnames';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -18,6 +20,8 @@ export default function Symptom(props: SymptomProps) {
     const { symptom } = props;
     const addEventTag = useJournalState((state) => state.addEventTag);
     const deleteEventTag = useJournalState((state) => state.deleteEventTag);
+    const settings = useSettingsStore((state) => state.settings);
+
     const [isActive, setIsActive] = useState(false);
 
     const handlePressed = () => {
@@ -32,19 +36,29 @@ export default function Symptom(props: SymptomProps) {
     const style = StyleSheet.create({
         symptomButton: {
             borderColor: themeColors[symptom.color],
+        },
+        paperButton: {
+            backgroundColor: themeVars['--color-paper-dark'],
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.25,
+            shadowRadius: 1.5,
+            elevation: 5
         }
     });
 
     return (
         <View className='h-34 py-4 items-center'>
             <Animated.View
-                className="rounded-full items-center p-[2px] bg-[--color-paper-dark] shadow-sm"
+                className={
+                    classNames('rounded-full items-center p-[2px]')}
                 style={[style.symptomButton, {
                     borderRadius: isActive ? 100 : 16,
                     transitionProperty: ['borderRadius'],
                     transitionTimingFunction: 'ease-in-out',
                     transitionDuration: 200
-                }]}>
+                },
+                settings['stickerMode'].value && style.paperButton]}>
                 <Animated.View
                     className="w-[65px] items-center p-[2px]"
                     style={[style.symptomButton, {
@@ -78,7 +92,7 @@ export default function Symptom(props: SymptomProps) {
                                 <Entypo
                                     name={symptom.icon}
                                     size={36}
-                                    color={isActive ? themeVars['--color-paper-dark'] : themeColors[symptom.color]}
+                                    color={isActive ? settings['stickerMode'].value ? themeVars['--color-paper-dark'] : themeVars['--color-paper'] : themeColors[symptom.color]}
                                 />
                             </Animated.View>
                         </Animated.View>

@@ -33,7 +33,7 @@ const IntensitySlider = ({onValueChange}: Props) => {
         onValueChange({
             intensityMethod: 'color_slider',
             intensityValue: value,
-            intensityRating: valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText]
+            intensityRating: value
         })
     }
     return (

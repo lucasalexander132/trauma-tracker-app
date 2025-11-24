@@ -5,7 +5,7 @@ export default function Layout() {
     return (
         <Stack>
             <Stack.Screen
-                name="settings"
+                name="settingsScreen"
                 options={{
                     title: "Settings",
                     headerStyle: {

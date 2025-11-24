@@ -5,7 +5,7 @@ export default function Layout() {
     return (
         <Stack>
             <Stack.Screen
-                name="calendar"
+                name="calendarScreen"
                 options={{
                     title: "Calendar",
                     headerStyle: {

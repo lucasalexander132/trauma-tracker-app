@@ -16,6 +16,7 @@ export interface SymptomSectionalProps {
 }
 
 const baseTag: SymptomTag = {
+    id: 0,
     name: '',
     icon: 'map',
     color: '--color-Charcoal',
