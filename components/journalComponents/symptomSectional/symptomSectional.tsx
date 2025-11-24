@@ -1,7 +1,7 @@
 import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import JournalSectionHeader from '@/components/journalSectionHeader';
 import AppText from '@/components/text';
-import { SymptomSection, SymptomTag, useTagState } from '@/zustand/store';
+import { SymptomSection, SymptomTag } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -27,7 +27,6 @@ const baseTag: SymptomTag = {
 export default function SymptomSectional(props: SymptomSectionalProps) {
     const [resultColor, setResultColor] = useState(customSwatches[0]);
     const [newTag, setNewTag] = useState<SymptomTag>(baseTag);
-    const addSymptomTag = useTagState((state) => state.addSymptomTag);
     const iconMapSize = () => {
         return entypoGlyphArr.length;
     };
@@ -152,7 +151,7 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
                             }}
                             onPress={() => {
                                 handleToggleModal();
-                                addSymptomTag(chosenSection, newTag);
+                                // addSymptomTag(chosenSection, newTag);
                             }}>
                             <AppText className='text-[--color-paper] font-bold text-center'>+ Add Tag</AppText>
                         </Pressable>

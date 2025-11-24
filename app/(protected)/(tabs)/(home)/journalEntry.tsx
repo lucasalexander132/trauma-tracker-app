@@ -5,11 +5,9 @@ import JournalSectionHeader from '@/components/journalSectionHeader';
 import SafeFooter from '@/components/safeFooter';
 import SafeView from '@/components/safeView';
 import config from '@/constants/configConstants';
-import isUndefined from '@/utils/types/isUndefined';
-import { SymptomSection, useJournalState, useTagState } from '@/zustand/store';
+import { SymptomSection, useJournalState } from '@/zustand/store';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -24,7 +22,6 @@ export default function JournalEntry() {
     });
     const bottomHeight = useSafeAreaInsets().bottom + useBottomTabBarHeight() + 5;
 
-    const getSymptomsAsArr = useTagState((state) => state.getSymptomsAsArr);
     const setIntensity = useJournalState((state) => state.setIntensity);
     const getJournalEntry = useJournalState((state) => state.getJournalEntry);
 
@@ -56,14 +53,6 @@ export default function JournalEntry() {
     const handleSubmit = () => {
         submitJournalEntry();
     }
-
-    const [symptomEntries, setSymptomEntries] = useState<[string, SymptomSection][]>([]);
-
-    useEffect(() => {
-        if (!isUndefined(getSymptomsAsArr)) {
-            setSymptomEntries(getSymptomsAsArr());
-        }
-    }, [getSymptomsAsArr]);
 
     return (
         <SafeView>
