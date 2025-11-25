@@ -1,11 +1,12 @@
 import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import JournalSectionHeader from '@/components/journalSectionHeader';
+import CustomModal from '@/components/modal';
 import AppText from '@/components/text';
-import { SymptomSection, SymptomTag } from '@/zustand/store';
+import { SymptomSection, SymptomTag } from '@/zustand/journalStore';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { FlatList, Modal, Pressable, ScrollView, StyleSheet, TextInput, View, VirtualizedList } from 'react-native';
+import { FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, VirtualizedList } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import type { ColorFormatsObject } from 'reanimated-color-picker';
 import ColorPicker, { Swatches } from 'reanimated-color-picker';
@@ -62,103 +63,84 @@ export default function SymptomSectional(props: SymptomSectionalProps) {
         setNewTag(baseTag);
     };
     return(<View className='w-full'>
-        <Modal
-            animationType='fade'
-            transparent={true}
-            visible={showAddTagModal}
-            onRequestClose={handleToggleModal}>
-            <Pressable
-                onPress={handleToggleModal}
-                className='flex justify-center absolute w-full bg-[--color-text] h-full opacity-15' />
-            <View className='flex justify-center absolute h-full w-full'>
-                <View style={styles.modalView}>
-                    <Pressable
-                        className='rounded-full bg-[--color-danger] absolute h-8 w-8 right-2 top-2 active:bg-[--color-danger-dark] z-10'
-                        hitSlop={15}
-                        onPress={handleToggleModal}>
-                        <Entypo
-                            key={'close'}
-                            name={'cross'}
-                            color={themeVars['--color-paper']}
-                            size={28}/>
-                    </Pressable>
-                    <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { chosenSection }</AppText>
-                    <View className='flex-row mb-4'>
-                        <View className='flex-col w-9/12 bg-[#ffeeee] rounded-lg p-4'>
-                            <TextInput
-                                placeholder="Tag Name"
-                                className="bg-slate-200 rounded-md px-3 py-2 mb-4"
-                                onChangeText={(tagName) => {
-                                    setNewTag({
-                                        ...newTag,
-                                        name: tagName
-                                    });
-                                }}/>
-                            <AppText className='font-semibold text-[--color-text-subtle]'>Color</AppText>
-                            <ScrollView
-                                horizontal
-                                className='p-2'
-                                showsHorizontalScrollIndicator={false}>
-                                <ColorPicker
-                                    value={resultColor}
-                                    sliderThickness={25}
-                                    thumbSize={24}
-                                    thumbShape='circle'
-                                    onChange={onColorChange}
-                                    onCompleteJS={onColorPick}
-                                    boundedThumb
-                                    >
-                                    <Swatches
-                                        style={styles.swatchesContainer}
-                                        swatchStyle={styles.swatchStyle}
-                                        colors={customSwatches}
-                                    />
-                                </ColorPicker>
-                            </ScrollView>
-                            <AppText className='font-semibold text-[--color-text-subtle]'>Icon</AppText>
-                            <VirtualizedList
-                                horizontal
-                                className='p-2'
-                                showsHorizontalScrollIndicator={false}
-                                initialNumToRender={8}
-                                renderItem={({item}) => <Pressable
-                                    onPress={() => {
-                                        setNewTag({
-                                            ...newTag,
-                                            icon: item.item as keyof typeof Entypo.glyphMap
-                                        });
-                                    }}>
-                                    <Entypo
-                                        className='mr-2'
-                                        key={item.item}
-                                        name={item.item as keyof typeof Entypo.glyphMap}
-                                        color={themeColors[newTag.color]}
-                                        size={28}/>
-                                </Pressable>}
-                                keyExtractor={({item, id}) => item + id}
-                                getItemCount={iconMapSize}
-                                getItem={getIconItem}/>
-                        </View>
-                        <View className='w-3/12 items-center justify-center'>
-                            <Symptom symptom={newTag} />
-                        </View>
-                    </View>
-                    <View className='w-full items-center my-2'>
-                        <Pressable
-                            className={classNames('px-4 py-2 rounded-full w-32', newTag.name !== '' ? 'bg-[--color-primary-500]' : 'bg-[--color-text-subtle]')}
-                            style={{
-                                backgroundColor: newTag.name === '' ? themeSemanticColors['--color-primary-200'] : themeColors[newTag.color]
-                            }}
+        <CustomModal
+            showConfirmationModal={showAddTagModal}
+            onToggleShow={handleToggleModal}>
+            <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { chosenSection }</AppText>
+            <View className='flex-row mb-4'>
+                <View className='flex-col w-9/12 bg-[#ffeeee] rounded-lg p-4'>
+                    <TextInput
+                        placeholder="Tag Name"
+                        className="bg-slate-200 rounded-md px-3 py-2 mb-4"
+                        onChangeText={(tagName) => {
+                            setNewTag({
+                                ...newTag,
+                                name: tagName
+                            });
+                        }}/>
+                    <AppText className='font-semibold text-[--color-text-subtle]'>Color</AppText>
+                    <ScrollView
+                        horizontal
+                        className='p-2'
+                        showsHorizontalScrollIndicator={false}>
+                        <ColorPicker
+                            value={resultColor}
+                            sliderThickness={25}
+                            thumbSize={24}
+                            thumbShape='circle'
+                            onChange={onColorChange}
+                            onCompleteJS={onColorPick}
+                            boundedThumb
+                            >
+                            <Swatches
+                                style={styles.swatchesContainer}
+                                swatchStyle={styles.swatchStyle}
+                                colors={customSwatches}
+                            />
+                        </ColorPicker>
+                    </ScrollView>
+                    <AppText className='font-semibold text-[--color-text-subtle]'>Icon</AppText>
+                    <VirtualizedList
+                        horizontal
+                        className='p-2'
+                        showsHorizontalScrollIndicator={false}
+                        initialNumToRender={8}
+                        renderItem={({item}) => <Pressable
                             onPress={() => {
-                                handleToggleModal();
-                                // addSymptomTag(chosenSection, newTag);
+                                setNewTag({
+                                    ...newTag,
+                                    icon: item.item as keyof typeof Entypo.glyphMap
+                                });
                             }}>
-                            <AppText className='text-[--color-paper] font-bold text-center'>+ Add Tag</AppText>
-                        </Pressable>
-                    </View>
+                            <Entypo
+                                className='mr-2'
+                                key={item.item}
+                                name={item.item as keyof typeof Entypo.glyphMap}
+                                color={themeColors[newTag.color]}
+                                size={28}/>
+                        </Pressable>}
+                        keyExtractor={({item, id}) => item + id}
+                        getItemCount={iconMapSize}
+                        getItem={getIconItem}/>
+                </View>
+                <View className='w-3/12 items-center justify-center'>
+                    <Symptom symptom={newTag} />
                 </View>
             </View>
-        </Modal>
+            <View className='w-full items-center my-2'>
+                <Pressable
+                    className={classNames('px-4 py-2 rounded-full w-32', newTag.name !== '' ? 'bg-[--color-primary-500]' : 'bg-[--color-text-subtle]')}
+                    style={{
+                        backgroundColor: newTag.name === '' ? themeSemanticColors['--color-primary-200'] : themeColors[newTag.color]
+                    }}
+                    onPress={() => {
+                        handleToggleModal();
+                        // addSymptomTag(chosenSection, newTag);
+                    }}>
+                    <AppText className='text-[--color-paper] font-bold text-center'>+ Add Tag</AppText>
+                </Pressable>
+            </View>
+        </CustomModal>
         <JournalSectionHeader
             title={props.section.title}
             description={props.section.description}

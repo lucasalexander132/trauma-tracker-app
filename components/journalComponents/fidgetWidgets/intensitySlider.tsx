@@ -1,7 +1,7 @@
 import { themeColors } from '@/assets/styles/theme'
 import AppText from '@/components/text'
-import { IIntensity } from '@/zustand/store'
-import React, { useState } from 'react'
+import { IIntensity } from '@/zustand/journalStore'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import CustomSlider from './slider'
 
@@ -36,6 +36,12 @@ const IntensitySlider = ({onValueChange}: Props) => {
             intensityRating: value
         })
     }
+
+    // Set initial intensity when loaded
+    // Keep an eye on this when you add more intensities
+    // It's okay for now though
+    useEffect(() => handleChangeValue(value), []);
+
     return (
         <View>
             <AppText className='font-bold text-lg text-center mb-5' style={{

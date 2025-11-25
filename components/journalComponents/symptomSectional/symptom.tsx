@@ -1,6 +1,6 @@
 import { themeColors, themeVars } from '@/assets/styles/theme';
+import { SymptomTag, useJournalState } from '@/zustand/journalStore';
 import useSettingsStore from '@/zustand/settingsStore';
-import { SymptomTag, useJournalState } from '@/zustand/store';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import { useState } from 'react';
