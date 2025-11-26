@@ -1,26 +1,24 @@
-import { themeBackgrounds, themeVars, TThemeBackgrounds } from '@/assets/styles/theme';
+import { themeBackgrounds, themeVars } from '@/assets/styles/theme';
 import isUndefined from '@/utils/types/isUndefined';
+import { SymptomSection } from '@/zustand/journalStore';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import AddTagModal from './journalComponents/addTagModal/addTagModal';
 import AppText from './text';
-
+// This section should really be a context
 type Props = {
-    description?: string;
-    title: string;
-    color?: TThemeBackgrounds;
-    showRightButton?: boolean;
+    section: SymptomSection;
 }
 
-const JournalSectionHeader = (props: Props) => {
+const JournalSectionHeader = ({section}: Props) => {
     const {
-        description,
-        title,
         color,
-        showRightButton
-    } = props;
+        title,
+        description,
+        taggable
+    } = section;
     const [showAddTagModal, setShowAddTagModal] = useState(false);
     const handleToggleModal = () => {
         setShowAddTagModal(!showAddTagModal);
@@ -38,9 +36,9 @@ const JournalSectionHeader = (props: Props) => {
                 }
             </View>
             {
-                showRightButton &&
+                taggable &&
                     <>
-                        <AddTagModal showAddTagModal={showAddTagModal} handleToggleModal={handleToggleModal} chosenSection={title} />
+                        <AddTagModal showAddTagModal={showAddTagModal} handleToggleModal={handleToggleModal} section={section} />
                         <Pressable
                             className={classNames('h-10 w-10 rounded-full absolute right-3 top-2 justify-center items-center', color ? themeBackgrounds[color] : 'bg-[--color-primary-500] active:bg-[--color-primary-400]')}
                             onPress={handleToggleModal}>

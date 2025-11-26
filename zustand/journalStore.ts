@@ -13,9 +13,9 @@ export interface SymptomTag {
 }
 
 export interface SymptomSection {
-    id?: string;
+    id: string;
     title: string;
-    taggable?: boolean;
+    taggable: boolean;
     description?: string;
     tags: SymptomTag[];
     color?: TThemeColors;

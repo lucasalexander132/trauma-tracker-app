@@ -11,10 +11,7 @@ export interface SymptomSectionalProps {
 export default function SymptomSectional({ section }: SymptomSectionalProps) {
     return(<View className='w-full'>
         <JournalSectionHeader
-            title={section.title}
-            description={section.description}
-            showRightButton={section.taggable}
-            color={section.color}/>
+            section={section}/>
         <View className='mt-2 mb-6 flex-row'>
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}

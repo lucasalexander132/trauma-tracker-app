@@ -1,8 +1,10 @@
 import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import CustomModal from '@/components/modal';
 import AppText from '@/components/text';
-import { SymptomTag } from '@/zustand/journalStore';
+import config from '@/constants/configConstants';
+import { SymptomSection, SymptomTag } from '@/zustand/journalStore';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View, VirtualizedList } from 'react-native';
@@ -13,46 +15,50 @@ import Symptom from '../symptomSectional/symptom';
 type Props = {
     showAddTagModal: boolean;
     handleToggleModal: (value: boolean) => void;
-    chosenSection: string;
+    section: SymptomSection;
 }
 
-const baseTag: SymptomTag = {
-    id: 0,
-    name: '',
-    icon: 'map',
-    color: '--color-Charcoal',
-    category: 'response',
-    isSystem: false
-};
+type TagDto = Omit<SymptomTag, 'isSystem' | 'id'> & { sectionId: string; };
+
 
 const AddTagModal = (props: Props) => {
     const {
-        chosenSection,
+        section,
         showAddTagModal,
         handleToggleModal
     } = props;
 
     const handleAddTag = () => {
-        handleToggleModal(showAddTagModal)
+        handleToggleModal(showAddTagModal);
     }
     
     return (
         <CustomModal
             showConfirmationModal={showAddTagModal}
             onToggleShow={handleToggleModal}>
-            <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { chosenSection }</AppText>
-            <TagCreator addTag={handleAddTag} />
+            <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { section.title }</AppText>
+            <TagCreator onAddTag={handleAddTag} section={section} />
         </CustomModal>
     )
 }
 
 interface TagCreatorProps {
-    addTag: () => void;
+    onAddTag: () => void;
+    section: SymptomSection;
 }
 
-const TagCreator = ({ addTag }: TagCreatorProps) => {
+const TagCreator = ({ onAddTag, section }: TagCreatorProps) => {
+    const baseTag: Omit<SymptomTag, 'isSystem' | 'id'> & { sectionId: string; } = {
+        sectionId: section.id,
+        name: '',
+        icon: 'map',
+        color: '--color-Charcoal',
+        category: 'response'
+    };
+
+    const queryClient = useQueryClient();
     const [resultColor, setResultColor] = useState(customSwatches[0]);
-    const [newTag, setNewTag] = useState<SymptomTag>(baseTag);
+    const [newTag, setNewTag] = useState<TagDto>(baseTag);
     const iconMapSize = () => {
         return entypoGlyphArr.length;
     };
@@ -77,6 +83,32 @@ const TagCreator = ({ addTag }: TagCreatorProps) => {
             color: swatchMap.get(color.hex)
         });
     };
+
+    const { mutate: addTagMutate, isPending: submissionPending, isSuccess: submissionSuccessful } = useMutation({
+        mutationFn: async () => {
+            const response = await fetch(config.api.host + '/user/tags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newTag)
+            });
+            const data = await response.json();
+            console.log(data);
+            return data;
+        },
+        onSuccess: (data, variables, onMutateResult, context) => {
+            queryClient.invalidateQueries({ queryKey: ['sections'] });
+            onAddTag();
+        },
+        onError: (error) => {
+            console.log(JSON.stringify(error), 'Error: Journal not sent');
+        }
+    });
+
+    const addTag = () => {
+        addTagMutate();
+    }
     return (
         <>
             <View className='flex-row mb-4'>
@@ -136,7 +168,14 @@ const TagCreator = ({ addTag }: TagCreatorProps) => {
                         getItem={getIconItem}/>
                 </View>
                 <View className='w-3/12 items-center justify-center'>
-                    <Symptom symptom={newTag} />
+                    <Symptom symptom={{
+                        id: 0,
+                        name: newTag.name,
+                        icon: newTag.icon,
+                        color: newTag.color,
+                        isSystem: false,
+                        category: newTag.category
+                    }} />
                 </View>
             </View>
             <View className='w-full items-center my-2'>

@@ -41,8 +41,13 @@ export default function JournalEntry() {
                         section={section} />)
                 }
                 <JournalSectionHeader
-                    title={'Intensity'}
-                    description={'How intense is this moment?'}
+                // Oh God Oh No
+                    section={{
+                        id: 'default',
+                        title: 'Intensity',
+                        taggable: false,
+                        tags: []
+                    }}
                     />
                 <View className='mt-8 mb-32 h-20'>
                     <IntensitySlider onValueChange={setIntensity} />
