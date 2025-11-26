@@ -77,6 +77,16 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
         set(() => ({
             intensity
         }))
+    },
+    clearJournalEntry: () => {
+        set(() => ({
+            eventTags: new Map(),
+            intensity: {
+                intensityMethod: undefined,
+                intensityValue: 0,
+                intensityRating: 0
+            }
+        }))
     }
 }));
 
