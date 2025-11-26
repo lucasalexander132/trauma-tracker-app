@@ -31,11 +31,10 @@ const JournalSectionHeader = (props: Props) => {
             <View className='flex-col'>
                 <AppText className='text-2xl font-bold pl-3 color-[--color-text]'>{ title }</AppText>
                 {
-                    !isUndefined(description) ?
-                        <AppText
-                            className='text-md font-bold pl-3 color-[--color-text-subtle]'>
-                                {description}
-                            </AppText> : <></>
+                    !isUndefined(description) &&
+                        <AppText className='text-md font-bold pl-3 pr-20 color-[--color-text-subtle]'>
+                            {description}
+                        </AppText>
                 }
             </View>
             {
