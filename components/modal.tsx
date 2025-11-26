@@ -47,6 +47,7 @@ const CustomModal = ({children, showConfirmationModal, onToggleShow}: PropsWithC
 const styles = StyleSheet.create({
     modalView: {
         width: '90%',
+        maxHeight: '60%',
         alignSelf: 'center',
         backgroundColor: themeVars['--color-paper-light'],
         borderRadius: 20,

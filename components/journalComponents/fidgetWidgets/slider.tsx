@@ -2,7 +2,7 @@ import { interpolateColor, themeVars } from '@/assets/styles/theme';
 import useSettingsStore from '@/zustand/settingsStore';
 import Slider from '@react-native-community/slider';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Animated, { cubicBezier } from 'react-native-reanimated';
 const { width } = Dimensions.get('window');
@@ -68,6 +68,8 @@ function CustomSlider({onValueChange, onColorChange, initialValue, startColor, e
     const onSlidingComplete = () => {
         increaseBarHeight();
     }
+
+    useEffect(() => interp(value), []);
 
     return (
         <View style={styles.container}>

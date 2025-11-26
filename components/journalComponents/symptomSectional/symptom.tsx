@@ -3,12 +3,22 @@ import { SymptomTag, useJournalState } from '@/zustand/journalStore';
 import useSettingsStore from '@/zustand/settingsStore';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
+import { isUndefined } from 'lodash';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+const SYMPTOM_VIEW = {
+    OFF: 'OFF',
+    ON: 'ON'
+} as const;
+
+type ObjectValues<T> = T[keyof T];
+type SymptomView = ObjectValues<typeof SYMPTOM_VIEW>;
+
 export interface SymptomProps {
     symptom: SymptomTag;
+    symptomView?: SymptomView;
 }
 
 export interface ISymptom {
@@ -17,7 +27,7 @@ export interface ISymptom {
 }
 
 export default function Symptom(props: SymptomProps) {
-    const { symptom } = props;
+    const { symptom, symptomView } = props;
     const addEventTag = useJournalState((state) => state.addEventTag);
     const deleteEventTag = useJournalState((state) => state.deleteEventTag);
     const settings = useSettingsStore((state) => state.settings);
@@ -25,11 +35,13 @@ export default function Symptom(props: SymptomProps) {
     const [isActive, setIsActive] = useState(false);
 
     const handlePressed = () => {
-        setIsActive(!isActive);
-        if (!isActive) {
-            addEventTag(symptom);
-        } else {
-            deleteEventTag(symptom);
+        if (isUndefined(symptomView)) {
+            setIsActive(!isActive);
+            if (!isActive) {
+                addEventTag(symptom);
+            } else {
+                deleteEventTag(symptom);
+            }
         }
     };
 
@@ -47,13 +59,20 @@ export default function Symptom(props: SymptomProps) {
         }
     });
 
+    let buttonRadius = 16;
+    let buttonBackgroundColor = 'transparent';
+    if (isActive || symptomView === 'ON') {
+        buttonRadius = 100;
+        buttonBackgroundColor = themeColors[symptom.color];
+    };
+
     return (
         <View className='h-34 py-4 items-center'>
             <Animated.View
                 className={
                     classNames('rounded-full items-center p-[2px]')}
                 style={[style.symptomButton, {
-                    borderRadius: isActive ? 100 : 16,
+                    borderRadius: buttonRadius,
                     transitionProperty: ['borderRadius'],
                     transitionTimingFunction: 'ease-in-out',
                     transitionDuration: 200
@@ -62,7 +81,7 @@ export default function Symptom(props: SymptomProps) {
                 <Animated.View
                     className="w-[65px] items-center p-[2px]"
                     style={[style.symptomButton, {
-                        borderRadius: isActive ? 100 : 20,
+                        borderRadius: buttonRadius,
                         transitionProperty: ['borderRadius'],
                         transitionTimingFunction: 'ease-in-out',
                         transitionDuration: 200
@@ -71,8 +90,8 @@ export default function Symptom(props: SymptomProps) {
                         <Animated.View
                             className="h-24 border-solid border-4 items-center"
                             style={[style.symptomButton, {
-                                backgroundColor: isActive ? themeColors[symptom.color] : 'transparent',
-                                borderRadius: isActive ? 100 : 16,
+                                backgroundColor: buttonBackgroundColor,
+                                borderRadius: buttonRadius,
                                 transitionProperty: ['backgroundColor', 'borderRadius'],
                                 transitionTimingFunction: 'ease-in-out',
                                 transitionDuration: 200
@@ -83,8 +102,8 @@ export default function Symptom(props: SymptomProps) {
                                 style={{
                                     position: 'absolute',
                                     borderColor: themeVars['--color-paper'],
-                                    borderRadius: isActive ? 100 : 16,
-                                    bottom: isActive ? 24 : 0,
+                                    borderRadius: buttonRadius,
+                                    bottom: isActive || symptomView === 'ON' ? 24 : 0,
                                     transitionProperty: ['bottom', 'borderRadius'],
                                     transitionTimingFunction: 'ease-in-out',
                                     transitionDuration: 200
@@ -92,7 +111,7 @@ export default function Symptom(props: SymptomProps) {
                                 <Entypo
                                     name={symptom.icon}
                                     size={36}
-                                    color={isActive ? settings['stickerMode'].value ? themeVars['--color-paper-dark'] : themeVars['--color-paper'] : themeColors[symptom.color]}
+                                    color={isActive || symptomView === 'ON' ? settings['stickerMode'].value ? themeVars['--color-paper-dark'] : themeVars['--color-paper'] : themeColors[symptom.color]}
                                 />
                             </Animated.View>
                         </Animated.View>

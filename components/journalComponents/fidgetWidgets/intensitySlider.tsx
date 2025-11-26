@@ -34,7 +34,7 @@ const IntensitySlider = ({onValueChange}: Props) => {
             intensityMethod: 'color_slider',
             intensityValue: value,
             intensityRating: value
-        })
+        });
     }
 
     // Set initial intensity when loaded
