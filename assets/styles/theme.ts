@@ -72,6 +72,8 @@ export const themeBackgrounds: {
     '--color-Dark-Garnet': 'bg-[--color-Dark-Garnet]'
 }
 
+export type TThemeBackgrounds = keyof typeof themeBackgrounds;
+
 const theme = vars({
     ...themeVars,
     ...themeSemanticColors,
