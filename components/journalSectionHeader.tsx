@@ -11,7 +11,7 @@ type Props = {
     description?: string;
     title: string;
     color?: TThemeBackgrounds;
-    removeRightButton?: boolean;
+    showRightButton?: boolean;
 }
 
 const JournalSectionHeader = (props: Props) => {
@@ -19,7 +19,7 @@ const JournalSectionHeader = (props: Props) => {
         description,
         title,
         color,
-        removeRightButton
+        showRightButton
     } = props;
     const [showAddTagModal, setShowAddTagModal] = useState(false);
     const handleToggleModal = () => {
@@ -39,7 +39,7 @@ const JournalSectionHeader = (props: Props) => {
                 }
             </View>
             {
-                removeRightButton &&
+                showRightButton &&
                     <>
                         <AddTagModal showAddTagModal={showAddTagModal} handleToggleModal={handleToggleModal} chosenSection={title} />
                         <Pressable
