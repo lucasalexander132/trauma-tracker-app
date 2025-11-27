@@ -1,10 +1,20 @@
 import PropsWithClassname from '@/utils/types/PropsWithClassname';
 import classNames from 'classnames';
-import { Text } from 'react-native';
+import { StyleProp, Text, TextStyle } from 'react-native';
 
-export default function AppText(props: PropsWithClassname) {
-      const { children, className, ...restProps } = props;
-      return (<Text className={classNames(className, 'dark:text-white')} { ...restProps }>
-        { children }
-      </Text>)
+type AppTextProps = PropsWithClassname & {
+  style?: StyleProp<TextStyle>;
+};
+
+export default function AppText(props: AppTextProps) {
+  const { children, className, style, ...restProps } = props;
+  return (
+    <Text
+      className={classNames(className, 'dark:text-white')}
+      style={style}
+      {...restProps}
+    >
+      {children}
+    </Text>
+  );
 }

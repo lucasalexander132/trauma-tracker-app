@@ -1,21 +1,22 @@
-import AppText from '@/components/text';
-import { SymptomTag } from '@/zustand/store';
+import JournalSectionHeader from '@/components/journalSectionHeader';
+import { SymptomSection } from '@/zustand/journalStore';
+import React from 'react';
 import { FlatList, View } from 'react-native';
 import Symptom from './symptom';
 
 export interface SymptomSectionalProps {
-    title: string;
-    symptoms: SymptomTag[];
+    section: SymptomSection;
 }
 
-export default function SymptomSectional(props: SymptomSectionalProps) {
+export default function SymptomSectional({ section }: SymptomSectionalProps) {
     return(<View className='w-full'>
-        <AppText className='text-2xl font-bold pl-8'>{ props.title }</AppText>
-        <View className='mt-2 flex-row'>
+        <JournalSectionHeader
+            section={section}/>
+        <View className='mt-2 mb-6 flex-row'>
             <FlatList
                 ListHeaderComponent={<View className='w-8' />}
-                data={ props.symptoms }
-                renderItem={({item}) => <Symptom symptom={item} />}
+                data={ section.tags }
+                renderItem={({item}) => <View className='mr-4'><Symptom symptom={item} /></View>}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 ListFooterComponent={<View className='w-8' />}/>

@@ -16,12 +16,14 @@ export default function Layout() {
             <Stack.Screen
                 name="journalEntry"
                 options={{
+                    animation: 'fade',
                     title: "Journal",
                     headerStyle: {
                         backgroundColor: themeSemanticColors['--color-primary-500']
                     },
                     headerBackButtonDisplayMode: 'minimal',
-                    headerTintColor: themeVars['--color-paper']
+                    headerTintColor: themeVars['--color-paper'],
+                    headerShadowVisible: true
                 }} />
         </Stack>
     );

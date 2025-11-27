@@ -1,12 +1,24 @@
 import { themeColors, themeVars } from '@/assets/styles/theme';
-import { SymptomTag } from '@/zustand/store';
+import { SymptomTag, useJournalState } from '@/zustand/journalStore';
+import useSettingsStore from '@/zustand/settingsStore';
 import Entypo from '@expo/vector-icons/Entypo';
+import classNames from 'classnames';
+import { isUndefined } from 'lodash';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+const SYMPTOM_VIEW = {
+    OFF: 'OFF',
+    ON: 'ON'
+} as const;
+
+type ObjectValues<T> = T[keyof T];
+type SymptomView = ObjectValues<typeof SYMPTOM_VIEW>;
+
 export interface SymptomProps {
     symptom: SymptomTag;
+    symptomView?: SymptomView;
 }
 
 export interface ISymptom {
@@ -15,61 +27,99 @@ export interface ISymptom {
 }
 
 export default function Symptom(props: SymptomProps) {
-    const { symptom } = props;
+    const { symptom, symptomView } = props;
+    const addEventTag = useJournalState((state) => state.addEventTag);
+    const deleteEventTag = useJournalState((state) => state.deleteEventTag);
+    const settings = useSettingsStore((state) => state.settings);
+
     const [isActive, setIsActive] = useState(false);
 
-    const handlePressed = () => setIsActive(!isActive);
+    const handlePressed = () => {
+        if (isUndefined(symptomView)) {
+            setIsActive(!isActive);
+            if (!isActive) {
+                addEventTag(symptom);
+            } else {
+                deleteEventTag(symptom);
+            }
+        }
+    };
 
     const style = StyleSheet.create({
         symptomButton: {
-            borderColor: themeColors[`${symptom.color}-dark`],
+            borderColor: themeColors[symptom.color],
         },
+        paperButton: {
+            backgroundColor: themeVars['--color-paper-dark'],
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.25,
+            shadowRadius: 1.5,
+            elevation: 5
+        }
     });
 
+    let buttonRadius = 16;
+    let buttonBackgroundColor = 'transparent';
+    if (isActive || symptomView === 'ON') {
+        buttonRadius = 100;
+        buttonBackgroundColor = themeColors[symptom.color];
+    };
+
     return (
-        <View className='mr-4 h-34 py-4'>
+        <View className='h-34 py-4 items-center'>
             <Animated.View
-                className="border-solid border-2 items-center p-[2px]"
+                className={
+                    classNames('rounded-full items-center p-[2px]')}
                 style={[style.symptomButton, {
-                    borderColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
-                    borderRadius: isActive ? 100 : 20,
+                    borderRadius: buttonRadius,
                     transitionProperty: ['borderRadius'],
                     transitionTimingFunction: 'ease-in-out',
-                    transitionDuration: 100
-                }]}>
-                <Pressable onPress={handlePressed}>
-                    <Animated.View
-                        className="w-16 h-24 border-solid border-4 items-center"
-                        style={[style.symptomButton, {
-                            backgroundColor: isActive ? themeColors[`${symptom.color}-dark`] : 'transparent',
-                            borderRadius: isActive ? 100 : 16,
-                            transitionProperty: ['backgroundColor', 'borderRadius'],
-                            transitionTimingFunction: 'ease-in-out',
-                            transitionDuration: 200
-                        }]}
-                    >
+                    transitionDuration: 200
+                },
+                settings['stickerMode'].value && style.paperButton]}>
+                <Animated.View
+                    className="w-[65px] items-center p-[2px]"
+                    style={[style.symptomButton, {
+                        borderRadius: buttonRadius,
+                        transitionProperty: ['borderRadius'],
+                        transitionTimingFunction: 'ease-in-out',
+                        transitionDuration: 200
+                    }]}>
+                    <Pressable className='w-full' onPress={handlePressed}>
                         <Animated.View
-                            className={'py-2'}
-                            style={{
-                                position: 'absolute',
-                                borderColor: themeVars['--color-paper'],
-                                borderRadius: isActive ? 100 : 16,
-                                bottom: isActive ? 24 : 0,
-                                transitionProperty: ['bottom', 'borderRadius'],
+                            className="h-24 border-solid border-4 items-center"
+                            style={[style.symptomButton, {
+                                backgroundColor: buttonBackgroundColor,
+                                borderRadius: buttonRadius,
+                                transitionProperty: ['backgroundColor', 'borderRadius'],
                                 transitionTimingFunction: 'ease-in-out',
                                 transitionDuration: 200
-                            }}>
-                            <Entypo
-                                name={symptom.icon}
-                                size={36}
-                                color={isActive ? themeVars['--color-paper'] : themeColors[symptom.color]}
-                            />
+                            }]}
+                        >
+                            <Animated.View
+                                className={'py-2'}
+                                style={{
+                                    position: 'absolute',
+                                    borderColor: themeVars['--color-paper'],
+                                    borderRadius: buttonRadius,
+                                    bottom: isActive || symptomView === 'ON' ? 24 : 0,
+                                    transitionProperty: ['bottom', 'borderRadius'],
+                                    transitionTimingFunction: 'ease-in-out',
+                                    transitionDuration: 200
+                                }}>
+                                <Entypo
+                                    name={symptom.icon}
+                                    size={36}
+                                    color={isActive || symptomView === 'ON' ? settings['stickerMode'].value ? themeVars['--color-paper-dark'] : themeVars['--color-paper'] : themeColors[symptom.color]}
+                                />
+                            </Animated.View>
                         </Animated.View>
-                    </Animated.View>
-                </Pressable>
+                    </Pressable>
+                </Animated.View>
             </Animated.View>
-            <Animated.Text className="text-xs font-bold mt-1 text-center" style={{
-                color: isActive ? themeColors[`${symptom.color}-dark`] : themeVars['--color-text'],
+            <Animated.Text className="text-xs font-bold mt-1 text-center w-20" style={{
+                color: isActive ? themeColors[symptom.color] : themeVars['--color-text'],
                 transitionProperty: ['color'],
                 transitionTimingFunction: 'ease-in',
                 transitionDuration: 200
