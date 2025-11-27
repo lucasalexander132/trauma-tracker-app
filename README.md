@@ -17,10 +17,10 @@ A trauma-informed mobile application for tracking and understanding trauma respo
 - iOS Simulator (Mac) or Android Studio
 
 ### Installation
-\`\`\`bash
+```bash
 npm install
 npm start
-\`\`\`
+```
 
 ## License
 TBD
