@@ -41,6 +41,7 @@ export interface JournalEntryStore {
     setIntensity: (intensity: IIntensity) => void;
     getJournalEntry: () => IJournalEntry;
     getCondensedJournalEntry: () => ICondensedJournalEntry;
+    clearJournalEntry: () => void;
 }
 
 export type TIntensityMethod = 'color_slider' | undefined;
