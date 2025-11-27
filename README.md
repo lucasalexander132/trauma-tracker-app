@@ -7,8 +7,7 @@ A trauma-informed mobile application for tracking and understanding trauma respo
 - TypeScript
 - NativeWind (Tailwind CSS)
 - Zustand (State Management)
-- React Navigation
-- SQLite (Offline Storage)
+- SQLite (Offline Storage) // I mean, I would like to, we'll see what happens
 
 ## Getting Started
 
@@ -22,25 +21,6 @@ A trauma-informed mobile application for tracking and understanding trauma respo
 npm install
 npm start
 \`\`\`
-
-## Project Structure
-\`\`\`
-/src
-  /components
-  /screens
-  /navigation
-  /hooks
-  /store
-  /services
-  /utils
-  /types
-  /assets
-\`\`\`
-
-## Documentation
-- [Project Overview](docs/PROJECT_OVERVIEW.md)
-- [Development Guide](docs/DEVELOPMENT.md)
-- [Architecture](docs/ARCHITECTURE.md)
 
 ## License
 TBD
