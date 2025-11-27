@@ -8,7 +8,7 @@ import { IEntry } from "@/constants/types/Entries";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { FlashList } from '@shopify/flash-list';
-import { InfiniteData, useInfiniteQuery, useQueries } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -17,31 +17,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
 
-    const { data: [user, entries] } = useQueries({
-        queries: [
-            {
-                queryKey: ['currentUser'],
-                queryFn: async () => {
-                    const response = await fetch(config.api.host + '/auth/me');
-                    const data = await response.json();
-                    return data;
-                }
-            },
-            {
-                queryKey: ['entries'],
-                queryFn: async () => {
-                    const response = await fetch(config.api.host + '/user/entries');
-                    const data = await response.json();
-                    return data as IEntry[];
-                }
-            }
-        ],
-        combine: (results) => {
-            return {
-                data: results.map((result) => result.data),
-                pending: results.some((result) => result.isPending),
-            }
-        },
+    const { data: user } = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: async () => {
+            const response = await fetch(config.api.host + '/auth/me');
+            const data = await response.json();
+            return data;
+        }
     });
 
     return (
