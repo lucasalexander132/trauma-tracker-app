@@ -11,7 +11,7 @@ import AppText from '@/components/text';
 import config from '@/constants/configConstants';
 import { SymptomSection, useJournalState } from '@/zustand/journalStore';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -87,6 +87,7 @@ type SubmissionModalProps = {
 }
 
 const SubmissionModal = (props: SubmissionModalProps) => {
+    const queryClient = useQueryClient();
     const {
         showConfirmationModal,
         handleToggleModal
@@ -94,6 +95,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
     const router = useRouter();
 
     const getJournalEntry = useJournalState((state) => state.getJournalEntry);
+    const getCondensedJournalEntry = useJournalState((state) => state.getCondensedJournalEntry);
     const {
         eventTags,
         intensity
@@ -106,13 +108,15 @@ const SubmissionModal = (props: SubmissionModalProps) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(getJournalEntry())
+                body: JSON.stringify(getCondensedJournalEntry())
             });
             const data = await response.json();
             return data;
         },
         onSuccess: (data, variables, onMutateResult, context) => {
-            // This might be an error but the response came back
+            queryClient.invalidateQueries({
+                queryKey: ['entries']
+            });
             setTimeout(router.dismiss, 1000);
         },
         onError: (error) => {

@@ -4,7 +4,7 @@ import moment from 'moment';
 import { create } from 'zustand';
 
 export interface SymptomTag {
-    id: number;
+    id: string;
     name: string;
     icon: keyof typeof Entypo.glyphMap;
     color: TThemeColors;
@@ -21,10 +21,17 @@ export interface SymptomSection {
     color?: TThemeColors;
 }
 
+// You can make these two journal entry types better with & or extends
 export interface IJournalEntry {
     timestamp: string;
     intensity: IIntensity,
     eventTags: SymptomTag[]
+}
+
+export interface ICondensedJournalEntry {
+    timestamp: string;
+    intensity: IIntensity,
+    eventTags: { id: string }[]
 }
 export interface JournalEntryStore {
     eventTags: Map<string, SymptomTag>;
@@ -33,6 +40,7 @@ export interface JournalEntryStore {
     deleteEventTag: (tag: SymptomTag) => void;
     setIntensity: (intensity: IIntensity) => void;
     getJournalEntry: () => IJournalEntry;
+    getCondensedJournalEntry: () => ICondensedJournalEntry;
 }
 
 export type TIntensityMethod = 'color_slider' | undefined;
@@ -55,6 +63,14 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
         const entry: IJournalEntry = {
             timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
             eventTags: Array.from(get().eventTags.entries()).map(([key, value]) => value),
+            intensity: get().intensity
+        };
+        return entry;
+    },
+    getCondensedJournalEntry: () => {
+        const entry: ICondensedJournalEntry = {
+            timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            eventTags: Array.from(get().eventTags.entries()).map(([key, value]) => ({id: value.id})),
             intensity: get().intensity
         };
         return entry;

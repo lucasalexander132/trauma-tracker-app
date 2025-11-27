@@ -169,7 +169,7 @@ const TagCreator = ({ onAddTag, section }: TagCreatorProps) => {
                 </View>
                 <View className='w-3/12 items-center justify-center'>
                     <Symptom symptom={{
-                        id: 0,
+                        id: '',
                         name: newTag.name,
                         icon: newTag.icon,
                         color: newTag.color,
