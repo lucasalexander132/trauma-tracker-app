@@ -14,7 +14,7 @@ import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient }
 import { Link } from "expo-router";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
@@ -54,17 +54,14 @@ export default function Home() {
 
     return (
 		<SafeView>
-            <ScrollView>
-                <View className="mx-4 py-6">
-                    <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
-                    <CustomButton buttonClassName="rounded-full mt-6" title={"Logout"} onPress={handleSignOut} />
-                </View>
-                <View className="px-4">
-                    <AppText className="text-3xl font-bold mb-4">Entries</AppText>
-                    <Entries />
-                </View>
-                <SafeFooter multiplier={2} />
-            </ScrollView>
+            <View className="mx-4 py-6">
+                <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
+                <CustomButton buttonClassName="rounded-full mt-6" title={"Logout"} onPress={handleSignOut} />
+            </View>
+            <View className="px-4 h-full">
+                <AppText className="text-3xl font-bold mb-4">Entries</AppText>
+                <Entries />
+            </View>
             <Link
                 href={'/journalEntry'}
                 className={'absolute right-6'}
@@ -125,8 +122,10 @@ const Entries = () => {
     return <>
         <FlashList
             onEndReached={handleOnEndReached}
+            onEndReachedThreshold={0.5}
             renderItem={({item: entry}) => <EntryCard key={`${entry.id}-entries-overview`} entry={entry}/>}
-            data={allEntries} />
+            data={allEntries}
+            ListFooterComponent={() => <SafeFooter multiplier={3} />}/>
     </>
 }
 
