@@ -1,3 +1,4 @@
+import AuthProvider from '@/constants/authContext/authContext';
 import QCProvider from '@/constants/queryClientProvider';
 import { Inter_100Thin } from '@expo-google-fonts/inter/100Thin';
 import { Inter_100Thin_Italic } from '@expo-google-fonts/inter/100Thin_Italic';
@@ -47,16 +48,18 @@ export default function RootLayout() {
     Inter_900Black_Italic
   });
   return <QCProvider>
-      {
-        fontsLoaded ? 
-          <SafeAreaProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="authentication" options={{ headerShown: false }} />
-              <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-            </Stack>
-          </SafeAreaProvider> :
-          <Text>Loading fonts</Text>
-      }
+      <AuthProvider>
+        {
+          fontsLoaded ? 
+            <SafeAreaProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="authentication" options={{ headerShown: false }} />
+                <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+              </Stack>
+            </SafeAreaProvider> :
+            <Text>Loading fonts</Text>
+        }
+      </AuthProvider>
     </QCProvider>;
 }
 

@@ -1,21 +1,26 @@
 import { interpolateColor, themeColors, themeVars } from "@/assets/styles/theme";
+import CustomButton from "@/components/customButton";
 import Symptom from "@/components/journalComponents/symptomSectional/symptom";
 import SafeFooter from "@/components/safeFooter";
 import SafeView from "@/components/safeView";
 import AppText from "@/components/text";
+import { AuthContext } from "@/constants/authContext/authContext";
 import config from "@/constants/configConstants";
 import { IEntry } from "@/constants/types/Entries";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { FlashList } from '@shopify/flash-list';
-import { InfiniteData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
+
+    const queryClient = useQueryClient();
+    const authContext = useContext(AuthContext);
 
     const { data: user } = useQuery({
         queryKey: ['currentUser'],
@@ -26,11 +31,33 @@ export default function Home() {
         }
     });
 
+    const { mutate: signOut, data: signOutData } = useMutation({
+        mutationFn: async () => {
+            const response = await fetch(
+                config.api.host + '/auth/signout',
+                { method: 'POST' }
+            );
+            const data = await response.json();
+            return data;
+        },
+        onSuccess: async (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ['currentUser']
+            });
+            authContext.logOut();
+        }
+    });
+
+    const handleSignOut = () => {
+        signOut();
+    }
+
     return (
 		<SafeView>
             <ScrollView>
                 <View className="mx-4 py-6">
                     <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
+                    <CustomButton buttonClassName="rounded-full mt-6" title={"Logout"} onPress={handleSignOut} />
                 </View>
                 <View className="px-4">
                     <AppText className="text-3xl font-bold mb-4">Entries</AppText>
