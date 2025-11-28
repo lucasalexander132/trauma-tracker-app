@@ -1,61 +1,67 @@
 import { interpolateColor, themeColors, themeVars } from "@/assets/styles/theme";
+import CustomButton from "@/components/customButton";
 import Symptom from "@/components/journalComponents/symptomSectional/symptom";
 import SafeFooter from "@/components/safeFooter";
 import SafeView from "@/components/safeView";
 import AppText from "@/components/text";
+import { AuthContext } from "@/constants/authContext/authContext";
 import config from "@/constants/configConstants";
 import { IEntry } from "@/constants/types/Entries";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { FlashList } from '@shopify/flash-list';
-import { InfiniteData, useInfiniteQuery, useQueries } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
 
-    const { data: [user, entries] } = useQueries({
-        queries: [
-            {
-                queryKey: ['currentUser'],
-                queryFn: async () => {
-                    const response = await fetch(config.api.host + '/auth/me');
-                    const data = await response.json();
-                    return data;
-                }
-            },
-            {
-                queryKey: ['entries'],
-                queryFn: async () => {
-                    const response = await fetch(config.api.host + '/user/entries');
-                    const data = await response.json();
-                    return data as IEntry[];
-                }
-            }
-        ],
-        combine: (results) => {
-            return {
-                data: results.map((result) => result.data),
-                pending: results.some((result) => result.isPending),
-            }
-        },
+    const queryClient = useQueryClient();
+    const authContext = useContext(AuthContext);
+
+    const { data: user } = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: async () => {
+            const response = await fetch(config.api.host + '/auth/me');
+            const data = await response.json();
+            return data;
+        }
     });
+
+    const { mutate: signOut, data: signOutData } = useMutation({
+        mutationFn: async () => {
+            const response = await fetch(
+                config.api.host + '/auth/signout',
+                { method: 'POST' }
+            );
+            const data = await response.json();
+            return data;
+        },
+        onSuccess: async (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ['currentUser']
+            });
+            authContext.logOut();
+        }
+    });
+
+    const handleSignOut = () => {
+        signOut();
+    }
 
     return (
 		<SafeView>
-            <ScrollView>
-                <View className="mx-4 py-6">
-                    <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
-                </View>
-                <View className="px-4">
-                    <AppText className="text-3xl font-bold mb-4">Entries</AppText>
-                    <Entries />
-                </View>
-                <SafeFooter multiplier={2} />
-            </ScrollView>
+            <View className="mx-4 py-6">
+                <Text className="text-3xl font-bold" style={{fontFamily: 'Inter'}}>Hello {user?.username}</Text>
+                <CustomButton buttonClassName="rounded-full mt-6" title={"Logout"} onPress={handleSignOut} />
+            </View>
+            <View className="px-4 h-full">
+                <AppText className="text-3xl font-bold mb-4">Entries</AppText>
+                <Entries />
+            </View>
             <Link
                 href={'/journalEntry'}
                 className={'absolute right-6'}
@@ -116,8 +122,10 @@ const Entries = () => {
     return <>
         <FlashList
             onEndReached={handleOnEndReached}
+            onEndReachedThreshold={0.5}
             renderItem={({item: entry}) => <EntryCard key={`${entry.id}-entries-overview`} entry={entry}/>}
-            data={allEntries} />
+            data={allEntries}
+            ListFooterComponent={() => <SafeFooter multiplier={3} />}/>
     </>
 }
 

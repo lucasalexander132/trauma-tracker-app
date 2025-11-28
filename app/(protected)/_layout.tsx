@@ -1,29 +1,28 @@
-import config from "@/constants/configConstants";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import AppText from "@/components/text";
+import { AuthContext } from "@/constants/authContext/authContext";
 import { Redirect, Stack } from "expo-router";
+import { useContext } from "react";
+import { View } from "react-native";
 
 
 export default function ProtectedLayout() {
-  const { data } = useSuspenseQuery({
-      queryKey: ['currentUser'],
-      queryFn: async () => {
-        const response = await fetch(config.api.host + '/auth/me');
-        const data = await response.json();
-        return data;
-      }
-  });
-
-  if (!!!data.username) {
-    return <Redirect href={'/authentication'} />
-  };
-  return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
-  );
+    const authState = useContext(AuthContext);
+    if (authState.isLoading) {
+        return <View className="w-full h-full justify-center">
+            <AppText className="text-center">Loading</AppText>
+        </View>
+    }
+    if (!authState.isLoggedIn) {
+        return <Redirect href="authentication" />
+    }
+    return (
+        <Stack>
+            <Stack.Screen
+                name="(tabs)"
+                options={{
+                headerShown: false,
+                }}
+            />
+        </Stack>
+    );
 }

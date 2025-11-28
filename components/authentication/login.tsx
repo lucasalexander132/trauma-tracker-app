@@ -1,7 +1,8 @@
+import { AuthContext } from "@/constants/authContext/authContext";
 import config from "@/constants/configConstants";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { isUndefined } from "lodash";
+import { useContext, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 interface LoginCredentials {
@@ -16,11 +17,12 @@ interface UserResponse {
 }
 
 export default function Index() {
-    const router = useRouter();
+  const queryClient = useQueryClient();
   const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
     username: "",
     password: ""
   });
+  const authContext = useContext(AuthContext);
 
   const { mutate: login } = useMutation({
     mutationFn: async () => {
@@ -35,13 +37,19 @@ export default function Index() {
       return data;
     },
     onSuccess: (data: UserResponse, variables, onMutateResult, context) => {
-    //   console.log(JSON.stringify({
-    //     data,
-    //     variables,
-    //     onMutateResult,
-    //     context
-    //   }));
-      if (!!data.user.username) router.navigate('/');
+      //   console.log(JSON.stringify({
+      //     data,
+      //     variables,
+      //     onMutateResult,
+      //     context
+      //   }));
+      console.log('Login', isUndefined(data.user.username));
+      if (!isUndefined(data.user.username)) {
+        queryClient.invalidateQueries({
+          queryKey: ['currentUser']
+        });
+        authContext.logIn();
+      }
     },
     onError: (error) => {
       console.log(JSON.stringify(error), 'You got an error');

@@ -96,6 +96,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
 
     const getJournalEntry = useJournalState((state) => state.getJournalEntry);
     const getCondensedJournalEntry = useJournalState((state) => state.getCondensedJournalEntry);
+    const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
     const {
         eventTags,
         intensity
@@ -117,6 +118,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
             queryClient.invalidateQueries({
                 queryKey: ['entries']
             });
+            clearJournalEntry();
             setTimeout(router.dismiss, 1000);
         },
         onError: (error) => {

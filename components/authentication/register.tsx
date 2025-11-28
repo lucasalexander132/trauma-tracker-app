@@ -1,7 +1,7 @@
+import { AuthContext } from "@/constants/authContext/authContext";
 import config from "@/constants/configConstants";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 
@@ -17,7 +17,7 @@ interface UserResponse {
 }
 
 export default function Register() {
-    const router = useRouter();
+    const authContext = useContext(AuthContext);
     const [registerCredentials, setRegisterCredentials] = useState<RegisterCredentials>({
         username: "",
         password: ""
@@ -41,7 +41,7 @@ export default function Register() {
                 onMutateResult,
                 context
             }));
-            if (!!data.user.username) router.navigate('/');
+            authContext.logIn();
         },
         onError: (error) => {
         console.log(JSON.stringify(error), 'You got an error');
