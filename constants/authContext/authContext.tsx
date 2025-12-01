@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import React, { createContext, PropsWithChildren, useState } from 'react';
 import config from '../configConstants';
 
-type AuthState = {
+export type AuthState = {
     isLoggedIn: boolean;
     logIn: () => void;
     logOut: () => void;
@@ -33,8 +33,8 @@ const AuthProvider = ({children}: PropsWithChildren) => {
         queryFn: async () => {
             const response = await fetch(config.api.host + '/auth/me');
             const data = await response.json();
-            if (!isLoggedIn) {
-                logIn();
+            if (!isLoggedIn && data.username) {
+                setIsLoggedIn(true);
             }
             return data;
         }

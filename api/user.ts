@@ -8,7 +8,7 @@ export type TInfiniteEntries = {
 };
 
 export const useInfiniteEntries = () => useInfiniteQuery<any, Error, InfiniteData<TInfiniteEntries, unknown>, string[], any>({
-        queryKey: ['entries'],
+        queryKey: ['entries', 'infinite'],
         queryFn: async ({ pageParam }) => {
             const params = new URLSearchParams();
             if (pageParam) params.append('cursor', pageParam);

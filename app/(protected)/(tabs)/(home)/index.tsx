@@ -1,14 +1,13 @@
-import { getMeQueryOptions } from "@/api/auth";
+import { useGetMe, useSignOut } from "@/api/auth";
 import { themeVars } from "@/assets/styles/theme";
 import CustomButton from "@/components/customButton";
 import { InfiniteEntries } from "@/components/journalComponents/entries/entries";
 import SafeView from "@/components/safeView";
 import AppText from "@/components/text";
 import { AuthContext } from "@/constants/authContext/authContext";
-import config from "@/constants/configConstants";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { useContext } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -19,24 +18,9 @@ export default function Home() {
     const queryClient = useQueryClient();
     const authContext = useContext(AuthContext);
 
-    const { data: user } = useQuery(getMeQueryOptions);
+    const { data: user, isFetched } = useGetMe();
 
-    const { mutate: signOut, data: signOutData } = useMutation({
-        mutationFn: async () => {
-            const response = await fetch(
-                config.api.host + '/auth/signout',
-                { method: 'POST' }
-            );
-            const data = await response.json();
-            return data;
-        },
-        onSuccess: async (data) => {
-            queryClient.invalidateQueries({
-                queryKey: ['currentUser']
-            });
-            authContext.logOut();
-        }
-    });
+    const { mutate: signOut, data: signOutData } = useSignOut(queryClient, authContext);
 
     const handleSignOut = () => {
         signOut();
@@ -69,6 +53,6 @@ export default function Home() {
                     <Entypo name="feather" size={28} color={themeVars['--color-paper-dark']} />
                 </Pressable>
             </Link>
-            
+
 		</SafeView>)
 }
