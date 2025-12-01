@@ -1,4 +1,5 @@
 import { themeSemanticColors, themeVars } from "@/assets/styles/theme";
+import CustomDrawerBtn from "@/components/navigation/customDrawerBtn";
 import { Stack } from "expo-router";
 
 export default function Layout() {
@@ -11,7 +12,8 @@ export default function Layout() {
                     headerStyle: {
                         backgroundColor: themeSemanticColors['--color-primary-500']
                     },
-                    headerTintColor: themeVars['--color-paper']
+                    headerTintColor: themeVars['--color-paper'],
+                    headerLeft: () => <CustomDrawerBtn />
                 }} />
             <Stack.Screen
                 name="journalEntry"

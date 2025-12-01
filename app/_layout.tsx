@@ -21,45 +21,48 @@ import { Inter_900Black_Italic } from '@expo-google-fonts/inter/900Black_Italic'
 import { useFonts } from '@expo-google-fonts/poppins/useFonts';
 import { Stack } from 'expo-router';
 import { Text } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../constants/i18n';
 import "../global.css";
 
 
 export default function RootLayout() {
-  let [fontsLoaded] = useFonts({
-    Inter_100Thin, 
-    Inter_200ExtraLight, 
-    Inter_300Light, 
-    Inter_400Regular, 
-    Inter_500Medium, 
-    Inter_600SemiBold, 
-    Inter_700Bold, 
-    Inter_800ExtraBold, 
-    Inter_900Black, 
-    Inter_100Thin_Italic, 
-    Inter_200ExtraLight_Italic, 
-    Inter_300Light_Italic, 
-    Inter_400Regular_Italic, 
-    Inter_500Medium_Italic, 
-    Inter_600SemiBold_Italic, 
-    Inter_700Bold_Italic, 
-    Inter_800ExtraBold_Italic, 
-    Inter_900Black_Italic
-  });
-  return <QCProvider>
-      <AuthProvider>
-        {
-          fontsLoaded ? 
-            <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="authentication" options={{ headerShown: false }} />
-                <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-              </Stack>
-            </SafeAreaProvider> :
-            <Text>Loading fonts</Text>
-        }
-      </AuthProvider>
+    let [fontsLoaded] = useFonts({
+        Inter_100Thin, 
+        Inter_200ExtraLight, 
+        Inter_300Light, 
+        Inter_400Regular, 
+        Inter_500Medium, 
+        Inter_600SemiBold, 
+        Inter_700Bold, 
+        Inter_800ExtraBold, 
+        Inter_900Black, 
+        Inter_100Thin_Italic, 
+        Inter_200ExtraLight_Italic, 
+        Inter_300Light_Italic, 
+        Inter_400Regular_Italic, 
+        Inter_500Medium_Italic, 
+        Inter_600SemiBold_Italic, 
+        Inter_700Bold_Italic, 
+        Inter_800ExtraBold_Italic, 
+        Inter_900Black_Italic
+    });
+    return <QCProvider>
+        <AuthProvider>
+            <GestureHandlerRootView style={{flex: 1}}>
+            {
+                fontsLoaded ? 
+                <SafeAreaProvider>
+                    <Stack screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="authentication" options={{ headerShown: false }} />
+                        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+                    </Stack>
+                </SafeAreaProvider> :
+                <Text>Loading fonts</Text>
+            }
+            </GestureHandlerRootView>
+        </AuthProvider>
     </QCProvider>;
 }
 
