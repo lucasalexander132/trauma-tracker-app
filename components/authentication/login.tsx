@@ -1,5 +1,5 @@
+import auth from "@/api/auth";
 import { AuthContext } from "@/constants/authContext/authContext";
-import config from "@/constants/configConstants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isUndefined } from "lodash";
 import { useContext, useState } from "react";
@@ -25,17 +25,7 @@ export default function Index() {
   const authContext = useContext(AuthContext);
 
   const { mutate: login } = useMutation({
-    mutationFn: async () => {
-      const response = await fetch(config.api.host + '/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginCredentials)
-      });
-      const data = await response.json();
-      return data;
-    },
+    mutationFn: () => auth.signIn(loginCredentials),
     onSuccess: (data: UserResponse, variables, onMutateResult, context) => {
       //   console.log(JSON.stringify({
       //     data,
