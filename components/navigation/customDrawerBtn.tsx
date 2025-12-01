@@ -5,9 +5,7 @@ import { DrawerActions, ParamListBase, useNavigation } from '@react-navigation/n
 import React from 'react'
 import { Pressable } from 'react-native'
 
-type Props = {}
-
-const CustomDrawerBtn = (props: Props) => {
+const CustomDrawerBtn = () => {
     const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
     return (

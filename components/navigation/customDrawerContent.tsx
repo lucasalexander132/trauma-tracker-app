@@ -4,7 +4,7 @@ import { AuthContext } from "@/constants/authContext/authContext";
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import CustomButton from "../customButton";
 import AppText from "../text";
 
@@ -26,19 +26,3 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
         </DrawerContentScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    drawerHeader: {
-        padding: 20,
-        backgroundColor: '#f0f0f0',
-    },
-    drawerHeaderText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    customItem: {
-        padding: 15,
-        fontSize: 16,
-        color: 'blue',
-    },
-});
