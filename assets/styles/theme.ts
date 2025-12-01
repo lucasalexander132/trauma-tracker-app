@@ -109,5 +109,6 @@ export function interpolateColor(color1: string, color2: string, factor: number)
 }
 
 export const entypoGlyphArr = Object.keys(Entypo.getRawGlyphMap());
+export type IconNameType = keyof typeof Entypo.glyphMap;
 
 export default theme;

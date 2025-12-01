@@ -1,4 +1,4 @@
-import { themeColors, themeVars } from '@/assets/styles/theme';
+import { IconNameType, themeColors, themeVars } from '@/assets/styles/theme';
 import { SymptomTag, useJournalState } from '@/zustand/journalStore';
 import useSettingsStore from '@/zustand/settingsStore';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -23,7 +23,7 @@ export interface SymptomProps {
 
 export interface ISymptom {
     name: string;
-    icon: keyof typeof Entypo.glyphMap;
+    icon: IconNameType;
 }
 
 export default function Symptom(props: SymptomProps) {

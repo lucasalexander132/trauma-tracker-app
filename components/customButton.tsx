@@ -1,3 +1,4 @@
+import { IconNameType } from '@/assets/styles/theme';
 import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
 import React from 'react';
@@ -17,7 +18,7 @@ type ButtonVariant = keyof typeof variantClassNames;
 
 type CustomButtonProps = {
     title: string;
-    iconName?: keyof typeof Entypo.glyphMap;
+    iconName?: IconNameType;
     onPress?: () => void;
     style?: StyleProp<ViewStyle>;
     textClassName?: string;

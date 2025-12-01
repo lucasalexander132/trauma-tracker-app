@@ -1,5 +1,5 @@
 import { themeVars } from "@/assets/styles/theme";
-import { InfiniteEntries } from "@/components/journalComponents/entries/entries";
+import { InfiniteEntries } from "@/components/journalComponents/entries/infiniteEntries";
 import SafeView from "@/components/safeView";
 import AppText from "@/components/text";
 import useSettingsStore from "@/zustand/settingsStore";

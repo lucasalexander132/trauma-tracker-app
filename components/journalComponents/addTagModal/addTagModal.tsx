@@ -1,4 +1,4 @@
-import { customSwatches, entypoGlyphArr, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
+import { customSwatches, entypoGlyphArr, IconNameType, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
 import CustomModal from '@/components/modal';
 import AppText from '@/components/text';
 import config from '@/constants/configConstants';
@@ -153,13 +153,13 @@ const TagCreator = ({ onAddTag, section }: TagCreatorProps) => {
                             onPress={() => {
                                 setNewTag({
                                     ...newTag,
-                                    icon: item.item as keyof typeof Entypo.glyphMap
+                                    icon: item.item as IconNameType
                                 });
                             }}>
                             <Entypo
                                 className='mr-2'
                                 key={item.item}
-                                name={item.item as keyof typeof Entypo.glyphMap}
+                                name={item.item as IconNameType}
                                 color={themeColors[newTag.color]}
                                 size={28}/>
                         </Pressable>}

@@ -1,12 +1,11 @@
-import { TThemeColors } from '@/assets/styles/theme';
-import Entypo from '@expo/vector-icons/Entypo';
+import { IconNameType, TThemeColors } from '@/assets/styles/theme';
 import moment from 'moment';
 import { create } from 'zustand';
 
 export interface SymptomTag {
     id: string;
     name: string;
-    icon: keyof typeof Entypo.glyphMap;
+    icon: IconNameType;
     color: TThemeColors;
     category?: 'response';
     isSystem?: boolean;
