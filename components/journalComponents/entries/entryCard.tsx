@@ -13,7 +13,7 @@ type EntryCardProps = {
 export const EntryCard = ({ entry }: EntryCardProps) => {
     const {
         eventTags,
-        // timestamp,
+        timestamp,
         // hasFollowUp,
         // intensityMethod,
         intensityRating,
@@ -23,11 +23,11 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
     } = entry;
     return (
         <View className="rounded-lg bg-[--color-paper-light] px-4 pb-6 pt-2 mb-4 shadow-sm mx-2">
-            <AppText className="font-bold text-xl">{moment(entry.timestamp).format('dddd, MMMM Do')}</AppText>
+            <AppText className="font-bold text-xl">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
             <AppText className='text-lg font-bold mt-2 mr-2'>Tags</AppText>
             <View className="flex-row flex-wrap mb-4">
                 {
-                    entry.eventTags?.map((tag) =>
+                    eventTags?.map((tag) =>
                         <SmallTag key={`${tag.id}-small-tag`} name={tag.name} icon={tag.icon} color={tag.color} />)
                 }
             </View>
