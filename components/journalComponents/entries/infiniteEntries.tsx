@@ -32,10 +32,11 @@ export const InfiniteEntries = () => {
 
     return <>
         <FlashList
+            showsVerticalScrollIndicator={false}
             onEndReached={handleOnEndReached}
             onEndReachedThreshold={0.5}
             renderItem={({item: entry}) => <EntryCard key={`${entry.id}-entries-overview`} entry={entry}/>}
             data={allEntries}
-            ListFooterComponent={() => <SafeFooter multiplier={3} />}/>
+            ListFooterComponent={() => <SafeFooter multiplier={2} />}/>
     </>
 }
