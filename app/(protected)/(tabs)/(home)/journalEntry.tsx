@@ -14,12 +14,13 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function JournalEntry() {
     const setIntensity = useJournalState((state) => state.setIntensity);
+    const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
 
     const { data: sections } = useSuspenseQuery({
         queryKey: ['sections'],
@@ -29,6 +30,10 @@ export default function JournalEntry() {
             return sections;
         }
     });
+
+    useEffect(() => {
+        return () => clearJournalEntry();
+    }, []);
 
     return (
         <SafeView>
