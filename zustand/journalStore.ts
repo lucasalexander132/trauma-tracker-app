@@ -48,7 +48,7 @@ export type TIntensityMethod = 'color_slider' | undefined;
 export interface IIntensity {
     intensityMethod: TIntensityMethod;
     intensityValue: number;
-    intensityRating: number;
+    intensityRating: string;
 }
 
 
@@ -57,7 +57,7 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
     intensity: {
         intensityMethod: undefined,
         intensityValue: 0,
-        intensityRating: 0
+        intensityRating: ''
     },
     getJournalEntry: () => {
         const entry: IJournalEntry = {
@@ -100,7 +100,7 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
             intensity: {
                 intensityMethod: undefined,
                 intensityValue: 0,
-                intensityRating: 0
+                intensityRating: ''
             }
         }))
     }

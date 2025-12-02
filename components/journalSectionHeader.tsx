@@ -7,12 +7,19 @@ import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import AddTagModal from './journalComponents/addTagModal/addTagModal';
 import AppText from './text';
-// This section should really be a context
+
 type Props = {
-    section: SymptomSection;
+    section?: SymptomSection;
 }
 
-const JournalSectionHeader = ({section}: Props) => {
+const defaultSection = {
+    id: 'default',
+    title: 'Intensity',
+    taggable: false,
+    tags: []
+};
+
+const JournalSectionHeader = ({section = defaultSection}: Props) => {
     const {
         color,
         title,

@@ -40,15 +40,7 @@ export default function JournalEntry() {
                         key={section.id}
                         section={section} />)
                 }
-                <JournalSectionHeader
-                // Oh God Oh No
-                    section={{
-                        id: 'default',
-                        title: 'Intensity',
-                        taggable: false,
-                        tags: []
-                    }}
-                    />
+                <JournalSectionHeader />
                 <View className='mt-8 mb-32 h-20'>
                     <IntensitySlider onValueChange={setIntensity} />
                 </View>
