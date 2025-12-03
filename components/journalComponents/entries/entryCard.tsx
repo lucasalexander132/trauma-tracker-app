@@ -1,8 +1,9 @@
-import { interpolateColor, themeColors } from "@/assets/styles/theme";
+import { interpolateColor, themeColors, themeVars } from "@/assets/styles/theme";
 import CustomButton from "@/components/customButton";
 import Divider from "@/components/divider";
 import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
+import Entypo from "@expo/vector-icons/Entypo";
 import classNames from "classnames";
 import moment from "moment";
 import { View } from "react-native";
@@ -26,19 +27,27 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
         // followUpCompleted
     } = entry;
     return (
-        <View className={classNames("shadow-md",!hasFollowUp && "mt-10")}>
+        <View className={classNames("shadow-md",!hasFollowUp && "mb-10")}>
             {
                 !hasFollowUp &&
                     <CustomButton
                         iconName="edit"
                         iconSize={14}
-                        buttonClassName="absolute top-[-32px] pb-10 w-full rounded-2xl border-[--color-paper-dark] border-[1px]"
+                        buttonClassName="absolute bottom-[-16px] pt-8 w-full rounded-2xl border-[--color-paper-dark] border-[1px]"
+                        textClassName="text-center"
                         title={"Follow Up"} />
             }
             <View className="rounded-2xl bg-[--color-paper] pb-6 mb-4 border-[--color-paper-dark] border-[1px]">
-                <View className="px-4 pt-2">
-                    <AppText className="font-bold text-2xl text-[--color-text]">{ eventName ?? 'Journal Entry'}</AppText>
-                    <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
+                <View className="flex-row items-center px-4">
+                    <Entypo
+                        className="pt-2"
+                        color={themeVars['--color-text-subtle']}
+                        size={28}
+                        name={'open-book'}/>
+                    <View className="px-4 pt-2">
+                        <AppText className="font-bold text-2xl text-[--color-text]">{ eventName ?? 'Journal Entry'}</AppText>
+                        <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
+                    </View>
                 </View>
                 <Divider />
                 {
