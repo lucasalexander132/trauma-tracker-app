@@ -1,30 +1,20 @@
+import { useJournalEntrySections } from '@/api/user';
 import CustomButton from '@/components/customButton';
-import IntensitySlider from '@/components/journalComponents/fidgetWidgets/intensitySlider';
+import IntensitySectional from '@/components/journalComponents/intensitySectional/intensitySectional';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
 import SymptomSectional from '@/components/journalComponents/symptomSectional/symptomSectional';
-import JournalSectionHeader from '@/components/journalSectionHeader';
 import SafeFooter from '@/components/safeFooter';
 import SafeView from '@/components/safeView';
-import config from '@/constants/configConstants';
 import { SymptomSection, useJournalState } from '@/zustand/journalStore';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function JournalEntry() {
-    const setIntensity = useJournalState((state) => state.setIntensity);
     const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
 
-    const { data: sections } = useSuspenseQuery({
-        queryKey: ['sections'],
-        queryFn: async () => {
-            const response = await fetch(config.api.host + '/user/sections');
-            const sections: SymptomSection[] = await response.json();
-            return sections;
-        }
-    });
+    const { data: sections } = useJournalEntrySections();
 
     useEffect(() => {
         return () => clearJournalEntry();
@@ -40,10 +30,7 @@ export default function JournalEntry() {
                         key={section.id}
                         section={section} />)
                 }
-                <JournalSectionHeader />
-                <View className='mt-8 mb-32 h-20'>
-                    <IntensitySlider onValueChange={setIntensity} />
-                </View>
+                <IntensitySectional />
                 <SafeFooter />
             </ScrollView>
             <AddEntryButton />

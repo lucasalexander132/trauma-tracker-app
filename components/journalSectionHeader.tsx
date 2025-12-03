@@ -16,6 +16,7 @@ const defaultSection = {
     id: 'default',
     title: 'Intensity',
     taggable: false,
+    description: 'How intense is this moment?',
     tags: []
 };
 
