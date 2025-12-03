@@ -33,12 +33,13 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                     <CustomButton
                         iconName="edit"
                         iconSize={14}
-                        buttonClassName="absolute bottom-[-16px] pt-8 w-full rounded-2xl border-[--color-paper-dark] border-[1px]"
+                        buttonClassName="absolute bottom-[-16px] pt-8 w-full rounded-2xl"
                         textClassName="text-center"
                         title={"Follow Up"} />
             }
-            <View className="rounded-2xl bg-[--color-paper] pb-6 mb-4 border-[--color-paper-dark] border-[1px]">
+            <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-paper-dark] border-[1px]')}>
                 <View className="flex-row items-center px-4">
+                    {/* This icon is going to be tied to the entry type */}
                     <Entypo
                         className="pt-2"
                         color={themeVars['--color-text-subtle']}
