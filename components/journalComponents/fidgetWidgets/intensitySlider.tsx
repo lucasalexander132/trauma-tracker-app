@@ -33,8 +33,12 @@ const IntensitySlider = ({onValueChange}: Props) => {
         onValueChange({
             intensityMethod: 'color_slider',
             intensityValue: value,
-            intensityRating: value
+            intensityRating: getIntensityRating(value)
         });
+    }
+
+    const getIntensityRating = (value: number) => {
+        return valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText];
     }
 
     // Set initial intensity when loaded
@@ -46,7 +50,7 @@ const IntensitySlider = ({onValueChange}: Props) => {
         <View>
             <AppText className='font-bold text-lg text-center mb-5' style={{
                 color
-            }}>{valueToText[Math.round(value / 10) * 10 as keyof typeof valueToText]}</AppText>
+            }}>{getIntensityRating(value)}</AppText>
             <CustomSlider
                 onValueChange={handleChangeValue}
                 onColorChange={setColor}

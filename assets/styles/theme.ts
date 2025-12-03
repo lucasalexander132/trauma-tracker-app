@@ -49,12 +49,6 @@ export const themeVars = {
     '--color-text-subtle': '#464b4e',
 } as const;
 
-export const getRandomColor = (): TThemeColors => {
-    const keys = Object.keys(themeColors);
-    const randomIndex = Math.floor(Math.random() * keys.length);
-    return keys[randomIndex] as TThemeColors;
-}
-
 export type TThemeColors = keyof typeof themeColors;
 
 export const themeBackgrounds: {
@@ -115,5 +109,6 @@ export function interpolateColor(color1: string, color2: string, factor: number)
 }
 
 export const entypoGlyphArr = Object.keys(Entypo.getRawGlyphMap());
+export type IconNameType = keyof typeof Entypo.glyphMap;
 
 export default theme;

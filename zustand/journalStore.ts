@@ -1,12 +1,11 @@
-import { TThemeColors } from '@/assets/styles/theme';
-import Entypo from '@expo/vector-icons/Entypo';
+import { IconNameType, TThemeColors } from '@/assets/styles/theme';
 import moment from 'moment';
 import { create } from 'zustand';
 
 export interface SymptomTag {
     id: string;
     name: string;
-    icon: keyof typeof Entypo.glyphMap;
+    icon: IconNameType;
     color: TThemeColors;
     category?: 'response';
     isSystem?: boolean;
@@ -41,6 +40,7 @@ export interface JournalEntryStore {
     setIntensity: (intensity: IIntensity) => void;
     getJournalEntry: () => IJournalEntry;
     getCondensedJournalEntry: () => ICondensedJournalEntry;
+    clearJournalEntry: () => void;
 }
 
 export type TIntensityMethod = 'color_slider' | undefined;
@@ -48,7 +48,7 @@ export type TIntensityMethod = 'color_slider' | undefined;
 export interface IIntensity {
     intensityMethod: TIntensityMethod;
     intensityValue: number;
-    intensityRating: number;
+    intensityRating: string;
 }
 
 
@@ -57,7 +57,7 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
     intensity: {
         intensityMethod: undefined,
         intensityValue: 0,
-        intensityRating: 0
+        intensityRating: ''
     },
     getJournalEntry: () => {
         const entry: IJournalEntry = {
@@ -100,7 +100,7 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
             intensity: {
                 intensityMethod: undefined,
                 intensityValue: 0,
-                intensityRating: 0
+                intensityRating: ''
             }
         }))
     }

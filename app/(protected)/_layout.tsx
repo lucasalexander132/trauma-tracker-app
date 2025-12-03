@@ -1,29 +1,42 @@
-import config from "@/constants/configConstants";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { themeVars } from "@/assets/styles/theme";
+import CustomDrawerContent from "@/components/navigation/customDrawerContent";
+import AppText from "@/components/text";
+import { AuthContext } from "@/constants/authContext/authContext";
+import { DrawerToggleButton } from "@react-navigation/drawer";
 import { Redirect, Stack } from "expo-router";
+import Drawer from "expo-router/drawer";
+import { useContext } from "react";
+import { View } from "react-native";
 
 
 export default function ProtectedLayout() {
-  const { data } = useSuspenseQuery({
-      queryKey: ['currentUser'],
-      queryFn: async () => {
-        const response = await fetch(config.api.host + '/auth/me');
-        const data = await response.json();
-        return data;
-      }
-  });
-
-  if (!!!data.username) {
-    return <Redirect href={'/authentication'} />
-  };
-  return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
-  );
+    const authState = useContext(AuthContext);
+    if (authState.isLoading) {
+        return <View className="w-full h-full justify-center">
+            <AppText className="text-center">Loading</AppText>
+        </View>
+    }
+    if (!authState.isLoggedIn) {
+        return <Redirect href="authentication" />
+    }
+    return (
+        <Drawer drawerContent={(props) => <CustomDrawerContent {...props} />}>
+            <Stack.Screen
+                name="(tabs)"
+                options={{
+                    title: 'Home',
+                    headerShown: false,
+                    headerLeft: () => <DrawerToggleButton />,
+                    headerTintColor: themeVars['--color-paper']
+                }}
+            />
+            <Stack.Screen
+                name="about"
+                options={{
+                    title: 'About',
+                    headerLeft: () => <DrawerToggleButton />
+                }}
+            />
+        </Drawer>
+    );
 }
