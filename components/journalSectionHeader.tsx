@@ -1,36 +1,26 @@
-import { themeBackgrounds, themeVars } from '@/assets/styles/theme';
+import { themeBackgrounds, TThemeBackgrounds } from '@/assets/styles/theme';
 import isUndefined from '@/utils/types/isUndefined';
-import { SymptomSection } from '@/zustand/journalStore';
-import Entypo from '@expo/vector-icons/Entypo';
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { Pressable, View } from 'react-native';
-import AddTagModal from './journalComponents/addTagModal/addTagModal';
+import React, { ReactNode } from 'react';
+import { View } from 'react-native';
 import AppText from './text';
 
 type Props = {
-    section?: SymptomSection;
+    color: TThemeBackgrounds;
+    title: string;
+    description: string;
+    taggable: boolean;
+    headerRightComponent: () => ReactNode;
 }
 
-const defaultSection = {
-    id: 'default',
-    title: 'Intensity',
-    taggable: false,
-    description: 'How intense is this moment?',
-    tags: []
-};
-
-const JournalSectionHeader = ({section = defaultSection}: Props) => {
+const JournalSectionHeader = (props: Partial<Props>) => {
     const {
         color,
-        title,
-        description,
-        taggable
-    } = section;
-    const [showAddTagModal, setShowAddTagModal] = useState(false);
-    const handleToggleModal = () => {
-        setShowAddTagModal(!showAddTagModal);
-    };
+        title = 'Default Title',
+        description = 'Default Description',
+        taggable = false,
+        headerRightComponent
+    } = props;
     return (
         <View className='flex-row w-full'>
             <View className={classNames('h-8 w-6 rounded-r-2xl top-2', color ? themeBackgrounds[color] : 'bg-[--color-primary-500] active:bg-[--color-primary-500]')} />
@@ -44,15 +34,7 @@ const JournalSectionHeader = ({section = defaultSection}: Props) => {
                 }
             </View>
             {
-                taggable &&
-                    <>
-                        <AddTagModal showAddTagModal={showAddTagModal} handleToggleModal={handleToggleModal} section={section} />
-                        <Pressable
-                            className={classNames('h-10 w-10 rounded-full absolute right-3 top-2 justify-center items-center', color ? themeBackgrounds[color] : 'bg-[--color-primary-500] active:bg-[--color-primary-400]')}
-                            onPress={handleToggleModal}>
-                            <Entypo name={'plus'} size={24} color={themeVars['--color-paper']} />
-                        </Pressable>
-                    </>
+                taggable && headerRightComponent?.()
             }
         </View>
     )

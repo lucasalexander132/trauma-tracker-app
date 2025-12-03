@@ -10,7 +10,10 @@ const IntensitySectional = (props: Props) => {
     const setIntensity = useJournalState((state) => state.setIntensity);
     return (
         <>
-            <JournalSectionHeader />
+            <JournalSectionHeader
+                title='Intensity'
+                description='How intense is this moment?'
+                color={'--color-Hot'}/>
             <View className='mt-8 mb-32 h-20'>
                 <IntensitySlider onValueChange={setIntensity} />
             </View>
