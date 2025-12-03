@@ -2,11 +2,10 @@ import { themeVars } from "@/assets/styles/theme";
 import { InfiniteEntries } from "@/components/journalComponents/entries/infiniteEntries";
 import SafeView from "@/components/safeView";
 import AppText from "@/components/text";
-import useSettingsStore from "@/zustand/settingsStore";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Link } from "expo-router";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
@@ -18,28 +17,22 @@ export default function Home() {
 }
 
 const JournalEntryLink = () => {
-    const settings = useSettingsStore((state) => state.settings);
-    const styles = StyleSheet.create({
-        paperButton: {
-            borderWidth: settings['stickerMode'].value ? 4 : 0,
-            borderColor: themeVars['--color-paper-dark']
-        }
-    });
+    const bottomHeight = useSafeAreaInsets().bottom + useBottomTabBarHeight() + 5;
     return (
-        <Link
-            href={'/journalEntry'}
-            className={'absolute right-6'}
+        <View
             style={{
-                bottom: useBottomTabBarHeight() + useSafeAreaInsets().bottom + 8
+                bottom: bottomHeight
             }}
-            asChild
-            >
-            <Pressable
-                className={"flex-row h-20 w-20 rounded-full bg-[--color-primary-500] justify-center items-center active:bg-[--color-primary-400] shadow-sm transition-colors duration-200"}
-                style={styles.paperButton}>
-                <AppText className="font-bold color-[--color-paper-dark] text-2xl">+</AppText>
-                <Entypo name="feather" size={28} color={themeVars['--color-paper-dark']} />
-            </Pressable>
-        </Link>
+            className={"h-16 justify-center rounded-tr-full rounded-br-full bg-[--color-paper-light] border-[--color-primary-200] border-hairline p-1 absolute left-0 w-[80px] shadow-lg"}>
+            <Link
+                href={'/journalEntry'}
+                >
+                <Pressable
+                    className={"flex-row h-16 justify-center items-center rounded-full bg-[--color-comp-primary] border-[--color-primary-200] border-hairline p-1 w-[80px] shadow-sm active:bg-[--color-comp-primary-dark] transition-all duration-200"}>
+                    <AppText className="font-bold color-[--color-paper] text-2xl">+</AppText>
+                    <Entypo name="feather" size={28} color={themeVars['--color-paper']} />
+                </Pressable>
+            </Link>
+        </View>
     )
 }

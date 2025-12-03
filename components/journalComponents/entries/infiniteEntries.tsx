@@ -39,6 +39,6 @@ export const InfiniteEntries = () => {
             onEndReachedThreshold={0.5}
             renderItem={({item: entry}) => <EntryCard key={`${entry.id}-entries-overview`} entry={entry}/>}
             data={allEntries}
-            ListFooterComponent={() => <SafeFooter multiplier={2} />}/>
+            ListFooterComponent={() => <SafeFooter />}/>
     )
 }
