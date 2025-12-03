@@ -32,7 +32,7 @@ const CustomButton = ({
     iconName,
     onPress,
     style,
-    textClassName = 'text-xl text-[--color-paper] font-bold px-4',
+    textClassName = 'text-md text-[--color-paper] font-bold px-4',
     buttonClassName,
     iconSize = 18,
     variant = 'primary',
