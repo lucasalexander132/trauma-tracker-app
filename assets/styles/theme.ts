@@ -45,8 +45,8 @@ export const themeVars = {
     '--color-paper-dark': '#ffe7b0',
     '--color-dark-card': '#146140',
     '--color-contrasting-button': '#C677B3',
-    '--color-text': '#112734',
-    '--color-text-subtle': '#464b4e',
+    '--color-text': '#522828',
+    '--color-text-subtle': '#9f7373',
 } as const;
 
 export type TThemeColors = keyof typeof themeColors;

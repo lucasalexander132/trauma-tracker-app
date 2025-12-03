@@ -8,17 +8,19 @@ type Props = {
     name: string;
     color?: TThemeColors;
     icon?: IconNameType;
+    invert?: boolean;
 }
 
 const SmallTag = (props: Props) => {
     const {
         name,
         icon,
-        color = '--color-Pumpkin'
+        color = '--color-Pumpkin',
+        invert = false
     } = props;
     return (
-        <View className='rounded-full flex-row py-2 px-4 h-[30px] mx-1 mt-2' style={{
-                backgroundColor: themeColors[color]
+        <View className='rounded-lg flex-row py-2 px-4 h-[30px]' style={{
+                backgroundColor: invert ? themeVars['--color-paper-dark'] : themeColors[color]
             }}>
             <Entypo
                 style={{
@@ -26,9 +28,12 @@ const SmallTag = (props: Props) => {
                 }}
                 name={icon}
                 size={14}
-                color={themeVars['--color-paper']}
+                color={invert ? themeColors[color] : themeVars['--color-paper-dark']}
             />
-            <AppText className="text-[--color-paper] font-bold px-2">{name}</AppText>
+            <AppText className={"text-[--color-paper] font-bold px-2"}
+                style={{
+                    color: invert ? themeColors[color] : themeVars['--color-paper-dark']
+                }}>{name}</AppText>
         </View>
     )
 }

@@ -1,5 +1,6 @@
 import { useJournalEntrySections } from '@/api/user';
 import CustomButton from '@/components/customButton';
+import EventNameSectional from '@/components/journalComponents/eventNameSectional./eventNameSectional';
 import IntensitySectional from '@/components/journalComponents/intensitySectional/intensitySectional';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
 import SymptomSectional from '@/components/journalComponents/symptomSectional/symptomSectional';
@@ -24,7 +25,8 @@ export default function JournalEntry() {
         <SafeView>
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                className="bg-[--color-paper] pt-6">
+                className="pt-6">
+                <EventNameSectional />
                 {
                     sections.map((section: SymptomSection) => <SymptomSectional
                         key={section.id}

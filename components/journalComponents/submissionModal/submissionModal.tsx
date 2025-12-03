@@ -28,6 +28,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
     const getCondensedJournalEntry = useJournalState((state) => state.getCondensedJournalEntry);
     const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
     const {
+        eventName,
         eventTags,
         intensity
     } = getJournalEntry();
@@ -74,7 +75,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
     return (<CustomModal
             showConfirmationModal={showConfirmationModal}
             onToggleShow={handleToggleModalWrapper}>
-            <AppText className='text-2xl font-bold'>Journal Entry</AppText>
+            <AppText className='text-2xl font-bold'>{eventName ?? 'Journal Entry'}</AppText>
             {
                 submissionSuccessful ? <View>
                     <AppText className='text-center text-xl font-bold my-6'>Your journal entry has been logged!</AppText>

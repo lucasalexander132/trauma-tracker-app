@@ -6,20 +6,14 @@ import useSettingsStore from "@/zustand/settingsStore";
 import Entypo from '@expo/vector-icons/Entypo';
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Link } from "expo-router";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
     return (
 		<SafeView>
-
-            <View className="mt-4 px-4 h-full">
-                <AppText className="text-3xl font-bold mb-4">Entries</AppText>
-                <InfiniteEntries />
-            </View>
-
+            <InfiniteEntries />
             <JournalEntryLink />
-
 		</SafeView>)
 }
 
