@@ -32,7 +32,7 @@ const CustomButton = ({
     iconName,
     onPress,
     style,
-    textClassName = 'text-xl text-[--color-paper] font-bold px-4',
+    textClassName,
     buttonClassName,
     iconSize = 18,
     variant = 'primary',
@@ -49,7 +49,7 @@ const CustomButton = ({
             onPress={onPress}
             {...rest}
         >
-            <AppText className={textClassName}>
+            <AppText className={classNames('text-md text-[--color-paper] font-bold px-4', textClassName)}>
                 {iconName && <Entypo name={iconName} size={iconSize} />} {title}
             </AppText>
         </Pressable>
