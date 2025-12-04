@@ -23,6 +23,7 @@ export interface SymptomSection {
 // You can make these two journal entry types better with & or extends
 export interface IJournalEntry {
     eventName?: string;
+    entryDescription?: string;
     timestamp: string;
     intensity: IIntensity,
     eventTags: SymptomTag[]
@@ -30,15 +31,18 @@ export interface IJournalEntry {
 
 export interface ICondensedJournalEntry {
     eventName?: string;
+    entryDescription?: string;
     timestamp: string;
     intensity: IIntensity,
     eventTags: { id: string }[]
 }
 export interface JournalEntryStore {
     eventName?: string;
+    entryDescription?: string;
     eventTags: Map<string, SymptomTag>;
     intensity: IIntensity;
     setEventName: (eventName: string) => void;
+    setEntryDescription: (entryDescription: string) => void;
     addEventTag: (tag: SymptomTag) => void;
     deleteEventTag: (tag: SymptomTag) => void;
     setIntensity: (intensity: IIntensity) => void;
@@ -58,6 +62,7 @@ export interface IIntensity {
 
 const useJournalState = create<JournalEntryStore>((set, get) => ({
     eventName: undefined,
+    entryDescription: undefined,
     eventTags: new Map(),
     intensity: {
         intensityMethod: undefined,
@@ -68,6 +73,7 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
         const entry: IJournalEntry = {
             eventName: get().eventName,
             timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            entryDescription: get().entryDescription,
             eventTags: Array.from(get().eventTags.entries()).map(([key, value]) => value),
             intensity: get().intensity
         };
@@ -76,14 +82,18 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
     getCondensedJournalEntry: () => {
         const entry: ICondensedJournalEntry = {
             eventName: get().eventName,
+            entryDescription: get().entryDescription,
             timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
             eventTags: Array.from(get().eventTags.entries()).map(([key, value]) => ({id: value.id})),
             intensity: get().intensity
         };
         return entry;
     },
-    setEventName: (eventName: string) => set((state) => ({
+    setEventName: (eventName: string) => set(() => ({
         eventName: eventName.length > 0 ? eventName : undefined
+    })),
+    setEntryDescription: (entryDescription: string) => set(() => ({
+        entryDescription: entryDescription.length > 0 ? entryDescription : undefined
     })),
     addEventTag: (tag: SymptomTag) => {
         set((state) => ({
@@ -107,6 +117,8 @@ const useJournalState = create<JournalEntryStore>((set, get) => ({
     clearJournalEntry: () => {
         set(() => ({
             eventTags: new Map(),
+            entryDescription: undefined,
+            eventName: undefined,
             intensity: {
                 intensityMethod: undefined,
                 intensityValue: 0,

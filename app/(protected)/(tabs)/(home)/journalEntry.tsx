@@ -1,9 +1,10 @@
 import { useJournalEntrySections } from '@/api/user';
 import CustomButton from '@/components/customButton';
-import EventNameSectional from '@/components/journalComponents/eventNameSectional./eventNameSectional';
-import IntensitySectional from '@/components/journalComponents/intensitySectional/intensitySectional';
+import EntryDescriptionSectional from '@/components/journalComponents/Sectionals/entryDescriptionSectional/entryDescriptionSectional';
+import EventNameSectional from '@/components/journalComponents/Sectionals/eventNameSectional/eventNameSectional';
+import IntensitySectional from '@/components/journalComponents/Sectionals/intensitySectional/intensitySectional';
+import SymptomSectional from '@/components/journalComponents/Sectionals/symptomSectional/symptomSectional';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
-import SymptomSectional from '@/components/journalComponents/symptomSectional/symptomSectional';
 import SafeFooter from '@/components/safeFooter';
 import SafeView from '@/components/safeView';
 import { SymptomSection, useJournalState } from '@/zustand/journalStore';
@@ -33,6 +34,7 @@ export default function JournalEntry() {
                         section={section} />)
                 }
                 <IntensitySectional />
+                <EntryDescriptionSectional />
                 <SafeFooter />
             </ScrollView>
             <AddEntryButton />

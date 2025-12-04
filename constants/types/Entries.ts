@@ -9,6 +9,7 @@ export interface IEntry {
     intensityValue: number,
     followUpAt: null | string,
     followUpCompleted: boolean,
+    entryDescription?: string;
     eventName?: string,
     eventTags: SymptomTag[];
 }

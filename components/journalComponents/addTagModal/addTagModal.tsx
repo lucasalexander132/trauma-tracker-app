@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View, VirtualizedList } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import ColorPicker, { ColorFormatsObject, Swatches } from 'reanimated-color-picker';
-import Symptom from '../symptomSectional/symptom';
+import Symptom from '../Sectionals/symptomSectional/symptom';
 
 type Props = {
     showAddTagModal: boolean;

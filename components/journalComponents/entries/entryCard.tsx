@@ -18,6 +18,7 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
     const {
         eventName,
         eventTags,
+        entryDescription,
         timestamp,
         hasFollowUp,
         // intensityMethod,
@@ -61,8 +62,12 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                         </View>
                 }
                 <Divider />
-                <AppText className="font-bold text-md text-[--color-text] px-4">It was difficult, but I finally did it. I was able to defeat my mother. Things were looking dicey there for a minute, but she slipped up when she screamed "I have no son!" and I responded "Exactly!"</AppText>
-                <Divider />
+                {
+                    entryDescription && <>
+                        <AppText className="font-bold text-md text-[--color-text] px-4">{entryDescription}</AppText>
+                        <Divider />
+                    </>
+                }
                 <View className="px-4">
                     <View className='w-full rounded-lg h-10 justify-center' style={{
                         backgroundColor: interpolateColor(themeColors['--color-Cold'], themeColors['--color-Hot'], intensityValue / 100)
