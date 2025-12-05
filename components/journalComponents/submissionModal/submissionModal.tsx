@@ -73,9 +73,10 @@ const SubmissionModal = (props: SubmissionModalProps) => {
         }
     }
 
-    return (<CustomModal
-                showConfirmationModal={showConfirmationModal}
-                onToggleShow={handleToggleModalWrapper}>
+    return (
+        <CustomModal
+            showConfirmationModal={showConfirmationModal}
+            onToggleShow={handleToggleModalWrapper}>
             <AppText className='text-2xl font-bold'>{eventName ?? 'Journal Entry'}</AppText>
             {
                 submissionSuccessful ? <View>
