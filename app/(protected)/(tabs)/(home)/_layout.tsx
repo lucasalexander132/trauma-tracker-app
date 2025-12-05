@@ -18,7 +18,6 @@ export default function Layout() {
             <Stack.Screen
                 name="journalEntry"
                 options={{
-                    animation: 'fade',
                     title: "Journal",
                     headerStyle: {
                         backgroundColor: themeSemanticColors['--color-primary-500']

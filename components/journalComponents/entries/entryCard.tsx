@@ -1,3 +1,4 @@
+import { ModuleTypes } from "@/app/(protected)/(tabs)/(home)/journalEntry";
 import { IconNameType, interpolateColor, onTextThemeColors, themeColors, themeVars, TThemeBackgrounds } from "@/assets/styles/theme";
 import CustomButton from "@/components/customButton";
 import Divider from "@/components/divider";
@@ -6,8 +7,9 @@ import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
 import Entypo from "@expo/vector-icons/Entypo";
 import classNames from "classnames";
+import { useRouter } from "expo-router";
 import moment from "moment";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Pressable, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import SmallTag from "../smallTag";
@@ -144,7 +146,9 @@ export const FollowUpModal = () => {
                         title={"Safety"}
                         description={"The good of bad symptoms"}
                         color={"--color-Zomp"}
-                        icon={"eye"} />
+                        icon={"eye"}
+                        module={'safety'}
+                        onPress={() => setShowModal(false)}/>
                     <FollowUpButton
                         title={"Noticing"}
                         description={"Know when you're triggered"}
@@ -178,18 +182,36 @@ type FollowUpButtonProps = {
     description: string;
     color?: TThemeBackgrounds;
     icon?: IconNameType;
+    module?: ModuleTypes;
+    onPress?: () => void;
 }
 
 const FollowUpButton = (props: FollowUpButtonProps) => {
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
     const {
         title = 'No Title',
         description = 'No Description',
         color = '--color-Dark-Garnet',
-        icon = 'address'
+        icon = 'address',
+        module = 'initialEntry',
+        onPress
     } = props;
+    const handlePress = () => {
+        router.navigate({
+            pathname: '/journalEntry',
+            params: {
+                module
+            }
+        });
+        startTransition(() => {
+            onPress?.();
+        });
+    }
     return (
         <View className="w-1/2 p-1">
             <Pressable
+                onPress={handlePress}
                 className="rounded-lg h-32 active:opacity-70 pt-2 pl-4"
                 style={{
                     backgroundColor: themeColors[color],
