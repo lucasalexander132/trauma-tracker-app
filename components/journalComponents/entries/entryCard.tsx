@@ -6,7 +6,7 @@ import { IEntry } from "@/constants/types/Entries";
 import Entypo from "@expo/vector-icons/Entypo";
 import classNames from "classnames";
 import moment from "moment";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import SmallTag from "../smallTag";
 
 
@@ -39,16 +39,28 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                         title={"Follow Up"} />
             }
             <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-paper-dark] border-[1px]')}>
-                <View className="flex-row items-center px-4">
+                <View className="flex-row items-center px-4 w-full">
                     {/* This icon is going to be tied to the entry type */}
-                    <Entypo
-                        className="pt-2"
-                        color={themeVars['--color-text-subtle']}
-                        size={28}
-                        name={'open-book'}/>
-                    <View className="px-4 pt-2">
-                        <AppText className="font-bold text-2xl text-[--color-text]">{ eventName ?? 'Journal Entry'}</AppText>
-                        <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
+                    <View className="flex-row w-3/4">
+                        <Entypo
+                            className="pt-2 self-center"
+                            color={themeVars['--color-text-subtle']}
+                            size={28}
+                            name={'open-book'}/>
+                        <View className="px-4 pt-2">
+                            <AppText className="font-bold text-2xl text-[--color-text]">{ eventName ?? 'Journal Entry'}</AppText>
+                            <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
+                        </View>
+                    </View>
+                    <View className="w-1/4 pt-2">
+                        <Pressable className="rounded-lg bg-[--color-primary-500] h-10 w-10 items-center self-end pt-1">
+                            <Entypo
+                                className="self-center"
+                                color={themeVars['--color-paper-light']}
+                                size={28}
+                                name={'dots-two-vertical'}
+                                />
+                        </Pressable>
                     </View>
                 </View>
                 <Divider />
