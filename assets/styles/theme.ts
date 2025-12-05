@@ -14,6 +14,18 @@ export const themeColors = {
     '--color-Hot': '#971e1e'
 } as const;
 
+export const onTextThemeColors = {
+    '--color-Charcoal': '#3d5f74',
+    '--color-Pumpkin': '#4a2812',
+    '--color-Sunglow': '#1f1b14',
+    '--color-Olivine': '#2e520a',
+    '--color-Zomp': '#043224',
+    '--color-Vintage-Grape': '#d8aee7',
+    '--color-Dark-Garnet': '#efa7a6',
+    '--color-Cold': '#121d24',
+    '--color-Hot': '#b76060'
+} as const;
+
 export const themeSemanticColors = {
     '--color-primary-50': '#fdece7',
     '--color-primary-100': '#fad8cf',
