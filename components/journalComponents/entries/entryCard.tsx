@@ -9,6 +9,7 @@ import classNames from "classnames";
 import moment from "moment";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import SmallTag from "../smallTag";
 
 
@@ -29,6 +30,7 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
         // followUpAt,
         // followUpCompleted
     } = entry;
+    const [minify, setMinify] = useState(true);
     return (
         <>
             
@@ -52,7 +54,7 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                                 <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
                             </View>
                         </View>
-                        <View className="w-1/4 pt-2">
+                        <View className="w-1/4 pt-2 flex-row justify-between">
                             <Pressable className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center self-end pt-1 active:bg-[--color-primary-300]">
                                 <Entypo
                                     className="self-center"
@@ -61,32 +63,65 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                                     name={'dots-two-vertical'}
                                     />
                             </Pressable>
+                            <Pressable
+                                onPress={() => setMinify(!minify)}
+                                className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center self-end pt-1 active:bg-[--color-primary-300]">
+                                <Entypo
+                                    className="self-center"
+                                    color={themeVars['--color-paper-light']}
+                                    size={28}
+                                    name={minify ? 'chevron-down' : 'chevron-up'}
+                                    />
+                            </Pressable>
                         </View>
                     </View>
                     <Divider />
                     {
                         eventTags.length > 0 &&
-                            <View className="flex-row flex-wrap p-2 gap-2 px-4">
-                                {
-                                    eventTags?.map((tag) =>
-                                        <SmallTag key={`${tag.id}-small-tag`} name={tag.name} icon={tag.icon} color={tag.color} invert={true} />)
-                                }
-                            </View>
+                            minify ?
+                                <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} className={classNames("px-4", !minify && "flex-wrap")}>
+                                    {
+                                        eventTags?.map((tag) =>
+                                            <View key={`${tag.id}-small-tag`} className="mr-2">
+                                                <SmallTag
+                                                    name={tag.name}
+                                                    icon={tag.icon}
+                                                    color={tag.color}
+                                                    invert={!minify}/>
+                                            </View>)
+                                    }
+                                </ScrollView> :
+                                <View className={classNames("flex-row gap-2 px-4", !minify && "flex-wrap")}>
+                                    {
+                                        eventTags?.map((tag) =>
+                                            <SmallTag
+                                                key={`${tag.id}-small-tag`}
+                                                name={tag.name}
+                                                icon={tag.icon}
+                                                color={tag.color}
+                                                invert={!minify}/>)
+                                    }
+                                </View>
                     }
-                    <Divider />
                     {
                         entryDescription && <>
-                            <AppText className="font-bold text-md text-[--color-text] px-4">{entryDescription}</AppText>
                             <Divider />
+                            <AppText numberOfLines={minify ? 2 : undefined} className="font-bold text-md text-[--color-text] px-4">{entryDescription}</AppText>
                         </>
                     }
-                    <View className="px-4">
-                        <View className='w-full rounded-lg h-10 justify-center' style={{
-                            backgroundColor: interpolateColor(themeColors['--color-Cold'], themeColors['--color-Hot'], intensityValue / 100)
-                        }}>
-                            <AppText className='text-[--color-paper] text-lg font-bold text-center align-middle'>{ intensityRating }</AppText>
-                        </View>
-                    </View>
+                    {
+                        !minify &&
+                            <>
+                                <Divider />
+                                <View className="px-4">
+                                    <View className='w-full rounded-lg h-10 justify-center' style={{
+                                        backgroundColor: interpolateColor(themeColors['--color-Cold'], themeColors['--color-Hot'], intensityValue / 100)
+                                    }}>
+                                        <AppText className='text-[--color-paper] text-lg font-bold text-center align-middle'>{ intensityRating }</AppText>
+                                    </View>
+                                </View>
+                            </>
+                    }
                 </View>
             </View>
         </>
@@ -103,7 +138,7 @@ export const FollowUpModal = () => {
                 type="sheet">
                 <AppText className="text-2xl font-bold text-[--color-text]">Follow up</AppText>
                 <Divider />
-                <AppText className="text-md font-bold text-[--color-text-subtle]">Follow ups are designed to allow you to explore your traumatic moments in a safe and curious way.</AppText>
+                <AppText className="text-md font-bold text-[--color-text-subtle]">Follow ups are designed for you to explore your traumatic moments in a safe and curious way.</AppText>
                 <View className="flex-row flex-wrap mt-4">
                     <FollowUpButton
                         title={"Safety"}

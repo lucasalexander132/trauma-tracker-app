@@ -31,9 +31,9 @@ const SmallTag = (props: Props) => {
                 color={invert ? themeColors[color] : themeVars['--color-paper-dark']}
             />
             <AppText className={"text-[--color-paper] font-bold px-2"}
-                style={{
-                    color: invert ? themeColors[color] : themeVars['--color-paper-dark']
-                }}>{name}</AppText>
+            style={{
+                color: invert ? themeColors[color] : themeVars['--color-paper-dark']
+            }}>{name}</AppText>
         </View>
     )
 }
