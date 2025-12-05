@@ -34,13 +34,13 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
     return (
         <>
             
-            <View className={classNames("shadow-md",!hasFollowUp && "mb-10")}>
+            <View className={classNames("shadow-sm",!hasFollowUp && "mb-10")}>
                 {
                     !hasFollowUp &&
                         <FollowUpModal />
                         
                 }
-                <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-paper-dark] border-[1px]')}>
+                <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-text-subtle] border-[1px]')}>
                     <View className="flex-row items-center px-4 w-full">
                         {/* This icon is going to be tied to the entry type */}
                         <View className="flex-row w-3/4">
