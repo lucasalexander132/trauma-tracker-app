@@ -74,8 +74,8 @@ const SubmissionModal = (props: SubmissionModalProps) => {
     }
 
     return (<CustomModal
-            showConfirmationModal={showConfirmationModal}
-            onToggleShow={handleToggleModalWrapper}>
+                showConfirmationModal={showConfirmationModal}
+                onToggleShow={handleToggleModalWrapper}>
             <AppText className='text-2xl font-bold'>{eventName ?? 'Journal Entry'}</AppText>
             {
                 submissionSuccessful ? <View>
@@ -88,27 +88,27 @@ const SubmissionModal = (props: SubmissionModalProps) => {
                 </View> :
                 <>
                     <ScrollView>
-                        <AppText className='text-lg font-bold mt-3 mb-2'>Tags {
-                            eventTags.map((tag) =>
-                                <View key={`${tag.id}-indicator`} className='rounded-full' style={{
-                                    height: 10,
-                                    width: 10,
-                                    backgroundColor: themeColors[tag.color]
-                                }} />)}
-                        </AppText>
-                        <View className='mb-6 flex-row bg-[#ffeeee] rounded-lg'>
-                            { eventTags.length > 0 && <FlatList
-                                ListHeaderComponent={<View className='w-4' />}
-                                data={ eventTags }
-                                renderItem={({item}) => <View key={`${item.id}-submit`} className='mr-4'><Symptom symptom={item} symptomView={'ON'} /></View>}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                ListFooterComponent={<View className='w-4' />}/> }
-                            {
-                                eventTags.length === 0 &&
-                                    <AppText className='text-center font-bold p-2 w-full'>Totally Untraumatized!</AppText>
-                            }
-                        </View>
+                        {
+                            eventTags.length > 0 && <>
+                                <AppText className='text-lg font-bold mt-3 mb-2'>Tags {
+                                    eventTags.map((tag) =>
+                                        <View key={`${tag.id}-indicator`} className='rounded-full' style={{
+                                            height: 10,
+                                            width: 10,
+                                            backgroundColor: themeColors[tag.color]
+                                        }} />)}
+                                </AppText>
+                                <View className='mb-6 flex-row bg-[#ffeeee] rounded-lg'>
+                                    { eventTags.length > 0 && <FlatList
+                                        ListHeaderComponent={<View className='w-4' />}
+                                        data={ eventTags }
+                                        renderItem={({item}) => <View key={`${item.id}-submit`} className='mr-4'><Symptom symptom={item} symptomView={'ON'} /></View>}
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        ListFooterComponent={<View className='w-4' />}/> }
+                                </View>
+                            </>
+                        }
                         {/* This section definitely needs a refactor cause I'm pulling values out of places they shouldn't be pulled from */}
                         <AppText className='text-lg font-bold mb-2'>Intensity</AppText>
                         <View className='w-full rounded-full h-10 justify-center' style={{
@@ -116,9 +116,12 @@ const SubmissionModal = (props: SubmissionModalProps) => {
                         }}>
                             <AppText className='text-[--color-paper] text-lg font-bold text-center align-middle'>{ intensity.intensityRating }</AppText>
                         </View>
-                        <AppText className='text-lg font-bold mt-4 mb-2'>Description</AppText>
-                        <AppText className="bg-[--color-paper-dark] rounded-md px-3 py-3 mb-4 w-full">{entryDescription}</AppText>
-                        
+                        {
+                            entryDescription && <>
+                                <AppText className='text-lg font-bold mt-4 mb-2'>Description</AppText>
+                                <AppText className="bg-[--color-paper-dark] rounded-md px-3 py-3 mb-4 w-full">{entryDescription}</AppText>
+                            </>
+                        }
                     </ScrollView>
                     <CustomButton
                         buttonClassName={classNames('rounded-full mt-6', submissionPending && 'opacity-80')}
