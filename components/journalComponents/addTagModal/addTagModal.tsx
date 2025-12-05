@@ -34,9 +34,9 @@ const AddTagModal = (props: Props) => {
     
     return (
         <CustomModal
-            showConfirmationModal={showAddTagModal}
+            showModal={showAddTagModal}
             onToggleShow={handleToggleModal}>
-            <AppText className='text-xl font-semibold text-center mb-4'>Add Tag to { section.title }</AppText>
+            <AppText className='text-2xl font-bold mb-4'>Add Tag to { section.title }</AppText>
             <TagCreator onAddTag={handleAddTag} section={section} />
         </CustomModal>
     )
