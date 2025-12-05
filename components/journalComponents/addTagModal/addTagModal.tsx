@@ -1,4 +1,5 @@
-import { customSwatches, entypoGlyphArr, IconNameType, swatchMap, themeColors, themeSemanticColors, themeVars } from '@/assets/styles/theme';
+import { customSwatches, entypoGlyphArr, IconNameType, swatchMap, themeColors, themeVars } from '@/assets/styles/theme';
+import Divider from '@/components/divider';
 import CustomModal from '@/components/modal';
 import AppText from '@/components/text';
 import config from '@/constants/configConstants';
@@ -94,7 +95,6 @@ const TagCreator = ({ onAddTag, section }: TagCreatorProps) => {
                 body: JSON.stringify(newTag)
             });
             const data = await response.json();
-            console.log(data);
             return data;
         },
         onSuccess: (data, variables, onMutateResult, context) => {
@@ -178,11 +178,12 @@ const TagCreator = ({ onAddTag, section }: TagCreatorProps) => {
                     }} />
                 </View>
             </View>
-            <View className='w-full items-center my-2'>
+            <Divider />
+            <View className='w-full items-center'>
                 <Pressable
-                    className={classNames('px-4 py-2 rounded-full w-32', newTag.name !== '' ? 'bg-[--color-primary-500]' : 'bg-[--color-text-subtle]')}
+                    className={classNames('px-4 py-2 rounded-lg w-full', newTag.name !== '' ? 'opacity-100' : 'opacity-35')}
                     style={{
-                        backgroundColor: newTag.name === '' ? themeSemanticColors['--color-primary-200'] : themeColors[newTag.color]
+                        backgroundColor: themeColors[newTag.color]
                     }}
                     onPress={addTag}>
                     <AppText className='text-[--color-paper] font-bold text-center'>+ Add Tag</AppText>
