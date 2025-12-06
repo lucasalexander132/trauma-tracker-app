@@ -253,22 +253,61 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                         <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Tap the symptoms important to that part of your brain</AppText>
                                         <View className='h-[2px] bg-[--color-text] w-full' />
                                         <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Prefrontal Cortex</AppText>
-                                        <FlatList
-                                            horizontal={true}
-                                            className="px-4 mb-2"
-                                            renderItem={({ item: tag }) => 
-                                                    (<View key={`${tag.id}-prefrontal`} className="mr-2">
-                                                        <SmallTag
-                                                            key={`${tag.id}-small-tag`}
-                                                            name={tag.name}
-                                                            icon={tag.icon}
-                                                            color={tag.color}/>
-                                                    </View>)}
-                                            data={parsedEntry?.eventTags} />
+                                        <View className='h-[60px]'>
+                                            <FlatList
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                contentContainerClassName='items-center'
+                                                className="px-4"
+                                                renderItem={({ item: tag }) => 
+                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                            <SmallTag
+                                                                asButton
+                                                                key={`${tag.id}-small-tag`}
+                                                                name={tag.name}
+                                                                icon={tag.icon}
+                                                                color={tag.color}/>
+                                                        </View>)}
+                                                data={parsedEntry?.eventTags} />
+                                        </View>
                                         <View className='h-[2px] bg-[--color-text] w-full' />
                                         <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Mammalian Brain</AppText>
+                                        <View className='h-[60px]'>
+                                            <FlatList
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                contentContainerClassName='items-center'
+                                                className="px-4 mb-2"
+                                                renderItem={({ item: tag }) => 
+                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                            <SmallTag
+                                                                asButton
+                                                                key={`${tag.id}-small-tag`}
+                                                                name={tag.name}
+                                                                icon={tag.icon}
+                                                                color={tag.color}/>
+                                                        </View>)}
+                                                data={parsedEntry?.eventTags} />
+                                        </View>
                                         <View className='h-[2px] bg-[--color-text] w-full' />
                                         <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Lizard Brain</AppText>
+                                        <View className='h-[60px]'>
+                                            <FlatList
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                contentContainerClassName='items-center'
+                                                className="px-4 mb-2"
+                                                renderItem={({ item: tag }) => 
+                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                            <SmallTag
+                                                                asButton
+                                                                key={`${tag.id}-small-tag`}
+                                                                name={tag.name}
+                                                                icon={tag.icon}
+                                                                color={tag.color}/>
+                                                        </View>)}
+                                                data={parsedEntry?.eventTags} />
+                                        </View>
                                     </ModuleCard>
                                 </View>
                             </Carousel>
