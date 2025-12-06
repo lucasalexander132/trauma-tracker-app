@@ -3,7 +3,7 @@ import AddictionModule from '@/components/journalComponents/journalModules/addic
 import CopingModule from '@/components/journalComponents/journalModules/coping';
 import InitialEntry from '@/components/journalComponents/journalModules/initialEntry';
 import NoticingModule from '@/components/journalComponents/journalModules/noticing';
-import SafetyModule from '@/components/journalComponents/journalModules/safety';
+import SafetyModule from '@/components/journalComponents/journalModules/safetyModule/safety';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
 import SafeView from '@/components/safeView';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -22,16 +22,21 @@ export default function JournalEntry() {
     const { module = 'initialEntry' } = useLocalSearchParams<JournalEntryParams>();
     return (
         <SafeView>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                className="pt-6">
-                { module === 'initialEntry' && <InitialEntry /> }
-                { module === 'safety' && <SafetyModule />}
-                { module === 'noticing' && <NoticingModule />}
-                { module === 'coping' && <CopingModule />}
-                { module === 'addiction' && <AddictionModule />}
-            </ScrollView>
-            <AddEntryButton />
+            {
+                module === 'initialEntry' &&
+                <>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        className="pt-6">
+                        { module === 'initialEntry' && <InitialEntry /> }
+                    </ScrollView>
+                    <AddEntryButton />
+                </>
+            }
+            { module === 'safety' && <SafetyModule />}
+            { module === 'noticing' && <NoticingModule />}
+            { module === 'coping' && <CopingModule />}
+            { module === 'addiction' && <AddictionModule />}
         </SafeView>)
 }
 

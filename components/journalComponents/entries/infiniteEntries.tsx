@@ -33,10 +33,7 @@ export const InfiniteEntries = () => {
     return (
         <FlashList
             ListHeaderComponent={() => <AppText
-                style={{
-                    fontFamily: 'Typographica'
-                }}
-                className="text-4xl mb-4 text-[--color-text]">Entries</AppText>}
+                className="text-4xl font-bold mb-4 text-[--color-text]">Entries</AppText>}
             className="px-4 pt-4"
             showsVerticalScrollIndicator={false}
             onEndReached={handleOnEndReached}

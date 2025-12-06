@@ -49,8 +49,8 @@ export const themeSemanticColors = {
     '--color-info': '#427ad4',
     '--color-info-light': '#679de2',
     '--color-info-dark': '#3752ac',
-    '--color-comp-primary': '#4aa45e',
-    '--color-comp-primary-dark': '#327841'
+    '--color-comp-primary': '#40307b',
+    '--color-comp-primary-dark': '#2b1f59'
 } as const;
 
 export const themeVars = {
