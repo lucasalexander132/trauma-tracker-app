@@ -154,17 +154,23 @@ export const FollowUpModal = () => {
                         title={"NOTICING"}
                         description={"Know when you're triggered"}
                         color={"--color-Pumpkin"}
-                        icon={"bell"} />
+                        icon={"bell"}
+                        module={'noticing'}
+                        onPress={() => setShowModal(false)} />
                     <FollowUpButton
                         title={"COPING"}
                         description={"How do you cope?"}
                         color={"--color-Vintage-Grape"}
-                        icon={"chat"} />
+                        icon={"chat"}
+                        module={'coping'}
+                        onPress={() => setShowModal(false)} />
                     <FollowUpButton
                         title={"ADDICTION"}
                         description={"Breaking the cycle"}
                         color={"--color-Dark-Garnet"}
-                        icon={"drink"} />
+                        icon={"drink"}
+                        module={'addiction'}
+                        onPress={() => setShowModal(false)} />
                 </View>
             </CustomModal>
             <CustomButton
@@ -213,7 +219,7 @@ const FollowUpButton = (props: FollowUpButtonProps) => {
         <View className="w-1/2 p-1">
             <Pressable
                 onPress={handlePress}
-                className="rounded-lg h-32 active:opacity-70 pt-2 pl-4"
+                className="rounded-2xl h-32 active:opacity-70 pt-2 pl-4"
                 style={{
                     backgroundColor: themeColors[color],
                     overflow: 'hidden'
@@ -221,7 +227,7 @@ const FollowUpButton = (props: FollowUpButtonProps) => {
                 <AppText className="font-bold text-3xl z-10"
                     style={{
                         color: onTextThemeColors[color],
-                        fontFamily: 'Typographica'
+                        fontFamily: 'TypoGraphica'
                     }}>
                     { title }
                 </AppText>

@@ -1,5 +1,8 @@
 import CustomButton from '@/components/customButton';
+import AddictionModule from '@/components/journalComponents/journalModules/addiction';
+import CopingModule from '@/components/journalComponents/journalModules/coping';
 import InitialEntry from '@/components/journalComponents/journalModules/initialEntry';
+import NoticingModule from '@/components/journalComponents/journalModules/noticing';
 import SafetyModule from '@/components/journalComponents/journalModules/safety';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
 import SafeView from '@/components/safeView';
@@ -24,6 +27,9 @@ export default function JournalEntry() {
                 className="pt-6">
                 { module === 'initialEntry' && <InitialEntry /> }
                 { module === 'safety' && <SafetyModule />}
+                { module === 'noticing' && <NoticingModule />}
+                { module === 'coping' && <CopingModule />}
+                { module === 'addiction' && <AddictionModule />}
             </ScrollView>
             <AddEntryButton />
         </SafeView>)
