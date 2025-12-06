@@ -89,14 +89,14 @@ const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
                         currentIndex={currentIndex} />)
                 }
             </View>
-            <Animated.View style={slideAnimatedStyle} className='h-[400px] justify-center'>
+            <Animated.View style={slideAnimatedStyle} className='h-[100%] justify-center'>
                 { currentSlide }
             </Animated.View>
             <View className='flex-row justify-between w-1/2'>
                 <Animated.View style={buttonAnimatedStyle}>
                     <Pressable
                         onPress={handlePreviousSlide}
-                        className='bg-[--color-paper] rounded-full border-hairline border-[--color-comp-primary] w-14 h-14 justify-center items-center active:opacity-35 transition-all duration-200'>
+                        className='bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] w-16 h-16 justify-center items-center active:opacity-35 transition-all duration-200'>
                         <Entypo
                             className='m-2'
                             color={themeSemanticColors['--color-comp-primary']}
@@ -106,7 +106,7 @@ const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
                 </Animated.View>
                 <Pressable
                     onPress={hasNextSlide ? handleNextSlide : onFinish}
-                    className='flex-row bg-[--color-paper] rounded-full border-hairline border-[--color-comp-primary] w-14 h-14 justify-center items-center active:opacity-35 transition-all duration-200'>
+                    className='flex-row bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] w-16 h-16 justify-center items-center active:opacity-35 transition-all duration-200'>
                     { !hasNextSlide && <AppText className='font-bold left-3'>+</AppText> }
                     <Entypo
                         className='m-2'
@@ -127,7 +127,6 @@ type IndicatorProps = {
 
 const Indicator = ({ isActive }: IndicatorProps) => {
     const scale = useSharedValue(isActive ? 1 : 0.8);
-    const opacity = useSharedValue(isActive ? 1 : 0.5);
 
     const indicatorTimingOptions = {
         duration: 300,
@@ -136,21 +135,19 @@ const Indicator = ({ isActive }: IndicatorProps) => {
     };
 
     useEffect(() => {
-        scale.value = withTiming(isActive ? 1 : 0.4, indicatorTimingOptions);
-        opacity.value = withTiming(isActive ? 1 : 0.5, indicatorTimingOptions);
+        scale.value = withTiming(isActive ? 1 : 0.6, indicatorTimingOptions);
     }, [isActive]);
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ scale: scale.value }],
-            opacity: opacity.value
+            transform: [{ scale: scale.value }]
         };
     });
 
     return (
         <Animated.View
             style={animatedStyle}
-            className={classNames(isActive ? 'bg-[--color-comp-primary]' : 'border-2 border-[--color-comp-primary]', 'w-3 h-3 rounded-full')} />
+            className={classNames(isActive ? 'bg-[--color-comp-primary]' : 'border-4 border-[--color-comp-primary]', 'w-4 h-6 rounded-full')} />
     );
 }
 

@@ -16,10 +16,11 @@ export type ModuleTypes = 'initialEntry' | 'safety' | 'noticing' | 'coping' | 'a
 
 type JournalEntryParams = {
     module: ModuleTypes;
+    entry: string;
 }
 
 export default function JournalEntry() {
-    const { module = 'initialEntry' } = useLocalSearchParams<JournalEntryParams>();
+    const { module = 'initialEntry', entry } = useLocalSearchParams<JournalEntryParams>();
     return (
         <SafeView>
             {
@@ -34,7 +35,7 @@ export default function JournalEntry() {
                 </>
             }
             { module === 'safety' && <SafetyModule />}
-            { module === 'noticing' && <NoticingModule />}
+            { module === 'noticing' && <NoticingModule entry={entry} />}
             { module === 'coping' && <CopingModule />}
             { module === 'addiction' && <AddictionModule />}
         </SafeView>)

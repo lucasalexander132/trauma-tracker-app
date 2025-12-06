@@ -39,7 +39,8 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
             <View className={classNames("shadow-sm",!hasFollowUp && "mb-10")}>
                 {
                     !hasFollowUp &&
-                        <FollowUpModal />
+                        // Hooray for prop drilling :/
+                        <FollowUpModal journalEntry={entry} />
                         
                 }
                 <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-text-subtle] border-[1px]')}>
@@ -130,8 +131,26 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
     )
 }
 
-export const FollowUpModal = () => {
+type FollowUpModalProps = {
+    journalEntry: IEntry;
+}
+
+export const FollowUpModal = ({ journalEntry }: FollowUpModalProps) => {
     const [showModal, setShowModal] = useState(false);
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+    const handlePress = (module: string) => {
+        router.navigate({
+            pathname: '/journalEntry',
+            params: {
+                module,
+                entry: JSON.stringify(journalEntry)
+            }
+        });
+        startTransition(() => {
+            setShowModal(false);
+        });
+    }
     return (
         <>
             <CustomModal
@@ -149,28 +168,28 @@ export const FollowUpModal = () => {
                         color={"--color-Zomp"}
                         icon={"eye"}
                         module={'safety'}
-                        onPress={() => setShowModal(false)}/>
+                        onPress={handlePress} />
                     <FollowUpButton
                         title={"NOTICING"}
                         description={"Know when you're triggered"}
                         color={"--color-Pumpkin"}
                         icon={"bell"}
                         module={'noticing'}
-                        onPress={() => setShowModal(false)} />
+                        onPress={handlePress} />
                     <FollowUpButton
                         title={"COPING"}
                         description={"How do you cope?"}
                         color={"--color-Vintage-Grape"}
                         icon={"chat"}
                         module={'coping'}
-                        onPress={() => setShowModal(false)} />
+                        onPress={handlePress} />
                     <FollowUpButton
                         title={"ADDICTION"}
                         description={"Breaking the cycle"}
                         color={"--color-Dark-Garnet"}
                         icon={"drink"}
                         module={'addiction'}
-                        onPress={() => setShowModal(false)} />
+                        onPress={handlePress} />
                 </View>
             </CustomModal>
             <CustomButton
@@ -190,12 +209,10 @@ type FollowUpButtonProps = {
     color?: TThemeBackgrounds;
     icon?: IconNameType;
     module?: ModuleTypes;
-    onPress?: () => void;
+    onPress?: (module: string) => void;
 }
 
 const FollowUpButton = (props: FollowUpButtonProps) => {
-    const router = useRouter();
-    const [isPending, startTransition] = useTransition();
     const {
         title = 'No Title',
         description = 'No Description',
@@ -204,21 +221,10 @@ const FollowUpButton = (props: FollowUpButtonProps) => {
         module = 'initialEntry',
         onPress
     } = props;
-    const handlePress = () => {
-        router.navigate({
-            pathname: '/journalEntry',
-            params: {
-                module
-            }
-        });
-        startTransition(() => {
-            onPress?.();
-        });
-    }
     return (
         <View className="w-1/2 p-1">
             <Pressable
-                onPress={handlePress}
+                onPress={() => onPress?.(module)}
                 className="rounded-2xl h-32 active:opacity-70 pt-2 pl-4"
                 style={{
                     backgroundColor: themeColors[color],
