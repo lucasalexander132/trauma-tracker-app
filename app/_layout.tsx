@@ -46,7 +46,8 @@ export default function RootLayout() {
         Inter_600SemiBold_Italic, 
         Inter_700Bold_Italic, 
         Inter_800ExtraBold_Italic, 
-        Inter_900Black_Italic
+        Inter_900Black_Italic,
+        'TypoGraphica': require('../assets/fonts/Typographica.ttf')
     });
     return <QCProvider>
         <AuthProvider>

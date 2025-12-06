@@ -138,29 +138,30 @@ export const FollowUpModal = () => {
                 showModal={showModal}
                 onToggleShow={() => setShowModal(false)}
                 type="sheet">
-                <AppText className="text-2xl font-bold text-[--color-text]">Follow up</AppText>
+                <AppText
+                    className="text-2xl font-bold text-[--color-text]">Follow up</AppText>
                 <Divider />
                 <AppText className="text-md font-bold text-[--color-text-subtle]">Follow ups are designed for you to explore your traumatic moments in a safe and curious way.</AppText>
                 <View className="flex-row flex-wrap mt-4">
                     <FollowUpButton
-                        title={"Safety"}
+                        title={"SAFETY"}
                         description={"The good of bad symptoms"}
                         color={"--color-Zomp"}
                         icon={"eye"}
                         module={'safety'}
                         onPress={() => setShowModal(false)}/>
                     <FollowUpButton
-                        title={"Noticing"}
+                        title={"NOTICING"}
                         description={"Know when you're triggered"}
                         color={"--color-Pumpkin"}
                         icon={"bell"} />
                     <FollowUpButton
-                        title={"Coping"}
+                        title={"COPING"}
                         description={"How do you cope?"}
                         color={"--color-Vintage-Grape"}
                         icon={"chat"} />
                     <FollowUpButton
-                        title={"Addiction"}
+                        title={"ADDICTION"}
                         description={"Breaking the cycle"}
                         color={"--color-Dark-Garnet"}
                         icon={"drink"} />
@@ -219,7 +220,8 @@ const FollowUpButton = (props: FollowUpButtonProps) => {
                 }}>
                 <AppText className="font-bold text-3xl z-10"
                     style={{
-                        color: onTextThemeColors[color]
+                        color: onTextThemeColors[color],
+                        fontFamily: 'Typographica'
                     }}>
                     { title }
                 </AppText>
