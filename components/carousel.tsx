@@ -14,7 +14,7 @@ type CarouselType = {
 const SLIDE_DURATION = 600;
 
 const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
-    const childrenArray = React.Children.toArray(children);
+    const [childrenArray] = useState(React.Children.toArray(children));
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(childrenArray[currentIndex] ?? null);
 
@@ -30,6 +30,8 @@ const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
         easing: Easing.inOut(Easing.cubic),
         reduceMotion: ReduceMotion.System
     };
+
+    // You're using reanimated wrong here, maybe you should translate value assigns to worklets?
 
     const handlePreviousSlide = () => {
         const previousIndex = currentIndex - 1;

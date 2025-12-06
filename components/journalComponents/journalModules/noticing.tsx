@@ -83,8 +83,8 @@ const NoticingModule = ({ entry }: { entry: string}) => {
     return (
         <View className='mt-4'>
             <JournalSectionHeader
-                title='Safety'
-                description="Discover how your symptoms keep you safe"/>
+                title='Noticing'
+                description="Discover how the triggered brain works"/>
             <Divider />
             <View className='px-6 h-[80%] pt-8'>
                 {
@@ -115,7 +115,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                             <Carousel onFinish={() => console.log('Finished')}>
                                 <View className='mt-4'>
                                     <ModuleCard>
-                                        <View className='bg-[--color-paper-light] rounded-tr-xl py-2 h-[150px]'>
+                                        <View className='bg-[--color-Sunglow] rounded-tr-xl py-2 h-[150px]'>
                                             <Image
                                                 source={require('@/assets/images/safety-brain.png')}
                                                 style={{
@@ -130,7 +130,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                     </ModuleCard>
                                 </View>
                                 <ModuleCard className='mt-6'>
-                                    <View className='bg-[--color-paper-light] rounded-tr-xl py-2 h-[150px]'>
+                                    <View className='bg-[--color-Olivine] rounded-tr-xl py-2 h-[150px]'>
                                         <Image
                                             source={require('@/assets/images/iguana.png')}
                                             style={{
@@ -147,7 +147,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                     <AppText className='font-bold color-[--color-text] p-2'>I call my reptilian brain lizzo because I feel it's most fitting and he doesn't care.</AppText>
                                 </ModuleCard>
                                 <ModuleCard className='mt-10'>
-                                    <View className='bg-[--color-paper-light] rounded-tr-xl py-2 h-[150px]'>
+                                    <View className='bg-[--color-Pumpkin] rounded-tr-xl py-2 h-[150px]'>
                                         <Image
                                             source={require('@/assets/images/mammal.png')}
                                             style={{
@@ -164,7 +164,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                     <AppText className='font-bold color-[--color-text] p-2'>It's why you can see a picture of a sad cat and go "Yo, that's me" even though you can use your sad cat words to describe your sad cat self.</AppText>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <View className='bg-[--color-paper-light] rounded-tr-xl py-2 h-[150px]'>
+                                    <View className='bg-[--color-Vintage-Grape] rounded-tr-xl py-2 h-[150px]'>
                                         <Image
                                             source={require('@/assets/images/frontal-lobe.png')}
                                             style={{
@@ -319,6 +319,14 @@ const NoticingModule = ({ entry }: { entry: string}) => {
         </View>
     )
 }
+
+// You have a few different types of module components you can make here
+// Explainer with image
+// Explainer without image
+// Question
+// Exercise
+// Each one of those has components
+// This is probably where you can use composition
 
 type ModuleCardType = {
     className?: string;
