@@ -81,10 +81,10 @@ const SafetyModule = () => {
                     !showCarousel && <View className='h-full justify-center'>
                         <Animated.View style={{ opacity: cardOpacity, transform: [{ translateY: cardTranslateY }] }}>
                             <ModuleCard>
-                                <AppText className='font-bold'>
+                                <AppText className='font-bold color-[--color-text]'>
                                     When our brains respond to trauma, they don't actually know when and where they are. Instead, they respond to the environment in ways adapted to keep us safe.
                                 </AppText>
-                                <AppText className='font-bold mt-4'>
+                                <AppText className='font-bold mt-4 color-[--color-text]'>
                                     This module will help us explore how your responses keep you safe in context.
                                 </AppText>
                             </ModuleCard>
@@ -104,19 +104,19 @@ const SafetyModule = () => {
                         <Animated.View style={{ opacity: carouselOpacity, transform: [{ translateY: carouselTranslateY }], flex: 1 }}>
                             <Carousel onFinish={() => console.log('Finished')}>
                                 <ModuleCard>
-                                    <AppText className='font-bold'>Our brains are magnificent structures. They are composed of many different parts, but we tend to perceive them as one.</AppText>
+                                    <AppText className='font-bold color-[--color-text]'>Our brains are magnificent structures. They are composed of many different parts, but we tend to perceive them as one.</AppText>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <AppText className='font-bold'>We have the lizard brain. This is our instinctual brain. It controls our autonomous systems, breathing and heart beat.</AppText>
+                                    <AppText className='font-bold color-[--color-text]'>We have the lizard brain. This is our instinctual brain. It controls our autonomous systems, breathing and heart beat.</AppText>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <AppText className='font-bold'>We have the mammalian brain. This is our emotional brain. It lacks words but allows us to feel.</AppText>
+                                    <AppText className='font-bold color-[--color-text]'>We have the mammalian brain. This is our emotional brain. It lacks words but allows us to feel.</AppText>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <AppText className='font-bold'>And we have the frontal lobe. This is our rational brain. It can use language and logic, but doesn't have complete control over the other two. You can't think your heart into stopping, and some emotions you can't put into words.</AppText>
+                                    <AppText className='font-bold color-[--color-text]'>And we have the frontal lobe. This is our rational brain. It can use language and logic, but doesn't have complete control over the other two. You can't think your heart into stopping, and some emotions you can't put into words.</AppText>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <AppText className='font-bold'>This app was put together with this in mind. First we track traumatic events with our instinctual and emotional brains in mind, and then when we have had time away from the event, we can be curious with our rational brains using these modules.</AppText>
+                                    <AppText className='font-bold color-[--color-text]'>This app was put together with this in mind. First we track traumatic events with our instinctual and emotional brains in mind, and then when we have had time away from the event, we can be curious with our rational brains using these modules.</AppText>
                                 </ModuleCard>
                             </Carousel>
                         </Animated.View>
