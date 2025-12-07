@@ -1,6 +1,13 @@
-import { themeSemanticColors } from '@/assets/styles/theme';
+import { themeSemanticColors, themeVars } from '@/assets/styles/theme';
+import CustomJournalEntryButton from '@/components/navigation/customJournalEntryButton';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Tabs } from "expo-router";
+
+const sharedTabStyles = {
+    headerShown: false,
+    tabBarActiveTintColor: themeSemanticColors['--color-primary-500'],
+    tabBarInactiveTintColor: themeVars['--color-paper-dark'],
+};
 
 export default function TabsLayout() {
     return (<Tabs screenOptions={{
@@ -8,8 +15,9 @@ export default function TabsLayout() {
                 borderRadius: 20,
                 position: 'absolute',
                 marginBottom: 30,
-                marginHorizontal: 20,
-                backgroundColor: 'white',
+                marginHorizontal: 70,
+                backgroundColor: '#211818',
+                borderTopWidth: 0,
                 height: 54,
                 paddingBottom: 0,
                 shadowColor: '#000',
@@ -22,31 +30,38 @@ export default function TabsLayout() {
         <Tabs.Screen
             name="(home)"
             options={{
-                title: "Home",
-                headerShown: false,
+                ...sharedTabStyles,
+                title: "Entries",
                 tabBarLabel: "Home",
-                tabBarActiveTintColor: themeSemanticColors['--color-primary-500'],
                 tabBarIcon: ({color}) => <Entypo name="book" size={24} color={color} />
             }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
             name="calendar"
             options={{
+                ...sharedTabStyles,
                 title: "Calendar",
-                headerShown: false,
                 tabBarLabel: "Calendar",
-                tabBarActiveTintColor: themeSemanticColors['--color-primary-500'],
                 tabBarIcon: ({color}) => <Entypo name="calendar" size={24} color={color} />
             }}
-        />
+        /> */}
+        <Tabs.Screen
+            name='journalEntry'
+            options={
+                {
+                    tabBarButton: CustomJournalEntryButton
+                }
+            }
+            listeners={{
+                tabPress: (e) => e.preventDefault()
+            }} />
         <Tabs.Screen
             name="settings"
             options={{
-            title: "Settings",
-            headerShown: false,
-            tabBarLabel: "Settings",
-            tabBarActiveTintColor: themeSemanticColors['--color-primary-500'],
-            tabBarIcon: ({color}) => <Entypo name="leaf" size={24} color={color} />
+                ...sharedTabStyles,
+                title: "Settings",
+                tabBarLabel: "Settings",
+                tabBarIcon: ({color}) => <Entypo name="leaf" size={24} color={color} />
             }}
         />
         </Tabs>)

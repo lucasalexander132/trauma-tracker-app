@@ -51,12 +51,11 @@ const AddEntryButton = () => {
     return (
         <>
             <SubmissionModal showConfirmationModal={showConfirmationModal} handleToggleModal={handleToggleModal} />
-            <View className='mx-[64px]'>
+            <View className='mx-[16px]'>
                 <CustomButton
                     variant='primary'
                     iconName='pencil'
-                    buttonClassName='absolute rounded-[22px] pb-[75px] w-full shadow-lg'
-                    textClassName='text-xl'
+                    buttonClassName='absolute rounded-[22px] pb-20 w-full shadow-lg'
                     style={{ bottom: bottomHeight - 69 }}
                     title={'Add Entry'}
                     onPress={handleToggleModal}/>
