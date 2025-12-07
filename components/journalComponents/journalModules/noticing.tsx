@@ -6,10 +6,10 @@ import SafeFooter from '@/components/safeFooter'
 import AppText from '@/components/text'
 import { IEntry } from '@/constants/types/Entries'
 import { useJournalState } from '@/zustand/journalStore'
-import classNames from 'classnames'
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { Animated, FlatList, Image, TextInput, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Animated, FlatList, TextInput, View } from 'react-native'
 import SmallTag from '../smallTag'
+import ModuleCard from './moduleCard'
 
 const NoticingModule = ({ entry }: { entry: string}) => {
     const [parsedEntry, setParsedEntry] = useState<IEntry>();
@@ -115,79 +115,57 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                             <Carousel onFinish={() => console.log('Finished')}>
                                 <View className='mt-4'>
                                     <ModuleCard>
-                                        <View className='bg-[--color-Sunglow] rounded-tr-xl py-2 h-[150px]'>
-                                            <Image
-                                                source={require('@/assets/images/safety-brain.png')}
-                                                style={{
-                                                    width: '100%',
-                                                    height: 200,
-                                                    resizeMode: 'contain',
-                                                    top: -70
-                                                }} />
-                                        </View>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <AppText className='font-bold color-[--color-text] p-2'>Our brains are magnificent structures. They are composed of many different parts, but we tend to perceive them as one.</AppText>
+                                        <ModuleCard.Img
+                                            src={require('@/assets/images/safety-brain.png')}
+                                            color={'--color-Sunglow'}/>
+                                        <ModuleCard.Content>
+                                            <ModuleCard.Txt>Our brains are magnificent structures. They are composed of many different parts, but we tend to perceive them as one.</ModuleCard.Txt>
+                                        </ModuleCard.Content>
                                     </ModuleCard>
                                 </View>
                                 <ModuleCard className='mt-6'>
-                                    <View className='bg-[--color-Olivine] rounded-tr-xl py-2 h-[150px]'>
-                                        <Image
-                                            source={require('@/assets/images/iguana.png')}
-                                            style={{
-                                                width: '100%',
-                                                height: 200,
-                                                resizeMode: 'contain',
-                                                top: -70
-                                            }} />
-                                    </View>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>We have the reptilian brain.</AppText>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] px-2 pt-2'>This is our instinctual brain. It controls our autonomous systems, like breathing and our beating hearts.</AppText>
-                                    <AppText className='font-bold color-[--color-text] p-2'>I call my reptilian brain lizzo because I feel it's most fitting and he doesn't care.</AppText>
+                                    <ModuleCard.Img
+                                        src={require('@/assets/images/iguana.png')}
+                                        color={'--color-Olivine'}/>
+                                    <ModuleCard.Content>
+                                        <ModuleCard.Txt>We have the reptilian brain.</ModuleCard.Txt>
+                                        <ModuleCard.Dvdr />
+                                        <ModuleCard.Txt>This is our instinctual brain. It controls our autonomous systems, like breathing and our beating hearts.</ModuleCard.Txt>
+                                        <ModuleCard.Txt>I call my reptilian brain lizzo because I feel it's most fitting and he doesn't care.</ModuleCard.Txt>
+                                    </ModuleCard.Content>
                                 </ModuleCard>
                                 <ModuleCard className='mt-10'>
-                                    <View className='bg-[--color-Pumpkin] rounded-tr-xl py-2 h-[150px]'>
-                                        <Image
-                                            source={require('@/assets/images/mammal.png')}
-                                            style={{
-                                                width: '100%',
-                                                height: 200,
-                                                resizeMode: 'contain',
-                                                top: -70
-                                            }} />
-                                    </View>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>We have the mammalian brain. The limbic system.</AppText>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>This is our emotional brain. It lacks words but allows us to feel strongly and deeply, and stores those feelings as emotional memories.</AppText>
-                                    <AppText className='font-bold color-[--color-text] p-2'>It's why you can see a picture of a sad cat and go "Yo, that's me" even though you can use your sad cat words to describe your sad cat self.</AppText>
+                                    <ModuleCard.Img
+                                        src={require('@/assets/images/mammal.png')}
+                                        color={'--color-Pumpkin'}/>
+                                    <ModuleCard.Content>
+                                        <ModuleCard.Txt>We have the mammalian brain. The limbic system.</ModuleCard.Txt>
+                                        <ModuleCard.Dvdr />
+                                        <ModuleCard.Txt>This is our emotional brain. It lacks words but allows us to feel strongly and deeply, and stores those feelings as emotional memories.</ModuleCard.Txt>
+                                        <ModuleCard.Txt>It's why you can see a picture of a sad cat and go "Yo, that's me" even though you can use your sad cat words to describe your sad cat self.</ModuleCard.Txt>
+                                    </ModuleCard.Content>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <View className='bg-[--color-Vintage-Grape] rounded-tr-xl py-2 h-[150px]'>
-                                        <Image
-                                            source={require('@/assets/images/frontal-lobe.png')}
-                                            style={{
-                                                width: '100%',
-                                                height: 200,
-                                                resizeMode: 'contain',
-                                                top: -50
-                                            }} />
-                                    </View>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>And we have the thinking brain. The prefrontal cortex.</AppText>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>This is our rational brain. It can use language and logic and interprets the lizard and mammalian brain.</AppText>
-                                    <AppText className='font-bold color-[--color-text] p-2'>You can't think your heart into stopping, and some emotions you can't put into words.</AppText>
+                                    <ModuleCard.Img
+                                        src={require('@/assets/images/frontal-lobe.png')}
+                                        color={'--color-Vintage-Grape'}/>
+                                    <ModuleCard.Content>
+                                        <ModuleCard.Txt>And we have the thinking brain. The prefrontal cortex.</ModuleCard.Txt>
+                                        <ModuleCard.Dvdr />
+                                        <ModuleCard.Txt>This is our rational brain. It can use language and logic and interprets the lizard and mammalian brain.</ModuleCard.Txt>
+                                        <ModuleCard.Txt>You can't think your heart into stopping, and some emotions you can't put into words.</ModuleCard.Txt>
+                                    </ModuleCard.Content>
                                 </ModuleCard>
                                 <ModuleCard>
-                                    <AppText className='font-bold color-[--color-text] p-2'>When we:</AppText>
-                                    <AppText className='font-bold color-[--color-text] px-2'>- Act first without thinking</AppText>
-                                    <AppText className='font-bold color-[--color-text] px-2'>- Feel strongly without words</AppText>
-                                    <AppText className='font-bold color-[--color-text] px-2'>- Become so numb we can only detach</AppText>
-                                    <AppText className='font-bold color-[--color-text] p-2'>We are experiencing a disharmony between these three brains.</AppText>
-                                    <View className='h-[2px] bg-[--color-text] w-full' />
-                                    <AppText className='font-bold color-[--color-text] p-2'>The follow-up questions in this module will help you understand how your three brains contributed in the attached journal entry.</AppText>
+                                    <ModuleCard.Content>
+                                        <ModuleCard.Txt>When we:</ModuleCard.Txt>
+                                        <ModuleCard.Txt>- Act first without thinking</ModuleCard.Txt>
+                                        <ModuleCard.Txt>- Feel strongly without words</ModuleCard.Txt>
+                                        <ModuleCard.Txt>- Become so numb we can only detach</ModuleCard.Txt>
+                                        <ModuleCard.Txt>We are experiencing a disharmony between these three brains.</ModuleCard.Txt>
+                                        <ModuleCard.Dvdr />
+                                        <ModuleCard.Txt>The follow-up questions in this module will help you understand how your three brains contributed in the attached journal entry.</ModuleCard.Txt>
+                                    </ModuleCard.Content>
                                 </ModuleCard>
                                 <View>
                                     <AppText
@@ -196,15 +174,17 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                         }}
                                         className='font-bold text-4xl color-[--color-text] p-2'>Question 1</AppText>
                                     <ModuleCard>
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>What does your prefrontal cortex (thinking) brain remember from the event?</AppText>
-                                        <AppText className='font-bold color-[--color-text-subtle] px-2 pb-2'>Do you remember everything in detail, or only small pieces?</AppText>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <TextInput
-                                            editable
-                                            multiline
-                                            maxLength={2000}
-                                            placeholder="My thinking brain remembers..."
-                                            className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"/>
+                                        <ModuleCard.Content>
+                                            <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>What does your prefrontal cortex (thinking) brain remember from the event?</AppText>
+                                            <AppText className='font-bold color-[--color-text-subtle] px-2 pb-2'>Do you remember everything in detail, or only small pieces?</AppText>
+                                            <ModuleCard.Dvdr />
+                                            <TextInput
+                                                editable
+                                                multiline
+                                                maxLength={2000}
+                                                placeholder="My thinking brain remembers..."
+                                                className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"/>
+                                        </ModuleCard.Content>
                                     </ModuleCard>
                                 </View>
                                 <View>
@@ -214,15 +194,17 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                         }}
                                         className='font-bold text-4xl color-[--color-text] p-2'>Question 2</AppText>
                                     <ModuleCard>
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>What does your mammalian (emotional) brain remember from the event?</AppText>
-                                        <AppText className='font-bold color-[--color-text-subtle] px-2 pb-2'>Do you remember feeling nauseous, or angry? How did your body feel?</AppText>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <TextInput
-                                            editable
-                                            multiline
-                                            maxLength={2000}
-                                            placeholder="My mammalian brain remembers..."
-                                            className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"/>
+                                        <ModuleCard.Content>
+                                            <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>What does your mammalian (emotional) brain remember from the event?</AppText>
+                                            <AppText className='font-bold color-[--color-text-subtle] px-2 pb-2'>Do you remember feeling nauseous, or angry? How did your body feel?</AppText>
+                                            <ModuleCard.Dvdr />
+                                            <TextInput
+                                                editable
+                                                multiline
+                                                maxLength={2000}
+                                                placeholder="My mammalian brain remembers..."
+                                                className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"/>
+                                        </ModuleCard.Content>
                                     </ModuleCard>
                                 </View>
                                 <View>
@@ -232,15 +214,17 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                         }}
                                         className='font-bold text-4xl color-[--color-text] p-2'>Question 3</AppText>
                                     <ModuleCard>
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>What does your reptilian (instinctual) brain remember from the event?</AppText>
-                                        <AppText className='font-bold color-[--color-text-subtle] px-2 pb-2'>Was your heart racing? Did you feel flushed? Hot, cold?</AppText>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <TextInput
-                                            editable
-                                            multiline
-                                            maxLength={2000}
-                                            placeholder="My reptilian brain remembers..."
-                                            className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"/>
+                                        <ModuleCard.Content>
+                                            <ModuleCard.Txt>What does your reptilian (instinctual) brain remember from the event?</ModuleCard.Txt>
+                                            <ModuleCard.Txt>Was your heart racing? Did you feel flushed? Hot, cold?</ModuleCard.Txt>
+                                            <ModuleCard.Dvdr />
+                                            <TextInput
+                                                editable
+                                                multiline
+                                                maxLength={2000}
+                                                placeholder="My reptilian brain remembers..."
+                                                className="bg-[--color-paper-dark] font-bold rounded-md mb-4 w-full h-28"/>
+                                        </ModuleCard.Content>
                                     </ModuleCard>
                                 </View>
                                 <View>
@@ -250,64 +234,67 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                                         }}
                                         className='font-bold text-4xl color-[--color-text] p-2'>Noticing Exercise</AppText>
                                     <ModuleCard>
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Tap the symptoms important to that part of your brain</AppText>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Prefrontal Cortex</AppText>
-                                        <View className='h-[60px]'>
-                                            <FlatList
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                contentContainerClassName='items-center'
-                                                className="px-4"
-                                                renderItem={({ item: tag }) => 
-                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
-                                                            <SmallTag
-                                                                asButton
-                                                                key={`${tag.id}-small-tag`}
-                                                                name={tag.name}
-                                                                icon={tag.icon}
-                                                                color={tag.color}/>
-                                                        </View>)}
-                                                data={parsedEntry?.eventTags} />
-                                        </View>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Mammalian Brain</AppText>
-                                        <View className='h-[60px]'>
-                                            <FlatList
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                contentContainerClassName='items-center'
-                                                className="px-4 mb-2"
-                                                renderItem={({ item: tag }) => 
-                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
-                                                            <SmallTag
-                                                                asButton
-                                                                key={`${tag.id}-small-tag`}
-                                                                name={tag.name}
-                                                                icon={tag.icon}
-                                                                color={tag.color}/>
-                                                        </View>)}
-                                                data={parsedEntry?.eventTags} />
-                                        </View>
-                                        <View className='h-[2px] bg-[--color-text] w-full' />
-                                        <AppText className='font-bold color-[--color-text] px-2 pt-2 pb-1'>Lizard Brain</AppText>
-                                        <View className='h-[60px]'>
-                                            <FlatList
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                contentContainerClassName='items-center'
-                                                className="px-4 mb-2"
-                                                renderItem={({ item: tag }) => 
-                                                        (<View key={`${tag.id}-prefrontal`} className="mr-2">
-                                                            <SmallTag
-                                                                asButton
-                                                                key={`${tag.id}-small-tag`}
-                                                                name={tag.name}
-                                                                icon={tag.icon}
-                                                                color={tag.color}/>
-                                                        </View>)}
-                                                data={parsedEntry?.eventTags} />
-                                        </View>
+                                        <ModuleCard.Content>
+                                            <ModuleCard.Txt>Tap the symptoms important to that part of your brain</ModuleCard.Txt>
+                                            <ModuleCard.Dvdr />
+                                            <ModuleCard.Txt>Prefrontal Cortex</ModuleCard.Txt>
+                                            <View className='h-[60px]'>
+                                                <FlatList
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false}
+                                                    contentContainerClassName='items-center'
+                                                    className="px-4"
+                                                    renderItem={({ item: tag }) => 
+                                                            (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                                <SmallTag
+                                                                    asButton
+                                                                    key={`${tag.id}-small-tag`}
+                                                                    name={tag.name}
+                                                                    icon={tag.icon}
+                                                                    color={tag.color}/>
+                                                            </View>)}
+                                                    data={parsedEntry?.eventTags} />
+                                            </View>
+                                            <ModuleCard.Dvdr />
+                                            <ModuleCard.Txt>Mammalian Brain</ModuleCard.Txt>
+                                            <View className='h-[60px]'>
+                                                <FlatList
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false}
+                                                    contentContainerClassName='items-center'
+                                                    className="px-4"
+                                                    renderItem={({ item: tag }) => 
+                                                            (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                                <SmallTag
+                                                                    asButton
+                                                                    key={`${tag.id}-small-tag`}
+                                                                    name={tag.name}
+                                                                    icon={tag.icon}
+                                                                    color={tag.color}/>
+                                                            </View>)}
+                                                    data={parsedEntry?.eventTags} />
+                                            </View>
+                                            <ModuleCard.Dvdr />
+                                            <ModuleCard.Txt>Lizard Brain</ModuleCard.Txt>
+                                            <View className='h-[60px]'>
+                                                <FlatList
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false}
+                                                    contentContainerClassName='items-center'
+                                                    className="px-4"
+                                                    renderItem={({ item: tag }) => 
+                                                            (<View key={`${tag.id}-prefrontal`} className="mr-2">
+                                                                <SmallTag
+                                                                    asButton
+                                                                    key={`${tag.id}-small-tag`}
+                                                                    name={tag.name}
+                                                                    icon={tag.icon}
+                                                                    color={tag.color}/>
+                                                            </View>)}
+                                                    data={parsedEntry?.eventTags} />
+                                            </View>
+                                        </ModuleCard.Content>
+                                        
                                     </ModuleCard>
                                 </View>
                             </Carousel>
@@ -316,26 +303,6 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                 
             <SafeFooter multiplier={2} />
             </View>
-        </View>
-    )
-}
-
-// You have a few different types of module components you can make here
-// Explainer with image
-// Explainer without image
-// Question
-// Exercise
-// Each one of those has components
-// This is probably where you can use composition
-
-type ModuleCardType = {
-    className?: string;
-}
-
-const ModuleCard = ({ children, className }: PropsWithChildren & ModuleCardType) => {
-    return(
-        <View className={classNames(className, 'bg-[--color-paper-dark] border-[--color-text] border-2 rounded-bl-2xl rounded-tr-2xl mb-4 shadow-[3px_3px_0px_rgba(0,0,0,1)]')}>
-            { children }
         </View>
     )
 }
