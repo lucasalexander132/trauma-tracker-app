@@ -4,6 +4,7 @@ import classNames from "classnames";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 import Animated, { Easing, ReduceMotion, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { scheduleOnUI } from "react-native-worklets";
 import AppText from "./text";
 
 
@@ -31,32 +32,51 @@ const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
         reduceMotion: ReduceMotion.System
     };
 
-    // You're using reanimated wrong here, maybe you should translate value assigns to worklets?
 
     const handlePreviousSlide = () => {
         const previousIndex = currentIndex - 1;
-        opacity.value = 0;
-        translateX.value = -10;
+        scheduleOnUI(handlePreviousSlideAnimationStart);
 
         setTimeout(() => {
             setCurrentIndex(previousIndex);
             setCurrentSlide(childrenArray[previousIndex]);
-            opacity.value = withTiming(1, timingOptions);
-            translateX.value = withTiming(0, timingOptions);
+            scheduleOnUI(handlePreviousSlideAnimationEnd);
         }, 0);
+    }
+
+    const handlePreviousSlideAnimationStart = () => {
+        'worklet';
+        opacity.value = 0;
+        translateX.value = -10;
+    }
+
+    const handlePreviousSlideAnimationEnd = () => {
+        'worklet';
+        opacity.value = withTiming(1, timingOptions);
+        translateX.value = withTiming(0, timingOptions);
     }
 
     const handleNextSlide = () => {
         const nextIndex = currentIndex + 1;
-        opacity.value = 0;
-        translateX.value = 10;
+        scheduleOnUI(handleNextSlideAnimationStart);
 
         setTimeout(() => {
             setCurrentIndex(nextIndex);
             setCurrentSlide(childrenArray[nextIndex]);
-            opacity.value = withTiming(1, timingOptions);
-            translateX.value = withTiming(0, timingOptions);
+            scheduleOnUI(handleNextSlideAnimationEnd);
         }, 0);
+    }
+
+    const handleNextSlideAnimationStart = () => {
+        'worklet';
+        opacity.value = 0;
+        translateX.value = 10;
+    }
+
+    const handleNextSlideAnimationEnd = () => {
+        'worklet';
+        opacity.value = withTiming(1, timingOptions);
+        translateX.value = withTiming(0, timingOptions);
     }
 
     const showPreviousButton = currentIndex > 0;
@@ -128,7 +148,7 @@ type IndicatorProps = {
 }
 
 const Indicator = ({ isActive }: IndicatorProps) => {
-    const scale = useSharedValue(isActive ? 1 : 0.8);
+    const scale = useSharedValue(isActive ? 1 : 0.6);
 
     const indicatorTimingOptions = {
         duration: 300,
@@ -136,8 +156,13 @@ const Indicator = ({ isActive }: IndicatorProps) => {
         reduceMotion: ReduceMotion.System
     };
 
-    useEffect(() => {
+    const scaleIndicator = () => {
+        'worklet';
         scale.value = withTiming(isActive ? 1 : 0.6, indicatorTimingOptions);
+    }
+
+    useEffect(() => {
+        scaleIndicator();
     }, [isActive]);
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -149,7 +174,7 @@ const Indicator = ({ isActive }: IndicatorProps) => {
     return (
         <Animated.View
             style={animatedStyle}
-            className={classNames(isActive ? 'bg-[--color-comp-primary]' : 'border-4 border-[--color-comp-primary]', 'w-4 h-6 rounded-full')} />
+            className={classNames(isActive ? 'bg-[--color-primary-500] border-[3px] border-[--color-dark-bg]' : 'border-4 border-[--color-dark-bg]', 'w-4 h-6 rounded-full')} />
     );
 }
 
