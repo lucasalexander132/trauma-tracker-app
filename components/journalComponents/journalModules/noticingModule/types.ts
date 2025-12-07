@@ -26,7 +26,7 @@ export type QuestionSlide = BaseSlide & {
     maxLength?: number;
 }
 
-type ExerciseType = 'tag_tapper';
+export type ExerciseType = 'tag_tapper';
 
 export type ExerciseSection = {
     type: ExerciseType;

@@ -6,25 +6,33 @@ import { Pressable } from 'react-native';
 import AppText from '../text';
 
 type Props = {
+    id: string;
     name: string;
     color?: TThemeColors;
     icon?: IconNameType;
     invert?: boolean;
     asButton?: boolean;
+    onPress?: (id: string, active?: boolean) => void;
 }
 
 const SmallTag = (props: Props) => {
     const [buttonActive, setButtonActive] = useState(false);
     const {
+        id,
         name,
         icon,
         color = '--color-Pumpkin',
         invert = false,
-        asButton
+        asButton,
+        onPress
     } = props;
     const activate = buttonActive && asButton;
+    const handlePress = () => {
+        setButtonActive(!buttonActive);
+        onPress?.(id, !buttonActive);
+    }
     return (
-        <Pressable onPress={() => setButtonActive(!buttonActive)} className={classNames('rounded-lg flex-row py-2 px-4 border-2')} style={{
+        <Pressable onPress={handlePress} className={classNames('rounded-lg flex-row py-2 px-4 border-2')} style={{
                 borderColor: asButton ? themeColors[color] : 'transparent',
                 backgroundColor: invert || !activate ? themeVars['--color-paper-dark'] : themeColors[color]
             }}>

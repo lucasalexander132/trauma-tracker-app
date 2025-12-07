@@ -1,5 +1,7 @@
 import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
+import useModuleState from "@/zustand/moduleStore";
+import { useEffect, useState } from "react";
 import { FlatList, TextInput, View } from "react-native";
 import SmallTag from "../smallTag";
 import ModuleCard from "./moduleCard";
@@ -71,8 +73,29 @@ const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
     );
 }
 
-const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTags']; section: ExerciseSection; }) => 
-    (
+const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTags']; section: ExerciseSection; }) => {
+    const [tags, setTags] = useState<string[]>([]);
+    const updateExercise = useModuleState((state) => state.updateExercise);
+    const handlePressed = (id: string, active?: boolean) => {
+        if (active) {
+            setTags([...tags, id]);
+        } else {
+            setTags([...tags.filter((tag) => tag !== id)]);
+        }
+    }
+
+    useEffect(() => {
+        updateExercise(JSON.stringify(section), {
+            type: 'tag_tapper',
+            id: JSON.stringify(section),
+            exercise: [{
+                id: section.label,
+                question: section.label,
+                answer: JSON.stringify(tags)
+            }]
+        })
+    }, [tags]);
+    return (
         <>
             <ModuleCard.Txt>{section.label}</ModuleCard.Txt>
             <View className='h-[60px]'>
@@ -84,18 +107,22 @@ const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTag
                     renderItem={({ item: tag }) => (
                         <View key={`${tag.id}-${section.dataKey}`} className="mr-2">
                             <SmallTag
+                                id={tag.id}
                                 asButton
                                 key={`${tag.id}-small-tag`}
                                 name={tag.name}
                                 icon={tag.icon}
                                 color={tag.color}
+                                onPress={handlePressed}
                             />
                         </View>
                     )}
                     data={eventTags}
                 />
             </View>
-        </>)
+        </>
+    )
+}
 
 const ExerciseSlideComponent = ({ slide, entry }: { slide: ExerciseSlide; entry?: IEntry }) => {
     const { title, description, sections } = slide;

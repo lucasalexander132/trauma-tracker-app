@@ -87,6 +87,7 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                                         eventTags?.map((tag) =>
                                             <View key={`${tag.id}-small-tag`} className="mr-2">
                                                 <SmallTag
+                                                    id={tag.id}
                                                     name={tag.name}
                                                     icon={tag.icon}
                                                     color={tag.color}
@@ -98,6 +99,7 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                                     {
                                         eventTags?.map((tag) =>
                                             <SmallTag
+                                                id={tag.id}
                                                 key={`${tag.id}-small-tag`}
                                                 name={tag.name}
                                                 icon={tag.icon}

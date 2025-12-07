@@ -6,6 +6,7 @@ import SafeFooter from '@/components/safeFooter'
 import AppText from '@/components/text'
 import { IEntry } from '@/constants/types/Entries'
 import { useJournalState } from '@/zustand/journalStore'
+import useModuleState from '@/zustand/moduleStore'
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
 import ModuleCard from '../moduleCard'
@@ -17,6 +18,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
     const [startModule, setStartModule] = useState(false);
     const [showCarousel, setShowCarousel] = useState(false);
     const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
+    const exerciseData = useModuleState((state) => state.exerciseData);
 
     const buttonOpacity = useRef(new Animated.Value(1)).current;
     const buttonTranslateY = useRef(new Animated.Value(0)).current;
@@ -81,6 +83,11 @@ const NoticingModule = ({ entry }: { entry: string}) => {
             });
         }
     }, [startModule]);
+
+    const finishPressed = () => {
+        console.log(exerciseData);
+    }
+
     return (
         <View className='mt-4'>
             <JournalSectionHeader
@@ -113,7 +120,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                 {
                     showCarousel &&
                         <Animated.View style={{ opacity: carouselOpacity, transform: [{ translateY: carouselTranslateY }], flex: 1 }}>
-                            <Carousel onFinish={() => console.log('Finished')}>
+                            <Carousel onFinish={() => finishPressed()}>
                                 {noticingModuleData.slides.map((slide) => (
                                     <SlideRenderer
                                         key={slide.id}
