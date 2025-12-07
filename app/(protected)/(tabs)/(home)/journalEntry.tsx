@@ -2,7 +2,7 @@ import CustomButton from '@/components/customButton';
 import AddictionModule from '@/components/journalComponents/journalModules/addiction';
 import CopingModule from '@/components/journalComponents/journalModules/coping';
 import InitialEntry from '@/components/journalComponents/journalModules/initialEntry';
-import NoticingModule from '@/components/journalComponents/journalModules/noticing';
+import NoticingModule from '@/components/journalComponents/journalModules/noticingModule/noticing';
 import SafetyModule from '@/components/journalComponents/journalModules/safetyModule/safety';
 import SubmissionModal from '@/components/journalComponents/submissionModal/submissionModal';
 import SafeView from '@/components/safeView';

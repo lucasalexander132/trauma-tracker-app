@@ -36,7 +36,7 @@ const Img = ({ src, color }: ModuleImgProps) => {
                         top: -70
                     }} />
             </View>
-            <View className='h-[2px] bg-[--color-text] w-full' />
+            <View className='h-[2px] bg-[--color-text] w-full mb-2' />
         </>
     );
 }
@@ -48,7 +48,12 @@ const Txt = ({children, className}: PropsWithClassname) => {
         <AppText className={classNames('font-bold color-[--color-text] px-2', className)}>{children}</AppText>);
 }
 
-const Content = ({children}: PropsWithChildren) => (<View className='py-2'>{children}</View>)
+type ContentProps = {
+    pt?: boolean;
+    pb?: boolean;
+}
+
+const Content = ({children, pt = true, pb = true}: PropsWithChildren & ContentProps) => (<View className={classNames(pt && 'pt-2', pb && 'pb-2')}>{children}</View>)
 
 ModuleCard.Img = Img;
 ModuleCard.Dvdr = Dvdr;
