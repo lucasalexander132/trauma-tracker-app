@@ -11,6 +11,7 @@ const sharedTabStyles = {
 
 export default function TabsLayout() {
     return (<Tabs screenOptions={{
+            ...sharedTabStyles,
             tabBarStyle: {
                 borderRadius: 20,
                 position: 'absolute',
@@ -30,35 +31,22 @@ export default function TabsLayout() {
         <Tabs.Screen
             name="(home)"
             options={{
-                ...sharedTabStyles,
                 title: "Entries",
                 tabBarLabel: "Home",
                 tabBarIcon: ({color}) => <Entypo name="book" size={24} color={color} />
             }}
         />
-        {/* <Tabs.Screen
-            name="calendar"
-            options={{
-                ...sharedTabStyles,
-                title: "Calendar",
-                tabBarLabel: "Calendar",
-                tabBarIcon: ({color}) => <Entypo name="calendar" size={24} color={color} />
-            }}
-        /> */}
+        {/* So annoying, but if I want a custom button, it has to have a corresponding file */}
+        {/* There's probably a better way to do this */}
         <Tabs.Screen
-            name='journalEntry'
-            options={
-                {
-                    tabBarButton: CustomJournalEntryButton
-                }
-            }
-            listeners={{
-                tabPress: (e) => e.preventDefault()
-            }} />
+            name='fakeEntryTab'
+            options={{
+                tabBarButton: CustomJournalEntryButton
+            }}
+        />
         <Tabs.Screen
             name="settings"
             options={{
-                ...sharedTabStyles,
                 title: "Settings",
                 tabBarLabel: "Settings",
                 tabBarIcon: ({color}) => <Entypo name="leaf" size={24} color={color} />

@@ -1,14 +1,19 @@
 import { themeSemanticColors, themeVars } from '@/assets/styles/theme'
 import Entypo from '@expo/vector-icons/Entypo'
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import React from 'react'
 import { Pressable, View } from 'react-native'
 import AppText from '../text'
 
+const whiteListRoutes = new Set(['/', '/settings']);
+
 const CustomJournalEntryButton = () => {
+    const pathname = usePathname();
     const router = useRouter();
     const handlePress = () => {
-        router.navigate('/journalEntry');
+        if (whiteListRoutes.has(pathname)) {
+            router.navigate('/(home)/journalEntry');
+        }
     }
     return (
         <Pressable
