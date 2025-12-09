@@ -13,10 +13,10 @@ type Props = {
     invert?: boolean;
     asButton?: boolean;
     onPress?: (id: string, active?: boolean) => void;
+    active?: boolean;
 }
 
 const SmallTag = (props: Props) => {
-    const [buttonActive, setButtonActive] = useState(false);
     const {
         id,
         name,
@@ -24,9 +24,11 @@ const SmallTag = (props: Props) => {
         color = '--color-Pumpkin',
         invert = false,
         asButton,
-        onPress
+        onPress,
+        active
     } = props;
-    const activate = buttonActive && asButton;
+    const [buttonActive, setButtonActive] = useState(active ?? false);
+    const activate = buttonActive && asButton && active;
     const handlePress = () => {
         setButtonActive(!buttonActive);
         onPress?.(id, !buttonActive);

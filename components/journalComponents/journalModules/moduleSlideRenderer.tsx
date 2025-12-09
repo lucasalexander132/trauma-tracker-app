@@ -1,7 +1,7 @@
 import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
 import useModuleStore from "@/zustand/moduleStore";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { FlatList, TextInput, View } from "react-native";
 import SmallTag from "../smallTag";
 import ModuleCard from "./moduleCard";
@@ -42,14 +42,15 @@ const InfoSlideComponent = ({ slide }: { slide: InfoSlide }) => {
 const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
     const { questionNumber, title, subtitle, placeholder, maxLength = 2000 } = slide;
     const updateQuestionAnswer = useModuleStore((state) => state.updateQuestionAnswer);
-    const [answer, setAnswer] = useState<string>('');
+    const questionAnswers = useModuleStore((state) => state.questionAnswers);
+    const [answer, setAnswer] = useState<string>(questionAnswers.find((qna) => qna.id === `${questionNumber}${title}`)?.answer.toString() ?? '');
 
     useEffect(() => {
         // Potentially I can throttle this so it only goes off when the user is finished typing
         updateQuestionAnswer(`${questionNumber}${title}`, {
-            id: `${title}`,
+            id: `${questionNumber}${title}`,
             question: title,
-            answer
+            answer: [answer]
         });
     }, [answer]);
 
@@ -72,6 +73,7 @@ const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
                     )}
                     <ModuleCard.Dvdr />
                     <TextInput
+                        value={answer}
                         editable
                         multiline
                         maxLength={maxLength}
@@ -86,7 +88,10 @@ const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
 }
 
 const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTags']; section: ExerciseSection; }) => {
-    const [tags, setTags] = useState<string[]>([]);
+    const exerciseData = useModuleStore((state) => state.exerciseData);
+    // Find a more efficient way for this because it can be slow depending
+    // String search is always slow
+    const [tags, setTags] = useState<string[]>(exerciseData.find((exercise) => exercise.id === JSON.stringify(section))?.exerciseQuestionAnswer.answer ?? []);
     const updateExercise = useModuleStore((state) => state.updateExercise);
     const handlePressed = (id: string, active?: boolean) => {
         if (active) {
@@ -100,11 +105,11 @@ const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTag
         updateExercise(JSON.stringify(section), {
             type: 'tag_tapper',
             id: JSON.stringify(section),
-            exercise: [{
+            exerciseQuestionAnswer: {
                 id: section.label,
                 question: section.label,
                 answer: tags
-            }]
+            }
         })
     }, [tags]);
     return (
@@ -119,6 +124,7 @@ const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTag
                     renderItem={({ item: tag }) => (
                         <View key={`${tag.id}-${section.dataKey}`} className="mr-2">
                             <SmallTag
+                                active={tags.includes(tag.id)}
                                 id={tag.id}
                                 asButton
                                 key={`${tag.id}-small-tag`}
@@ -162,7 +168,7 @@ const ExerciseSlideComponent = ({ slide, entry }: { slide: ExerciseSlide; entry?
     );
 }
 
-export const SlideRenderer = ({ slide, entry }: SlideRendererProps) => {
+export const SlideRenderer = memo(({ slide, entry }: SlideRendererProps) => {
     switch (slide.type) {
         case 'info':
             return <InfoSlideComponent slide={slide} />;
@@ -173,4 +179,4 @@ export const SlideRenderer = ({ slide, entry }: SlideRendererProps) => {
         default:
             return null;
     }
-}
+})

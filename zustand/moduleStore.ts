@@ -2,19 +2,19 @@ import { ModuleTypes } from "@/app/(protected)/(tabs)/(home)/journalEntry";
 import { ExerciseType } from "@/components/journalComponents/journalModules/noticingModule/types";
 import { create } from "zustand";
 
-type QuestionAnswer = {
+export type QuestionAnswer = {
     id: string;
     question: string;
-    answer: string[] | string;
+    answer: string[];
 }
 
-type Exercise = {
+export type Exercise = {
     type: ExerciseType;
     id: string;
-    exercise: QuestionAnswer[];
+    exerciseQuestionAnswer: QuestionAnswer;
 }
 
-type BaseStoreData = {
+export type BaseStoreData = {
     moduleType: ModuleTypes;
     questionAnswers: QuestionAnswer[];
     exerciseData: Exercise[];
@@ -27,6 +27,7 @@ export type ModuleEntryStore = BaseStoreData & {
     updateExercise: (id: string, exercise: Exercise) => void;
     deleteExercise: (id: string) => void;
     getCompleteModule: () => BaseStoreData;
+    clearModuleData: () => void;
 }
 
 const useModuleStore = create<ModuleEntryStore>((set, get) => ({
@@ -62,7 +63,12 @@ const useModuleStore = create<ModuleEntryStore>((set, get) => ({
         moduleType: get().moduleType,
         questionAnswers: get().questionAnswers,
         exerciseData: get().exerciseData
-    })
+    }),
+    clearModuleData: () => set(() => ({
+        moduleType: 'initialEntry',
+        questionAnswers: [],
+        exerciseData: [],
+    }))
 }))
 
 export default useModuleStore

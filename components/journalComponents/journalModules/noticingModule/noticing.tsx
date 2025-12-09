@@ -2,25 +2,29 @@ import Carousel from '@/components/carousel'
 import CustomButton from '@/components/customButton'
 import Divider from '@/components/divider'
 import JournalSectionHeader from '@/components/journalSectionHeader'
+import CustomModal from '@/components/modal'
 import SafeFooter from '@/components/safeFooter'
 import AppText from '@/components/text'
 import { IEntry } from '@/constants/types/Entries'
 import { useJournalState } from '@/zustand/journalStore'
 import useModuleStore from '@/zustand/moduleStore'
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, View } from 'react-native'
+import { Animated, ScrollView, View } from 'react-native'
 import ShowEntryModalBtn from '../../showEntryModal/showEntryModalBtn'
 import ModuleCard from '../moduleCard'
 import { SlideRenderer } from '../moduleSlideRenderer'
+import SubmissionModuleData from '../submissionModuleData'
 import { noticingModuleData } from './noticingModuleData'
 
 const NoticingModule = ({ entry }: { entry: string}) => {
     const [showEntry, setShowEntry] = useState(false);
+    const [showSubmissionModal, setShowSubmissionModal] = useState(false);
     const [parsedEntry, setParsedEntry] = useState<IEntry>();
     const [startModule, setStartModule] = useState(false);
     const [showCarousel, setShowCarousel] = useState(false);
     const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
     const exerciseData = useModuleStore((state) => state.exerciseData);
+    const questionAnswers = useModuleStore((state) => state.questionAnswers);
     const setModuleType = useModuleStore((state) => state.setModuleType);
     const getCompleteModule = useModuleStore((state) => state.getCompleteModule);
 
@@ -90,7 +94,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
     }, [startModule]);
 
     const finishPressed = () => {
-        console.log(getCompleteModule());
+        setShowSubmissionModal(true);
     }
 
     return (
@@ -99,9 +103,14 @@ const NoticingModule = ({ entry }: { entry: string}) => {
                 title='Noticing'
                 description="Discover how the triggered brain works"
                 taggable={true}
-                headerRightComponent={() => <ShowEntryModalBtn entry={parsedEntry as IEntry} />}/>
+                headerRightComponent={() => parsedEntry ? <ShowEntryModalBtn entry={parsedEntry} /> : <></>}/>
             <Divider />
             <View className='px-6 h-[80%] pt-8'>
+                <CustomModal showModal={showSubmissionModal} onToggleShow={setShowSubmissionModal}>
+                    <ScrollView>
+                        { parsedEntry && <SubmissionModuleData entry={parsedEntry} /> }
+                    </ScrollView>
+                </CustomModal>
                 {
                     !showCarousel && <View className='h-full justify-center'>
                         <Animated.View style={{ opacity: cardOpacity, transform: [{ translateY: cardTranslateY }] }}>
