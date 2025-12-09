@@ -24,12 +24,16 @@ const SubmissionModuleData = ({entry}: Props) => {
     const { mutate: submitModuleUpdate, isPending: submissionPending, isSuccess: submissionSuccessful } = useMutation({
         mutationFn: async () => {
             const moduleData = getCompleteModule();
-            const response = await fetch(config.api.host + '/user/entries/' + entry.id, {
+            const response = await fetch(config.api.host + '/user/entries/' + entry.id + '/module', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(moduleData)
+                body: JSON.stringify({
+                    moduleType: moduleData.moduleType,
+                    questionAnswers: JSON.stringify(moduleData.questionAnswers),
+                    exerciseData: JSON.stringify(moduleData.exerciseData)
+                })
             });
             const data = await response.json();
             return data;
