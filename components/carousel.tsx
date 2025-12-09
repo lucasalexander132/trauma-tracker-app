@@ -10,11 +10,19 @@ import AppText from "./text";
 
 type CarouselType = {
     onFinish?: () => void;
+    fullHeight?: boolean;
+    buttonSize?: number;
 }
 
 const SLIDE_DURATION = 600;
 
-const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
+const Carousel = (props: PropsWithChildren & CarouselType) => {
+    const {
+        children,
+        onFinish,
+        fullHeight = true,
+        buttonSize = 30
+    } = props;
     const [childrenArray] = useState(React.Children.toArray(children));
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(childrenArray[currentIndex] ?? null);
@@ -111,29 +119,37 @@ const Carousel = ({ children, onFinish }: PropsWithChildren & CarouselType) => {
                         currentIndex={currentIndex} />)
                 }
             </View>
-            <Animated.View style={slideAnimatedStyle} className='h-[100%] justify-center'>
+            <Animated.View style={slideAnimatedStyle} className={classNames('justify-center', fullHeight && 'h-full')}>
                 { currentSlide }
             </Animated.View>
             <View className='flex-row justify-between w-1/2'>
                 <Animated.View style={buttonAnimatedStyle}>
                     <Pressable
                         onPress={handlePreviousSlide}
-                        className='bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] w-16 h-16 justify-center items-center active:opacity-35 transition-all duration-200'>
+                        className='bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] justify-center items-center active:opacity-35 transition-all duration-200'
+                        style={{
+                            height: buttonSize * 2,
+                            width: buttonSize * 2
+                        }}>
                         <Entypo
                             className='m-2'
                             color={themeSemanticColors['--color-comp-primary']}
-                            size={30}
+                            size={buttonSize}
                             name={'arrow-long-left'}/>
                     </Pressable>
                 </Animated.View>
                 <Pressable
                     onPress={hasNextSlide ? handleNextSlide : onFinish}
-                    className='flex-row bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] w-16 h-16 justify-center items-center active:opacity-35 transition-all duration-200'>
+                    className='flex-row bg-[--color-paper-dark] rounded-full border-2 border-[--color-comp-primary-dark] justify-center items-center active:opacity-35 transition-all duration-200'
+                    style={{
+                        height: buttonSize * 2,
+                        width: buttonSize * 2
+                    }}>
                     { !hasNextSlide && <AppText className='font-bold left-3'>+</AppText> }
                     <Entypo
                         className='m-2'
                         color={themeSemanticColors['--color-comp-primary']}
-                        size={30}
+                        size={buttonSize}
                         name={hasNextSlide ? 'arrow-long-right' : 'feather'}/>
                 </Pressable>
             </View>

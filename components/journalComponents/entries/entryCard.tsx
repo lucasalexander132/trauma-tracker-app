@@ -1,10 +1,13 @@
+import { useEntryModuleData } from "@/api/user";
 import { ModuleTypes } from "@/app/(protected)/(tabs)/(home)/journalEntry";
 import { IconNameType, interpolateColor, onTextThemeColors, themeColors, themeVars, TThemeBackgrounds } from "@/assets/styles/theme";
+import Carousel from "@/components/carousel";
 import CustomButton from "@/components/customButton";
 import Divider from "@/components/divider";
 import CustomModal from "@/components/modal";
 import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
+import { BaseModule, QuestionAnswer } from "@/zustand/moduleStore";
 import Entypo from "@expo/vector-icons/Entypo";
 import classNames from "classnames";
 import { useRouter } from "expo-router";
@@ -34,6 +37,7 @@ export const EntryCard = ({ entry, asInfo }: EntryCardProps) => {
         // followUpCompleted
     } = entry;
     const [minify, setMinify] = useState(true);
+    const { data: moduleData, isLoading: moduleLoading, error: moduleError } = useEntryModuleData(entry.id, !minify);
     return (
         <>
             
@@ -97,6 +101,24 @@ export const EntryCard = ({ entry, asInfo }: EntryCardProps) => {
                         entryDescription && <>
                             <Divider />
                             <AppText numberOfLines={minify ? 2 : undefined} className="font-bold text-md text-[--color-text] px-4">{entryDescription}</AppText>
+                        </>
+                    }
+                    {
+                        !minify && <>
+                            <View className="bg-[--color-Pumpkin] my-4 mx-4 py-4 rounded-xl">
+                                {
+                                    moduleData && <Carousel
+                                        buttonSize={20}
+                                        fullHeight={false}>
+                                            {
+                                                moduleData.map((module: BaseModule) => module.questionAnswers?.map((qna: QuestionAnswer) => <View key={qna.id} className="my-4 mx-4">
+                                                    <AppText className='font-bold'>{qna.question}</AppText>
+                                                    <AppText className="font-bold bg-[--color-paper-dark] rounded-md px-3 py-3 my-4 w-full">{qna.answer.toString()}</AppText>
+                                                </View>))
+                                            }
+                                    </Carousel>
+                                }
+                            </View>
                         </>
                     }
                     {

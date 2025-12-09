@@ -14,28 +14,28 @@ export type Exercise = {
     exerciseQuestionAnswer: QuestionAnswer;
 }
 
-export type BaseStoreData = {
-    moduleType: ModuleTypes;
+export type BaseModule = {
+    type: ModuleTypes;
     questionAnswers: QuestionAnswer[];
     exerciseData: Exercise[];
 }
 
-export type ModuleEntryStore = BaseStoreData & {
-    setModuleType: (moduleType: ModuleTypes) => void;
+export type ModuleEntryStore = BaseModule & {
+    setModuleType: (type: ModuleTypes) => void;
     updateQuestionAnswer: (id: string, qna: QuestionAnswer) => void;
     deleteQuestionAnswer: (id: string) => void;
     updateExercise: (id: string, exercise: Exercise) => void;
     deleteExercise: (id: string) => void;
-    getCompleteModule: () => BaseStoreData;
+    getCompleteModule: () => BaseModule;
     clearModuleData: () => void;
 }
 
 const useModuleStore = create<ModuleEntryStore>((set, get) => ({
-    moduleType: 'initialEntry',
+    type: 'initialEntry',
     questionAnswers: [],
     exerciseData: [],
-    setModuleType: (moduleType: ModuleTypes) => set(() => ({
-        moduleType
+    setModuleType: (type: ModuleTypes) => set(() => ({
+        type
     })),
     updateQuestionAnswer: (id, qna) => set(() => {
         const existing = get().questionAnswers.find((item) => item.id === id);
@@ -60,12 +60,12 @@ const useModuleStore = create<ModuleEntryStore>((set, get) => ({
         exerciseData: get().exerciseData.filter((item) => item.id !== id)
     })),
     getCompleteModule: () => ({
-        moduleType: get().moduleType,
+        type: get().type,
         questionAnswers: get().questionAnswers,
         exerciseData: get().exerciseData
     }),
     clearModuleData: () => set(() => ({
-        moduleType: 'initialEntry',
+        type: 'initialEntry',
         questionAnswers: [],
         exerciseData: [],
     }))

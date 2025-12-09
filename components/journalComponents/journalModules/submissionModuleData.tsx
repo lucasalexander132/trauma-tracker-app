@@ -6,6 +6,7 @@ import { IEntry } from '@/constants/types/Entries';
 import useModuleStore, { Exercise, QuestionAnswer } from '@/zustand/moduleStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
 import ExerciseOverview from './exerciseOverview';
@@ -15,6 +16,7 @@ type Props = {
 }
 
 const SubmissionModuleData = ({entry}: Props) => {
+    const router = useRouter();
     const queryClient = useQueryClient();
     const exerciseData = useModuleStore((state) => state.exerciseData);
     const questionAnswers = useModuleStore((state) => state.questionAnswers);
@@ -30,7 +32,7 @@ const SubmissionModuleData = ({entry}: Props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    moduleType: moduleData.moduleType,
+                    type: moduleData.type,
                     questionAnswers: JSON.stringify(moduleData.questionAnswers),
                     exerciseData: JSON.stringify(moduleData.exerciseData)
                 })
@@ -43,6 +45,7 @@ const SubmissionModuleData = ({entry}: Props) => {
                 queryKey: ['entries']
             });
             clearModuleData();
+            handleFinish();
         },
         onError: (error) => {
             console.log(JSON.stringify(error), 'Error: Module not sent');
@@ -52,6 +55,10 @@ const SubmissionModuleData = ({entry}: Props) => {
     const handleSubmit = () => {
         submitModuleUpdate();
     };
+
+    const handleFinish = () => {
+        router.dismiss();
+    }
 
     return (<>{
             exerciseData.length > 0 && <>
