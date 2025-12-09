@@ -17,9 +17,10 @@ import SmallTag from "../smallTag";
 
 type EntryCardProps = {
     entry: IEntry;
+    asInfo?: true;
 }
 
-export const EntryCard = ({ entry }: EntryCardProps) => {
+export const EntryCard = ({ entry, asInfo }: EntryCardProps) => {
     const {
         eventName,
         eventTags,
@@ -38,37 +39,37 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
             
             <View className={classNames("shadow-sm",!hasFollowUp && "mb-10")}>
                 {
-                    !hasFollowUp &&
+                    !hasFollowUp && !asInfo &&
                         // Hooray for prop drilling :/
                         <FollowUpModal journalEntry={entry} />
                         
                 }
                 <View className={classNames("rounded-2xl bg-[--color-paper] pb-6 mb-4", !hasFollowUp ? 'border-[--color-primary-500] border-4' : 'border-[--color-text-subtle] border-[1px]')}>
-                    <View className="flex-row items-center px-4 w-full">
+                    <View className="flex-row px-4 w-full">
                         {/* This icon is going to be tied to the entry type */}
                         <View className="flex-row w-3/4">
                             <Entypo
-                                className="pt-2 self-center"
+                                className="pt-3"
                                 color={themeVars['--color-text-subtle']}
                                 size={28}
                                 name={'open-book'}/>
                             <View className="px-4 pt-2">
-                                <AppText className="font-bold text-2xl text-[--color-text]">{ eventName ?? 'Journal Entry'}</AppText>
+                                <AppText className="font-bold text-2xl text-[--color-text] pr-6 leading-tight">{ eventName ?? 'Journal Entry'}</AppText>
                                 <AppText className="font-bold text-md text-[--color-text-subtle]">{moment(timestamp).format('dddd, MMMM Do')}</AppText>
                             </View>
                         </View>
-                        <View className="w-1/4 pt-2 flex-row justify-between">
-                            <Pressable className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center self-end pt-1 active:bg-[--color-primary-300]">
+                        <View className={classNames("w-1/4 flex-row pt-3", asInfo ? 'justify-end' : 'justify-between')}>
+                            { !asInfo && <Pressable className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center pt-1 active:bg-[--color-primary-300]">
                                 <Entypo
                                     className="self-center"
                                     color={themeVars['--color-paper-light']}
                                     size={28}
                                     name={'dots-two-vertical'}
                                     />
-                            </Pressable>
+                            </Pressable>}
                             <Pressable
                                 onPress={() => setMinify(!minify)}
-                                className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center self-end pt-1 active:bg-[--color-primary-300]">
+                                className="rounded-xl bg-[--color-primary-500] h-10 w-10 items-center pt-1 active:bg-[--color-primary-300]">
                                 <Entypo
                                     className="self-center"
                                     color={themeVars['--color-paper-light']}
@@ -79,35 +80,19 @@ export const EntryCard = ({ entry }: EntryCardProps) => {
                         </View>
                     </View>
                     <Divider />
-                    {
-                        eventTags.length > 0 &&
-                            minify ?
-                                <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} className={classNames("px-4", !minify && "flex-wrap")}>
-                                    {
-                                        eventTags?.map((tag) =>
-                                            <View key={`${tag.id}-small-tag`} className="mr-2">
-                                                <SmallTag
-                                                    id={tag.id}
-                                                    name={tag.name}
-                                                    icon={tag.icon}
-                                                    color={tag.color}
-                                                    invert={!minify}/>
-                                            </View>)
-                                    }
-                                </ScrollView> :
-                                <View className={classNames("flex-row gap-2 px-4", !minify && "flex-wrap")}>
-                                    {
-                                        eventTags?.map((tag) =>
-                                            <SmallTag
-                                                id={tag.id}
-                                                key={`${tag.id}-small-tag`}
-                                                name={tag.name}
-                                                icon={tag.icon}
-                                                color={tag.color}
-                                                invert={!minify}/>)
-                                    }
-                                </View>
-                    }
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} className={classNames("px-4", !minify && "flex-wrap")}>
+                        {
+                            eventTags?.map((tag) =>
+                                <View key={`${tag.id}-small-tag`} className="mr-2">
+                                    <SmallTag
+                                        id={tag.id}
+                                        name={tag.name}
+                                        icon={tag.icon}
+                                        color={tag.color}
+                                        invert={!minify}/>
+                                </View>)
+                        }
+                    </ScrollView>
                     {
                         entryDescription && <>
                             <Divider />

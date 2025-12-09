@@ -1,6 +1,6 @@
 import AppText from "@/components/text";
 import { IEntry } from "@/constants/types/Entries";
-import useModuleState from "@/zustand/moduleStore";
+import useModuleStore from "@/zustand/moduleStore";
 import { useEffect, useState } from "react";
 import { FlatList, TextInput, View } from "react-native";
 import SmallTag from "../smallTag";
@@ -41,6 +41,17 @@ const InfoSlideComponent = ({ slide }: { slide: InfoSlide }) => {
 
 const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
     const { questionNumber, title, subtitle, placeholder, maxLength = 2000 } = slide;
+    const updateQuestionAnswer = useModuleStore((state) => state.updateQuestionAnswer);
+    const [answer, setAnswer] = useState<string>('');
+
+    useEffect(() => {
+        // Potentially I can throttle this so it only goes off when the user is finished typing
+        updateQuestionAnswer(`${questionNumber}${title}`, {
+            id: `${title}`,
+            question: title,
+            answer
+        });
+    }, [answer]);
 
     return (
         <View>
@@ -65,6 +76,7 @@ const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
                         multiline
                         maxLength={maxLength}
                         placeholder={placeholder}
+                        onChangeText={(text: string) => setAnswer(text)}
                         className="bg-[--color-paper-dark] font-bold rounded-md p-2 mb-4 w-full h-28"
                     />
                 </ModuleCard.Content>
@@ -75,7 +87,7 @@ const QuestionSlideComponent = ({ slide }: { slide: QuestionSlide }) => {
 
 const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTags']; section: ExerciseSection; }) => {
     const [tags, setTags] = useState<string[]>([]);
-    const updateExercise = useModuleState((state) => state.updateExercise);
+    const updateExercise = useModuleStore((state) => state.updateExercise);
     const handlePressed = (id: string, active?: boolean) => {
         if (active) {
             setTags([...tags, id]);
@@ -91,7 +103,7 @@ const TagTapperExercise = ({ eventTags, section }: {eventTags?: IEntry['eventTag
             exercise: [{
                 id: section.label,
                 question: section.label,
-                answer: JSON.stringify(tags)
+                answer: tags
             }]
         })
     }, [tags]);

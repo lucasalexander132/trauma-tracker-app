@@ -6,19 +6,23 @@ import SafeFooter from '@/components/safeFooter'
 import AppText from '@/components/text'
 import { IEntry } from '@/constants/types/Entries'
 import { useJournalState } from '@/zustand/journalStore'
-import useModuleState from '@/zustand/moduleStore'
+import useModuleStore from '@/zustand/moduleStore'
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
+import ShowEntryModalBtn from '../../showEntryModal/showEntryModalBtn'
 import ModuleCard from '../moduleCard'
 import { SlideRenderer } from '../moduleSlideRenderer'
 import { noticingModuleData } from './noticingModuleData'
 
 const NoticingModule = ({ entry }: { entry: string}) => {
+    const [showEntry, setShowEntry] = useState(false);
     const [parsedEntry, setParsedEntry] = useState<IEntry>();
     const [startModule, setStartModule] = useState(false);
     const [showCarousel, setShowCarousel] = useState(false);
     const clearJournalEntry = useJournalState((state) => state.clearJournalEntry);
-    const exerciseData = useModuleState((state) => state.exerciseData);
+    const exerciseData = useModuleStore((state) => state.exerciseData);
+    const setModuleType = useModuleStore((state) => state.setModuleType);
+    const getCompleteModule = useModuleStore((state) => state.getCompleteModule);
 
     const buttonOpacity = useRef(new Animated.Value(1)).current;
     const buttonTranslateY = useRef(new Animated.Value(0)).current;
@@ -28,6 +32,7 @@ const NoticingModule = ({ entry }: { entry: string}) => {
     const carouselTranslateY = useRef(new Animated.Value(-30)).current;
 
     useEffect(() => {
+        setModuleType('noticing');
         return () => clearJournalEntry();
     }, []);
 
@@ -85,14 +90,16 @@ const NoticingModule = ({ entry }: { entry: string}) => {
     }, [startModule]);
 
     const finishPressed = () => {
-        console.log(exerciseData);
+        console.log(getCompleteModule());
     }
 
     return (
         <View className='mt-4'>
             <JournalSectionHeader
                 title='Noticing'
-                description="Discover how the triggered brain works"/>
+                description="Discover how the triggered brain works"
+                taggable={true}
+                headerRightComponent={() => <ShowEntryModalBtn entry={parsedEntry as IEntry} />}/>
             <Divider />
             <View className='px-6 h-[80%] pt-8'>
                 {

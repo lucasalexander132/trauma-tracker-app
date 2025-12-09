@@ -5,7 +5,7 @@ import { create } from "zustand";
 type QuestionAnswer = {
     id: string;
     question: string;
-    answer: string;
+    answer: string[] | string;
 }
 
 type Exercise = {
@@ -14,20 +14,28 @@ type Exercise = {
     exercise: QuestionAnswer[];
 }
 
-export type ModuleEntryStore = {
+type BaseStoreData = {
     moduleType: ModuleTypes;
     questionAnswers: QuestionAnswer[];
     exerciseData: Exercise[];
+}
+
+export type ModuleEntryStore = BaseStoreData & {
+    setModuleType: (moduleType: ModuleTypes) => void;
     updateQuestionAnswer: (id: string, qna: QuestionAnswer) => void;
     deleteQuestionAnswer: (id: string) => void;
     updateExercise: (id: string, exercise: Exercise) => void;
     deleteExercise: (id: string) => void;
+    getCompleteModule: () => BaseStoreData;
 }
 
-const useModuleState = create<ModuleEntryStore>((set, get) => ({
+const useModuleStore = create<ModuleEntryStore>((set, get) => ({
     moduleType: 'initialEntry',
     questionAnswers: [],
     exerciseData: [],
+    setModuleType: (moduleType: ModuleTypes) => set(() => ({
+        moduleType
+    })),
     updateQuestionAnswer: (id, qna) => set(() => {
         const existing = get().questionAnswers.find((item) => item.id === id);
         if (existing) {
@@ -49,7 +57,12 @@ const useModuleState = create<ModuleEntryStore>((set, get) => ({
     }),
     deleteExercise: (id) => set(() => ({
         exerciseData: get().exerciseData.filter((item) => item.id !== id)
-    }))
+    })),
+    getCompleteModule: () => ({
+        moduleType: get().moduleType,
+        questionAnswers: get().questionAnswers,
+        exerciseData: get().exerciseData
+    })
 }))
 
-export default useModuleState
+export default useModuleStore

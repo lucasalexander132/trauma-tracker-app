@@ -120,7 +120,7 @@ const SubmissionModal = (props: SubmissionModalProps) => {
                         {
                             entryDescription && <>
                                 <AppText className='text-lg font-bold mt-4 mb-2'>Description</AppText>
-                                <AppText className="bg-[--color-paper-dark] rounded-md px-3 py-3 mb-4 w-full">{entryDescription}</AppText>
+                                <AppText className="font-bold bg-[--color-paper-dark] rounded-md px-3 py-3 mb-4 w-full">{entryDescription}</AppText>
                             </>
                         }
                     </ScrollView>

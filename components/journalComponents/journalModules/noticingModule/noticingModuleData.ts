@@ -113,17 +113,17 @@ export const noticingModuleData: NoticingModuleData = {
             sections: [
                 {
                     type: 'tag_tapper',
-                    label: 'Prefrontal Cortex',
+                    label: 'Symptoms important to my Prefrontal Cortex',
                     dataKey: 'eventTags'
                 },
                 {
                     type: 'tag_tapper',
-                    label: 'Mammalian Brain',
+                    label: 'Symptoms important to my Mammalian Brain',
                     dataKey: 'eventTags'
                 },
                 {
                     type: 'tag_tapper',
-                    label: 'Lizard Brain',
+                    label: 'Symptoms important to my Lizard Brain',
                     dataKey: 'eventTags'
                 }
             ]

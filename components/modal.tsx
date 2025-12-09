@@ -8,7 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 type Props = {
     showModal: boolean;
     onToggleShow: (value: boolean) => void;
-    type?: 'sheet' | 'popover'
+    type?: 'sheet' | 'popover';
+    showCard?: boolean;
 }
 
 const CustomModal = (props: PropsWithChildren & Props) => {
@@ -16,6 +17,7 @@ const CustomModal = (props: PropsWithChildren & Props) => {
         children,
         showModal,
         onToggleShow,
+        showCard = true,
         type = 'popover' } = props;
 
     const paddingBottom = useSafeAreaInsets().bottom;
@@ -43,11 +45,11 @@ const CustomModal = (props: PropsWithChildren & Props) => {
                 className='flex justify-center absolute w-full bg-[--color-text] h-full opacity-30' />
             {/* Content */}
             <View className={classNames('flex absolute h-full w-full', justifyModal)}>
-                <View style={{
+                <View style={showCard ? {
                     ...modalStyle,
                     paddingBottom
-                }}>
-                    <Pressable
+                } : styles.noCard}>
+                    { showCard && <Pressable
                         className='rounded-lg bg-[--color-danger] absolute h-8 w-8 right-4 top-4 active:bg-[--color-danger-dark] z-10'
                         hitSlop={15}
                         onPress={handleToggleModal}>
@@ -56,7 +58,7 @@ const CustomModal = (props: PropsWithChildren & Props) => {
                             name={'cross'}
                             color={themeVars['--color-paper']}
                             size={28}/>
-                    </Pressable>
+                    </Pressable>}
                     { children }
                 </View>
             </View>
@@ -65,6 +67,10 @@ const CustomModal = (props: PropsWithChildren & Props) => {
 }
 
 const styles = StyleSheet.create({
+    noCard: {
+        width: '90%',
+        alignSelf: 'center',
+    },
     popoverView: {
         width: '90%',
         maxHeight: '60%',
