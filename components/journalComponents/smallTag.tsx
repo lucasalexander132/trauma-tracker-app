@@ -1,24 +1,42 @@
 import { IconNameType, themeColors, themeVars, TThemeColors } from '@/assets/styles/theme';
 import Entypo from '@expo/vector-icons/Entypo';
-import React from 'react';
-import { View } from 'react-native';
+import classNames from 'classnames';
+import React, { useState } from 'react';
+import { Pressable } from 'react-native';
 import AppText from '../text';
 
 type Props = {
+    id: string;
     name: string;
     color?: TThemeColors;
     icon?: IconNameType;
+    invert?: boolean;
+    asButton?: boolean;
+    onPress?: (id: string, active?: boolean) => void;
+    active?: boolean;
 }
 
 const SmallTag = (props: Props) => {
     const {
+        id,
         name,
         icon,
-        color = '--color-Pumpkin'
+        color = '--color-Pumpkin',
+        invert = false,
+        asButton,
+        onPress,
+        active
     } = props;
+    const [buttonActive, setButtonActive] = useState(active ?? false);
+    const activate = buttonActive && asButton && active;
+    const handlePress = () => {
+        setButtonActive(!buttonActive);
+        onPress?.(id, !buttonActive);
+    }
     return (
-        <View className='rounded-full flex-row py-2 px-4 h-[30px] mx-1 mt-2' style={{
-                backgroundColor: themeColors[color]
+        <Pressable onPress={handlePress} className={classNames('rounded-lg flex-row py-2 px-4 border-2')} style={{
+                borderColor: asButton ? themeColors[color] : 'transparent',
+                backgroundColor: invert || !activate ? themeVars['--color-paper-dark'] : themeColors[color]
             }}>
             <Entypo
                 style={{
@@ -26,10 +44,13 @@ const SmallTag = (props: Props) => {
                 }}
                 name={icon}
                 size={14}
-                color={themeVars['--color-paper']}
+                color={invert || !activate ? themeColors[color] : themeVars['--color-paper-dark']}
             />
-            <AppText className="text-[--color-paper] font-bold px-2">{name}</AppText>
-        </View>
+            <AppText className={"text-[--color-paper] font-bold px-2"}
+            style={{
+                color: invert || !activate ? themeColors[color] : themeVars['--color-paper-dark']
+            }}>{name}</AppText>
+        </Pressable>
     )
 }
 

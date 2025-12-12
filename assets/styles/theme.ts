@@ -14,17 +14,29 @@ export const themeColors = {
     '--color-Hot': '#971e1e'
 } as const;
 
+export const onTextThemeColors = {
+    '--color-Charcoal': '#3d5f74',
+    '--color-Pumpkin': '#4a2812',
+    '--color-Sunglow': '#1f1b14',
+    '--color-Olivine': '#2e520a',
+    '--color-Zomp': '#043224',
+    '--color-Vintage-Grape': '#d8aee7',
+    '--color-Dark-Garnet': '#efa7a6',
+    '--color-Cold': '#121d24',
+    '--color-Hot': '#b76060'
+} as const;
+
 export const themeSemanticColors = {
     '--color-primary-50': '#fdece7',
     '--color-primary-100': '#fad8cf',
-    '--color-primary-200': '#f8c5b7',
-    '--color-primary-300': '#f6b29f',
-    '--color-primary-400': '#f39f87',
-    '--color-primary-500': '#f18a6e', // Main
-    '--color-primary-600': '#eb603a',
-    '--color-primary-700': '#d53f15',
-    '--color-primary-800': '#a02f10',
-    '--color-primary-900': '#6b1f0b',
+    '--color-primary-200': '#f6b9a8',
+    '--color-primary-300': '#f3957b',
+    '--color-primary-400': '#ed7453',
+    '--color-primary-500': '#dd4f27', // Main
+    '--color-primary-600': '#c9421d',
+    '--color-primary-700': '#b13816',
+    '--color-primary-800': '#88280d',
+    '--color-primary-900': '#77220b',
     '--color-success': '#10B981',
     '--color-success-light': '#5ac68e',
     '--color-success-dark': '#065F46',
@@ -37,6 +49,9 @@ export const themeSemanticColors = {
     '--color-info': '#427ad4',
     '--color-info-light': '#679de2',
     '--color-info-dark': '#3752ac',
+    '--color-comp-primary': '#423379',
+    '--color-comp-primary-dark': '#2b1f59',
+    '--color-dark-bg': '#211818'
 } as const;
 
 export const themeVars = {
@@ -45,8 +60,8 @@ export const themeVars = {
     '--color-paper-dark': '#ffe7b0',
     '--color-dark-card': '#146140',
     '--color-contrasting-button': '#C677B3',
-    '--color-text': '#112734',
-    '--color-text-subtle': '#464b4e',
+    '--color-text': '#522828',
+    '--color-text-subtle': '#9f7373',
 } as const;
 
 export type TThemeColors = keyof typeof themeColors;

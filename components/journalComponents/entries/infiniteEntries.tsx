@@ -30,13 +30,16 @@ export const InfiniteEntries = () => {
         fetchNextPage();
     }
 
-    return <>
+    return (
         <FlashList
+            ListHeaderComponent={() => <AppText
+                className="text-4xl font-bold mb-4 text-[--color-text]">Entries</AppText>}
+            className="px-4 pt-4"
             showsVerticalScrollIndicator={false}
             onEndReached={handleOnEndReached}
             onEndReachedThreshold={0.5}
             renderItem={({item: entry}) => <EntryCard key={`${entry.id}-entries-overview`} entry={entry}/>}
             data={allEntries}
-            ListFooterComponent={() => <SafeFooter multiplier={2} />}/>
-    </>
+            ListFooterComponent={() => <SafeFooter />}/>
+    )
 }

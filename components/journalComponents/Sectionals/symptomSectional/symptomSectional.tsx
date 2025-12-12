@@ -2,7 +2,7 @@ import JournalSectionHeader from '@/components/journalSectionHeader';
 import { SymptomSection } from '@/zustand/journalStore';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import AddTagModalBtn from '../addTagModal/addTagModalBtn';
+import AddTagModalBtn from '../../addTagModal/addTagModalBtn';
 import Symptom from './symptom';
 
 export interface SymptomSectionalProps {

@@ -20,8 +20,10 @@ import { Inter_900Black } from '@expo-google-fonts/inter/900Black';
 import { Inter_900Black_Italic } from '@expo-google-fonts/inter/900Black_Italic';
 import { useFonts } from '@expo-google-fonts/poppins/useFonts';
 import { Stack } from 'expo-router';
+import { useEffect } from 'react';
 import { Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../constants/i18n';
 import "../global.css";
@@ -46,8 +48,17 @@ export default function RootLayout() {
         Inter_600SemiBold_Italic, 
         Inter_700Bold_Italic, 
         Inter_800ExtraBold_Italic, 
-        Inter_900Black_Italic
+        Inter_900Black_Italic,
+        'TypoGraphica': require('../assets/fonts/Typographica.ttf'),
+        'Chintzy': require('../assets/fonts/ZtChintzy.otf')
     });
+
+    useEffect(() => {
+        configureReanimatedLogger({
+            level: ReanimatedLogLevel.warn,
+            strict: false
+        });
+    }, []);
     return <QCProvider>
         <AuthProvider>
             <GestureHandlerRootView style={{flex: 1}}>
